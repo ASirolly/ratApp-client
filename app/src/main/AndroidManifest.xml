@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.paramount.ratappandroid.Registration">
+
+        </activity>
+        <activity android:name="com.example.paramount.ratappandroid.Login">
+
+        </activity>
     </application>
 
 </manifest>
