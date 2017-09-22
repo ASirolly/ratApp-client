@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         registration = (Button) findViewById(R.id.button_registration);
-        login.setOnClickListener(new View.OnClickListener() {
+        registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), Registration.class);
@@ -44,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
         return registration;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.button_login) {
-            System.out.println("login + asdf");
-            navigateUpTo(new Intent(this, Login.class));
-            return true;
-        } else {
-            System.out.println("registration + asdf");
-            navigateUpTo(new Intent(this, Registration.class));
-        return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.button_login) {
+//            System.out.println("login + asdf");
+//            navigateUpTo(new Intent(this, Login.class));
+//            return true;
+//        } else {
+//            System.out.println("registration + asdf");
+//            navigateUpTo(new Intent(this, Registration.class));
+//        return super.onOptionsItemSelected(item);
+//        }
+//    }
 }
