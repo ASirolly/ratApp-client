@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome"
+        android:text="@string/welcome"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -21,8 +21,8 @@
         android:id="@+id/button_login"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="Login"
-        android:layout_marginLeft="16dp"
+        android:text="@string/login"
+        android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="143dp"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -31,8 +31,8 @@
         android:id="@+id/button_registration"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:text="registration"
-        android:layout_marginRight="16dp"
+        android:text="@string/registration"
+        android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="143dp" />

@@ -4,4 +4,7 @@
     <string name="full_name">full name</string>
     <string name="password">password</string>
     <string name="submit">submit</string>
+    <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    <string name="registration">registration</string>
 </resources>
