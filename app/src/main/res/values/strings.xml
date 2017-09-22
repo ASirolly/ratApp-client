@@ -7,4 +7,6 @@
     <string name="welcome">Welcome</string>
     <string name="login">Login</string>
     <string name="registration">registration</string>
+    <string name="dashboard_body_text">this is the dashboard</string>
+    <string name="dashboard_title_text">congratulations, you are logged in.</string>
 </resources>
