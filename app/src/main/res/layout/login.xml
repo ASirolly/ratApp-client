@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/passwordTextViewLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/password"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/usernameEditTextLogin"
+        tools:text="password"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/passwordEditTextLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextViewLogin"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <TextView
+        android:id="@+id/usernameTextViewLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        tools:text="username"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/usernameEditTextLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/usernameTextViewLogin"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/cancelButtonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        tools:text="@android:string/cancel"
+        android:layout_marginTop="86dp"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogin"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/submitButtonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        tools:text="@string/submit"
+        android:layout_marginTop="85dp"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogin"
+        app:layout_constraintLeft_toRightOf="@+id/cancelButtonLogin"
+        android:layout_marginStart="51dp" />
+</android.support.constraint.ConstraintLayout>
