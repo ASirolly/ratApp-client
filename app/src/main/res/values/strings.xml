@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">RatAppAndroid</string>
+    <string name="username">username</string>
+    <string name="full_name">full name</string>
+    <string name="password">password</string>
+    <string name="submit">submit</string>
 </resources>
