@@ -8,6 +8,19 @@
     android:weightSum="1">
 
     <TextView
+        android:id="@+id/accountTypeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:text="@string/account_type"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible"
+        tools:text="account type"
+        android:layout_marginTop="29dp"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationInput"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
         android:id="@+id/passwordConfirmationLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +29,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
         tools:text="confirm your password"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintTop_toBottomOf="@+id/passwordInput"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -36,7 +49,7 @@
         android:id="@+id/passwordLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="29dp"
         android:text="@string/password"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
@@ -80,7 +93,9 @@
         android:layout_marginTop="-3dp"
         app:layout_constraintTop_toBottomOf="@+id/usernameLabel"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" >
+        <requestFocus/> <!-- sets initial focus to be on this field -->
+    </EditText>
 
     <Button
         android:id="@+id/cancelButton"
@@ -89,9 +104,9 @@
         android:text="@android:string/cancel"
         tools:text="@android:string/cancel"
         android:layout_marginStart="51dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationInput"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="43dp"
+        app:layout_constraintTop_toBottomOf="@+id/accountTypeRadioGroup" />
 
     <Button
         android:id="@+id/submitButton"
@@ -100,7 +115,34 @@
         android:text="@string/submit"
         tools:text="@string/submit"
         android:layout_marginStart="51dp"
-        android:layout_marginTop="53dp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationInput"
-        app:layout_constraintLeft_toRightOf="@+id/cancelButton" />
+        app:layout_constraintLeft_toRightOf="@+id/cancelButton"
+        android:layout_marginTop="43dp"
+        app:layout_constraintTop_toBottomOf="@+id/accountTypeRadioGroup" />
+
+    <RadioGroup
+        android:id="@+id/accountTypeRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="343dp"
+        android:layout_marginStart="51dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountTypeLabel" >
+
+        <RadioButton
+            android:id="@+id/adminRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin"
+            tools:text="admin" />
+
+        <RadioButton
+            android:id="@+id/userRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user"
+            tools:text="user" />
+        
+    </RadioGroup>
+
 </android.support.constraint.ConstraintLayout>
