@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.paramount.ratappandroid.model.Account;
 import com.example.paramount.ratappandroid.model.Model;
 
 /**
@@ -47,10 +48,11 @@ public class Login extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
 
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s", username, password));
-                if (validateLogin(username, password)) {
+                Account account = Model.getInstance().lookUpAccount(username, password); // returns null if the provided username/password combination is invalid
+                if (account != null) {
                     Log.i(TAG, "successful login attempt");
                     // set username in model
-                    Model.getInstance().setUsername(username);
+                    Model.getInstance().setAccount(account);
                     // open dashboard
                     Intent intent = new Intent(getBaseContext(), Dashboard.class);
                     startActivity(intent);
@@ -72,11 +74,5 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private boolean validateLogin(String username, String password) {
-        // TODO: database call here, or just remove this method entirely
-        // hard-coded for M4
-        return username.equals("username") && password.equals("password");
     }
 }
