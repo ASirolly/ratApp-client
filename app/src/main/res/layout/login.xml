@@ -41,21 +41,27 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
         tools:text="username"
-        android:layout_marginTop="35dp"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="51dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="77dp" />
 
     <EditText
         android:id="@+id/usernameEditTextLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName"
-        android:layout_marginTop="0dp"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTextViewLogin"
-        android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginLeft="51dp">
+        <requestFocus/> <!-- sets initial focus to be on this field -->
+    </EditText>
 
     <Button
         android:id="@+id/cancelButtonLogin"
@@ -63,10 +69,11 @@
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"
         tools:text="@android:string/cancel"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="62dp"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogin"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="51dp" />
 
     <Button
         android:id="@+id/submitButtonLogin"
@@ -74,8 +81,9 @@
         android:layout_height="wrap_content"
         android:text="@string/submit"
         tools:text="@string/submit"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="61dp"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLogin"
         app:layout_constraintLeft_toRightOf="@+id/cancelButtonLogin"
-        android:layout_marginStart="51dp" />
+        android:layout_marginStart="51dp"
+        android:layout_marginLeft="51dp" />
 </android.support.constraint.ConstraintLayout>

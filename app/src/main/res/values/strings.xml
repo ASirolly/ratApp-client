@@ -9,4 +9,7 @@
     <string name="registration">registration</string>
     <string name="dashboard_body_text">this is the dashboard</string>
     <string name="dashboard_title_text">congratulations, you are logged in.</string>
+    <string name="log_out">log out</string>
+    <string name="confirm_your_password">confirm your password</string>
+    <string name="password_again">password again</string>
 </resources>

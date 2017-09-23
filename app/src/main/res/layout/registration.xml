@@ -12,13 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="51dp"
-        android:text="confirm your password"
+        android:text="@string/confirm_your_password"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="51dp"
         tools:text="confirm your password"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+        android:layout_marginTop="29dp"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
         android:id="@+id/passwordConfirmationInput"
@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="51dp"
         android:ems="10"
-        android:hint="password again"
+        android:hint="@string/password_again"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="51dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationLabel"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/passwordLabel"
@@ -43,21 +43,19 @@
         app:layout_constraintTop_toBottomOf="@+id/usernameInput"
         tools:text="password"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="51dp" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <EditText
         android:id="@+id/passwordInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="-10dp"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="56dp" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/usernameLabel"
@@ -69,8 +67,8 @@
         tools:text="username"
         android:layout_marginStart="51dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteY="37dp"
-        android:layout_marginLeft="51dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="43dp" />
 
     <EditText
         android:id="@+id/usernameInput"
@@ -82,8 +80,7 @@
         android:layout_marginTop="-3dp"
         app:layout_constraintTop_toBottomOf="@+id/usernameLabel"
         android:layout_marginStart="51dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="51dp" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
         android:id="@+id/cancelButton"
@@ -94,7 +91,6 @@
         android:layout_marginStart="51dp"
         android:layout_marginTop="52dp"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationInput"
-        android:layout_marginLeft="51dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <Button
@@ -106,6 +102,5 @@
         android:layout_marginStart="51dp"
         android:layout_marginTop="53dp"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmationInput"
-        app:layout_constraintLeft_toRightOf="@+id/cancelButton"
-        android:layout_marginLeft="47dp" />
+        app:layout_constraintLeft_toRightOf="@+id/cancelButton" />
 </android.support.constraint.ConstraintLayout>

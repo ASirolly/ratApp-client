@@ -20,6 +20,8 @@ public class Model {
         return username == null;
     }
 
+    public void logOut() { username = null; }
+
     public void setUsername(String username) {
         this.username = username;
     }
