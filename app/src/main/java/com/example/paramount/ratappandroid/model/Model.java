@@ -11,15 +11,37 @@ package com.example.paramount.ratappandroid.model;
 public class Model {
     // singleton instance
     private static final Model _instance = new Model();
+
+    /**
+     * Returns a model instance
+     * @return _instance An instance of the model.
+     */
     public static Model getInstance() { return _instance; }
 
     // account of the currently logged in user
     private Account account;
 
+    /**
+     * Returns the boolean status of an account
+     * @return account == null Whether an account is null
+     */
     public boolean isLoggedIn() { return account == null; }
+
+    /**
+     * Sets the account to null when an actor logs out.
+     */
     public void logOut() { account = null; }
 
+    /**
+     * Sets the account variable.
+     * @param account an instance of account
+     */
     public void setAccount(Account account) { this.account = account; }
+
+    /**
+     * Returns the viewed account instance.
+     * @return account An instance of account
+     */
     public Account getAccount() { return account; }
 
     /**

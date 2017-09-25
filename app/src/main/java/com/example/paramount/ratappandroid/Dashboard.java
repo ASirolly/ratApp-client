@@ -9,6 +9,10 @@ import android.os.Bundle;
 
 public class Dashboard extends LoggedInBaseActivity {
 
+    /**
+     * Creates the dashboard page.
+     * @param savedInstanceState Bundle object containing the activity's previously saved state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -13,6 +13,10 @@ import com.example.paramount.ratappandroid.model.Model;
 
 public abstract class LoggedInBaseActivity extends AppCompatActivity {
 
+    /**
+     * Sets the action for logging out of the dashboard screen.
+     * @param view building block for user interface components
+     */
     public void logOutAndReturnToMainScreen(View view) {
         Model.getInstance().logOut();
         Intent intent = new Intent(getBaseContext(), MainActivity.class);

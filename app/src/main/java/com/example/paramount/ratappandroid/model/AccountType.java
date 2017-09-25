@@ -6,5 +6,12 @@ package com.example.paramount.ratappandroid.model;
  */
 
 public enum AccountType {
-    USER, ADMIN;
+    /**
+     * User account type
+     */
+    USER,
+    /**
+     * Administration account type
+     */
+    ADMIN;
 }

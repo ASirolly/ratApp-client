@@ -24,6 +24,10 @@ public class Login extends AppCompatActivity {
     private Button submit;
     private Button cancel;
 
+    /**
+     * Creates the login page and sets actions for the username, password, submit and cancel elements.
+     * @param savedInstanceState Bundle object containing the activity's previously saved state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

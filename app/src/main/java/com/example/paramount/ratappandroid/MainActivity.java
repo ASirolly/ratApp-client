@@ -11,6 +11,10 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private Button registration;
 
+    /**
+     * Creates the welcome page and sets atcions for the login and registration buttons.
+     * @param savedInstanceState Bundle object containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,26 +38,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public Button getLoginButton() {
-        return login;
-    }
-
-    public Button getRegistrationButton() {
-        return registration;
-    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.button_login) {
-//            System.out.println("login + asdf");
-//            navigateUpTo(new Intent(this, Login.class));
-//            return true;
-//        } else {
-//            System.out.println("registration + asdf");
-//            navigateUpTo(new Intent(this, Registration.class));
-//        return super.onOptionsItemSelected(item);
-//        }
-//    }
 }

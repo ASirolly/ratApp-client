@@ -26,6 +26,10 @@ public class Registration extends AppCompatActivity {
     private Button cancel;
     private Button submit;
 
+    /**
+     * Creates the registration page and sets actions for the username, password, account status, submit, and cancel elements.
+     * @param savedInstanceState Bundle object containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
