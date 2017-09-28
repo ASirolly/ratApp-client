@@ -65,7 +65,7 @@ public class Login extends AppCompatActivity {
                     // show popup message indicating that username and password don't match
                     // (this) https://developer.android.com/guide/topics/ui/notifiers/toasts.html
                     Context context = getApplicationContext();
-                    CharSequence text = "username and password do not match";
+                    CharSequence text = "incorrect username or password";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
