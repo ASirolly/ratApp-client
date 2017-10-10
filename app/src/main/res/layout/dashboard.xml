@@ -9,32 +9,43 @@
     <include layout="@layout/logged_in_banner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp" />
 
     <TextView
         android:id="@+id/dashboardTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="84dp"
-        android:layout_marginTop="146dp"
+        android:layout_marginTop="72dp"
         android:text="@string/dashboard_title_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="congratulations, you are logged in." />
+        tools:text="congratulations, you are logged in."
+        android:layout_marginLeft="84dp" />
 
     <TextView
         android:id="@+id/dashboardBodyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="16dp"
         android:text="@string/dashboard_body_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashboardTitleText"
-        tools:text="this is the dashboard" />
+        tools:text="this is the dashboard"
+        android:layout_marginLeft="127dp" />
+
+    <ListView
+        android:id="@+id/sightingListView"
+        android:layout_width="369dp"
+        android:layout_height="369dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 </android.support.constraint.ConstraintLayout>
