@@ -1,6 +1,9 @@
 package com.example.paramount.ratappandroid.model;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Holds application state information. Uses the singleton design pattern to allow
  * access to the model from each controller.
@@ -12,14 +15,26 @@ public class Model {
     // singleton instance
     private static final Model _instance = new Model();
 
+    private Model() {
+        allAccounts = new HashMap<>();
+    }
+
     /**
-     * Returns a model instance
+     * Returns a model instance.
      * @return _instance An instance of the model.
      */
     public static Model getInstance() { return _instance; }
 
-    // account of the currently logged in user
+    /*
+     * Account of the currently logged in user.
+      */
     private Account account;
+
+    /**
+     * Maps username to corresponding account, for all existing accounts.
+     * Temporary (for M5).
+     */
+    private Map<String, Account> allAccounts;
 
     /**
      * Returns the boolean status of an account
@@ -50,12 +65,14 @@ public class Model {
      */
     public Account lookUpAccount(String username, String password) {
         // TODO: call to backend here. And move to separate class?
-        // hard-coded for M4
-        if (username.equals("username") && password.equals("password")) {
-            return new Account(username, password, AccountType.USER);
-        } else {
-            return null; // invalid username/password combination
+        Account account = allAccounts.get(username);
+        if (account == null) { // there is no account with the given username
+            return null;
         }
+        if (password.equals(account.getPassword())) { // account exists and correct password was provided
+            return account;
+        }
+        return null; // account exists, but wrong password provided
     }
 
     /**
@@ -64,7 +81,10 @@ public class Model {
      */
     public boolean registerAccount(Account account) {
         // TODO: call to backend here. And move to separate class?
-        // hard-coded (change for M5)
+        if (allAccounts.containsKey(account.getUsername())) { // username already taken
+            return false;
+        }
+        allAccounts.put(account.getUsername(), account);
         return true;
     }
 
