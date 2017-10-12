@@ -8,6 +8,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 /**
  * The first screen that users see after they log in.
  * Created by Greg on 9/22/17.
@@ -27,8 +29,8 @@ public class Dashboard extends LoggedInBaseActivity {
 
         //Keeping the array as Object for now
         //The below sets up the listview
-        Object[] ratSightings = new Object[10];
-        ListAdapter listAdapter = new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_1, ratSightings);
+        Object[] ratSightings = new String[] {"test1", "test2"};
+        ListAdapter listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ratSightings);
         ListView sightingListView = (ListView)findViewById(R.id.sightingListView);
         sightingListView.setAdapter(listAdapter);
 
@@ -41,7 +43,8 @@ public class Dashboard extends LoggedInBaseActivity {
                         String funsy = String.valueOf(parent.getItemAtPosition(position));
 
                         //Makes the toast. Can be taken out
-                        Toast.makeText(this, ratSightings, Toast.LENGTH_LONG.show());
+                        Toast toast = Toast.makeText(getApplicationContext(), String.format("clicked item: %s", funsy), Toast.LENGTH_LONG);
+                        toast.show();
                     }
                 }
         );
