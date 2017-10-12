@@ -17,6 +17,9 @@ public class Model {
 
     private Model() {
         allAccounts = new HashMap<>();
+        // leaving in test account for now
+        Account testAccount = new Account("username", "password", AccountType.ADMIN);
+        allAccounts.put("username", testAccount);
     }
 
     /**
