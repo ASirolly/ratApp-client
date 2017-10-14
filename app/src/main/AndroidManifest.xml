@@ -22,5 +22,6 @@
         <activity android:name="com.example.paramount.ratappandroid.Dashboard" />
         
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>
