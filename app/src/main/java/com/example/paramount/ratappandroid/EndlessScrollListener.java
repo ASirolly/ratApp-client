@@ -1,5 +1,6 @@
 package com.example.paramount.ratappandroid;
 
+import android.util.Log;
 import android.widget.AbsListView;
 
 /**
@@ -18,6 +19,8 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
     private boolean loading = true;
     // Sets the starting page index
     private int startingPageIndex = 0;
+
+    private static final String TAG = "ENDLESS SCROLL LISTENER";
 
     public EndlessScrollListener() {
     }
@@ -39,6 +42,7 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
         // If the total item count is zero and the previous isn't, assume the
         // list is invalidated and should be reset back to initial state
         if (totalItemCount < previousTotalItemCount) {
+            Log.w(TAG, String.format("invalid state; totalItemCount is %d and previousTotalItemCount is %d", totalItemCount, previousTotalItemCount));
             this.currentPage = this.startingPageIndex;
             this.previousTotalItemCount = totalItemCount;
             if (totalItemCount == 0) { this.loading = true; }

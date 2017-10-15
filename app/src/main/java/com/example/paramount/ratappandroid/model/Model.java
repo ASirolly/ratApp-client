@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +22,16 @@ public class Model {
     // singleton instance
     private static final Model _instance = new Model();
     final private String getDataUrl = "http://10.0.2.2:9292/api/rat_sightings?page=2";
-    RequestQueue mRequestQueue;
-    private static Context mCtx;
-    private RatSighting[] ratSightings;
+//    RequestQueue mRequestQueue;
+//    private static Context mCtx;
+    private ArrayList<RatSighting> ratSightings;
 
     private Model() {
         allAccounts = new HashMap<>();
         // leaving in test account for now
-        Account testAccount = new Account("username", "password", AccountType.ADMIN);
-        allAccounts.put("username", testAccount);
+        Account testAccount = new Account("u", "p", AccountType.ADMIN);
+        allAccounts.put("u", testAccount);
+        ratSightings = new ArrayList<>(25);
     }
 
     /**
@@ -48,6 +50,13 @@ public class Model {
      * Temporary (for M5).
      */
     private Map<String, Account> allAccounts;
+
+    /**
+     * Get list of rat sightings.
+     */
+    public ArrayList<RatSighting> getRatSightings() {
+        return ratSightings;
+    }
 
     /**
      * Returns the boolean status of an account
@@ -101,18 +110,18 @@ public class Model {
         return true;
     }
 
-    public RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
-        }
-        return mRequestQueue;
-    }
+//    public RequestQueue getRequestQueue() {
+//        if (mRequestQueue == null) {
+//            // getApplicationContext() is key, it keeps you from leaking the
+//            // Activity or BroadcastReceiver if someone passes one in.
+//            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+//        }
+//        return mRequestQueue;
+//    }
 
-    public <T> void addToRequestQueue(Request<T> req) {
-        getRequestQueue().add(req);
-    }
+//    public <T> void addToRequestQueue(Request<T> req) {
+//        getRequestQueue().add(req);
+//    }
 
 
 }

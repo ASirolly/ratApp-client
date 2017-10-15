@@ -1,11 +1,10 @@
 package com.example.paramount.ratappandroid;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
@@ -23,9 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * The first screen that users see after they log in.
@@ -34,11 +31,11 @@ import java.util.Locale;
  */
 
 public class Dashboard extends LoggedInBaseActivity {
-    private int pageToLoad = 1;
-    final String baseUrl = "http://10.0.2.2:9292/api/rat_sightings?page=";
+    private final static String TAG = "DASHBOARD";
+    private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings?page=";
     RequestQueue requestQueue;
-    ArrayList<Object> ratSightings = new ArrayList<>(25);
 
+    private ArrayAdapter arrayAdapter;
 
     /**
      * Creates the dashboard page.
@@ -47,28 +44,14 @@ public class Dashboard extends LoggedInBaseActivity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-//        requestQueue = Model.getInstance().getRequestQueue();
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
-        //Keeping the array as Object for now
-        //The below sets up the listview
-        //RatSighting[] ratSightings = new RatSighting[25];
-        //\Object[] ratSightings = new Object[]{"test1", "test2"};
-//        ArrayList<Object> ratSightings = new ArrayList<>();
 
-        ratSightings.add("Test1");
-        ratSightings.add("Test2");
-
-        System.out.println("This is arraylist: " + ratSightings);
-
-        //final ListView
-        final ArrayAdapter arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ratSightings);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Model.getInstance().getRatSightings());
         final ListView sightingListView = (ListView) findViewById(R.id.sightingListView);
         sightingListView.setAdapter(arrayAdapter);
+
         //Sets the actions that happen when you click on an item in the listview
         sightingListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -80,7 +63,6 @@ public class Dashboard extends LoggedInBaseActivity {
                         //Makes the toast. Can be taken out
                         Toast toast = Toast.makeText(getApplicationContext(), String.format("clicked item: %s", funsy), Toast.LENGTH_LONG);
                         toast.show();
-                        //loadNextDataFromApi(1);
                     }
                 }
         );
@@ -88,13 +70,13 @@ public class Dashboard extends LoggedInBaseActivity {
         sightingListView.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                pageToLoad++;
-                loadNextDataFromApi(pageToLoad);
+                loadNextDataFromApi(page);
                 System.out.println("IN SET ON SCROLL LISTENER");
-                arrayAdapter.notifyDataSetChanged();
-                return false;
+                return true;
             }
         });
+
+        loadNextDataFromApi(0);
     }
 
     public void loadNextDataFromApi(int offset) {
@@ -105,21 +87,16 @@ public class Dashboard extends LoggedInBaseActivity {
 
                     @Override
                     public void onResponse(JSONArray response) {
-                        JSONObject temp;
+                        JSONObject json;
 
                         int len = response.length();
                         for (int i = 0; i < len; i++) {
                             try {
-                                temp = (JSONObject) response.get(i);
-                                //System.out.println("This is Object " + i + " : " + temp);
-                                System.out.println(temp.get("location_type"));
-                                RatSighting sighting = new RatSighting();
-                                //sighting.setBorough((String) temp.get("Borough"));
-                                Object test = temp.get("location_type");
-                                ratSightings.add(temp.get("location_type"));
-
-                            } catch (JSONException e) {
-                                System.out.println(e);
+                                json = (JSONObject) response.get(i);
+                                Model.getInstance().getRatSightings().add(new RatSighting(json));
+                                arrayAdapter.notifyDataSetChanged();
+                            } catch (JSONException | ParseException e) {
+                                Log.w(TAG, e);
                             }
                         }
                         System.out.println("Inside the onResponse Method");
@@ -135,9 +112,7 @@ public class Dashboard extends LoggedInBaseActivity {
                 });
 
         System.out.println("right before adding JsOBJreq");
-
         requestQueue.add(jsObjRequest);
-
         }
     }
 
