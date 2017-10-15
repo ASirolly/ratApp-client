@@ -1,9 +1,12 @@
 package com.example.paramount.ratappandroid.model;
 
+import com.example.paramount.ratappandroid.Registration;
+
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +18,7 @@ import java.util.Locale;
  * Represents a single rat sighting.
  */
 
-public class RatSighting {
+public class RatSighting implements Serializable {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
     private static final DateFormat displayDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm", Locale.US);
 

@@ -20,7 +20,8 @@
         <activity android:name="com.example.paramount.ratappandroid.Registration" />
         <activity android:name="com.example.paramount.ratappandroid.Login" />
         <activity android:name="com.example.paramount.ratappandroid.Dashboard" />
-        
+        <activity android:name="com.example.paramount.ratappandroid.RatSightingDetails" />
+
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

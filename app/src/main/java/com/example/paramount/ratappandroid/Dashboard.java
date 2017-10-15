@@ -1,12 +1,12 @@
 package com.example.paramount.ratappandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 
 /**
  * The first screen that users see after they log in.
@@ -57,12 +56,9 @@ public class Dashboard extends LoggedInBaseActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        //For funsies just gets the toString of the clicked item and makes it a toast
-                        String funsy = String.valueOf(parent.getItemAtPosition(position));
-
-                        //Makes the toast. Can be taken out
-                        Toast toast = Toast.makeText(getApplicationContext(), String.format("clicked item: %s", funsy), Toast.LENGTH_LONG);
-                        toast.show();
+                        Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
+                        intent.putExtra("ratSighting", Model.getInstance().getRatSightings().get(position));
+                        startActivity(intent);
                     }
                 }
         );

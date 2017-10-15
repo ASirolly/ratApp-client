@@ -15,4 +15,13 @@
     <string name="account_type">account type</string>
     <string name="user">user</string>
     <string name="admin">admin</string>
+    <string name="longitude">longitude:</string>
+    <string name="latitude">latitude:</string>
+    <string name="unique_key">unique key:</string>
+    <string name="date_created">date created:</string>
+    <string name="location_type">location type:</string>
+    <string name="zip_code">zip code:</string>
+    <string name="address">address:</string>
+    <string name="city">city:</string>
+    <string name="borough">borough:</string>
 </resources>
