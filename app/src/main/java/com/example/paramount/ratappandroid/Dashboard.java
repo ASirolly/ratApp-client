@@ -75,6 +75,10 @@ public class Dashboard extends LoggedInBaseActivity {
         loadNextDataFromApi(0);
     }
 
+    /**
+     * Loads the next data from the api once user scrolls to the bottom
+     * @param offset
+     */
     public void loadNextDataFromApi(int offset) {
         System.out.println("Inside loadNextData");
         String getDataUrl = baseUrl + offset;

@@ -83,6 +83,10 @@ public class Registration extends AppCompatActivity {
         });
     }
 
+    /**
+     * Shows the message
+     * @param message
+     */
     private void showMessage(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;

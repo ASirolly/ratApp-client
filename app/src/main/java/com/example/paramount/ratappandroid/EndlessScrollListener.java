@@ -25,10 +25,19 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
     public EndlessScrollListener() {
     }
 
+    /**
+     * Sets the threshold
+     * @param visibleThreshold
+     */
     public EndlessScrollListener(int visibleThreshold) {
         this.visibleThreshold = visibleThreshold;
     }
 
+    /**
+     * Sets appropriate variables.
+     * @param visibleThreshold
+     * @param startPage
+     */
     public EndlessScrollListener(int visibleThreshold, int startPage) {
         this.visibleThreshold = visibleThreshold;
         this.startingPageIndex = startPage;
@@ -36,6 +45,13 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
     }
 
 
+    /**
+     * Defines procedures for scrolling.
+     * @param view
+     * @param firstVisibleItem
+     * @param visibleItemCount
+     * @param totalItemCount
+     */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
     {
@@ -68,6 +84,11 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
     // Returns true if more data is being loaded; returns false if there is no more data to load.
     public abstract boolean onLoadMore(int page, int totalItemsCount);
 
+    /**
+     * abstract method for detailing if scroll state changed
+     * @param view
+     * @param scrollState
+     */
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         // Don't take any action on changed
