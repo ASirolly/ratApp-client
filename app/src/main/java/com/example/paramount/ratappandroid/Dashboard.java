@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.android.volley.Request;
@@ -73,6 +74,17 @@ public class Dashboard extends LoggedInBaseActivity {
         });
 
         loadNextDataFromApi(0);
+
+        // Causes add button to open a screen that allows the user to create a new rat sighting.
+        findViewById(R.id.addSightingButton).setOnClickListener(
+                new ImageButton.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getBaseContext(), AddRatSightingActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
     }
 
     /**

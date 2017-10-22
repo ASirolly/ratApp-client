@@ -27,6 +27,7 @@
 
         </activity>
 
+        <activity android:name="com.example.paramount.ratappandroid.AddRatSightingActivity" />
         <activity android:name="com.example.paramount.ratappandroid.Registration" />
         <activity android:name="com.example.paramount.ratappandroid.Login" />
         <activity android:name="com.example.paramount.ratappandroid.Dashboard" />
