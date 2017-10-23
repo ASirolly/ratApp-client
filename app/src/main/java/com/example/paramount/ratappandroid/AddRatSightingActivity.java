@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,7 +100,14 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.w(TAG, String.format("create rat sighting error: %s", error.networkResponse));
+                    String body;
+                    try {
+                        body = new String(error.networkResponse.data, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        body = e.getMessage();
+                    }
+                    Log.w(TAG, String.format("create rat sighting error. body is: %s", body));
+                    error.printStackTrace();
                 }
             }) {
 
@@ -109,7 +117,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             params.put("longitude", longitudeEditText.getText().toString());
             params.put("latitude", latitudeEditText.getText().toString());
             params.put("city", cityEditText.getText().toString());
-            params.put("locationType", locationTypeEditText.getText().toString());
+            params.put("location_type", locationTypeEditText.getText().toString());
             params.put("borough", boroughEditText.getText().toString());
             params.put("address", addressEditText.getText().toString());
             params.put("zip", zipEditText.getText().toString());
