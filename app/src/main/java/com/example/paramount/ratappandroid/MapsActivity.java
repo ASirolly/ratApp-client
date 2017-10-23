@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +22,9 @@ import java.util.List;
  */
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+    private final static String TAG = "MAPSACTIVITY";
+    private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings?page=";
+    RequestQueue requestQueue;
 
     private GoogleMap googlemap;
 
@@ -30,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
     }
 
@@ -41,5 +47,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             markerOptions.position(latLng);
 
         });
+    }
+
+    public void getData(String startDate, String endDate) {
+
     }
 }

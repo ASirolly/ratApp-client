@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -37,6 +38,8 @@ public class Dashboard extends LoggedInBaseActivity {
     private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings?page=";
     RequestQueue requestQueue;
 
+    Button mapButton;
+
     private ArrayAdapter arrayAdapter;
 
     /**
@@ -53,6 +56,15 @@ public class Dashboard extends LoggedInBaseActivity {
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Model.getInstance().getRatSightings());
         final ListView sightingListView = (ListView) findViewById(R.id.sightingListView);
         sightingListView.setAdapter(arrayAdapter);
+
+        mapButton = (Button) findViewById(R.id.mapViewButton);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), MapsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //Sets the actions that happen when you click on an item in the listview
         sightingListView.setOnItemClickListener(

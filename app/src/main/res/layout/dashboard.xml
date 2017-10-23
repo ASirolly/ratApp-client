@@ -58,4 +58,14 @@
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="@+id/sightingListView"
         app:layout_constraintLeft_toLeftOf="@+id/sightingListView" />
+
+    <Button
+        android:id="@+id/mapViewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="118dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/map_view"
+        app:layout_constraintRight_toRightOf="@+id/include"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
