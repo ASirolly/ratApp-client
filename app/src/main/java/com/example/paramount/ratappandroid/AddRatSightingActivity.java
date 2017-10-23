@@ -1,6 +1,7 @@
 package com.example.paramount.ratappandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,9 +14,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.model.Model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,6 +82,16 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
                 showMessage("zip field is empty");
             } else {
                 createRatSighting();
+                // Black magic to start a new Dashboard activity (so the new sighting is displayed)
+                // https://stackoverflow.com/a/4186097/5377941
+                Model.getInstance().resetRatSightings();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "I can't believe you've done this");
+                }
+                Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
+                AddRatSightingActivity.this.startActivity(intent);
             }
         });
 
@@ -99,7 +112,14 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.w(TAG, String.format("create rat sighting error: %s", error.networkResponse));
+                    String body;
+                    try {
+                        body = new String(error.networkResponse.data, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        body = e.getMessage();
+                    }
+                    Log.w(TAG, String.format("create rat sighting error. body is: %s", body));
+                    error.printStackTrace();
                 }
             }) {
 
@@ -109,7 +129,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             params.put("longitude", longitudeEditText.getText().toString());
             params.put("latitude", latitudeEditText.getText().toString());
             params.put("city", cityEditText.getText().toString());
-            params.put("locationType", locationTypeEditText.getText().toString());
+            params.put("location_type", locationTypeEditText.getText().toString());
             params.put("borough", boroughEditText.getText().toString());
             params.put("address", addressEditText.getText().toString());
             params.put("zip", zipEditText.getText().toString());
