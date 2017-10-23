@@ -85,6 +85,11 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
                 // Black magic to start a new Dashboard activity (so the new sighting is displayed)
                 // https://stackoverflow.com/a/4186097/5377941
                 Model.getInstance().resetRatSightings();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "I can't believe you've done this");
+                }
                 Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
                 AddRatSightingActivity.this.startActivity(intent);
             }
