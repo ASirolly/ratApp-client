@@ -59,6 +59,13 @@ public class Model {
     }
 
     /**
+     * Clears out list of rat sightings.
+     */
+    public void resetRatSightings() {
+        ratSightings.clear();
+    }
+
+    /**
      * Returns the boolean status of an account
      * @return account == null Whether an account is null
      */

@@ -1,6 +1,7 @@
 package com.example.paramount.ratappandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.model.Model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -80,6 +82,11 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
                 showMessage("zip field is empty");
             } else {
                 createRatSighting();
+                // Black magic to start a new Dashboard activity (so the new sighting is displayed)
+                // https://stackoverflow.com/a/4186097/5377941
+                Model.getInstance().resetRatSightings();
+                Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
+                AddRatSightingActivity.this.startActivity(intent);
             }
         });
 
