@@ -26,12 +26,16 @@ public class Model {
 //    private static Context mCtx;
     private ArrayList<RatSighting> ratSightings;
 
+    // maps unique key to rat sighting
+    private Map<String, RatSighting> mapRatSightings;
+
     private Model() {
         allAccounts = new HashMap<>();
         // leaving in test account for now
         Account testAccount = new Account("u", "p", AccountType.ADMIN);
         allAccounts.put("u", testAccount);
         ratSightings = new ArrayList<>(25);
+        mapRatSightings = new HashMap<>();
     }
 
     /**
@@ -64,6 +68,16 @@ public class Model {
     public void resetRatSightings() {
         ratSightings.clear();
     }
+
+    /**
+     * @return list of rat sightings for display on the map.
+     */
+    public Map<String, RatSighting> getMapRatSightings() { return mapRatSightings; }
+
+    /**
+     * Clears out list of rat sightings for display on the map.
+     */
+    public void resetMapRatSightings() { mapRatSightings.clear(); }
 
     /**
      * Returns the boolean status of an account

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.paramount.ratappandroid">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,23 +19,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.example.paramount.ratappandroid.MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
-
-        <activity android:name="com.example.paramount.ratappandroid.AddRatSightingActivity" />
-        <activity android:name="com.example.paramount.ratappandroid.Registration" />
-        <activity android:name="com.example.paramount.ratappandroid.Login" />
-        <activity android:name="com.example.paramount.ratappandroid.Dashboard" />
-        <activity android:name="com.example.paramount.ratappandroid.RatSightingDetails" />
-
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".AddRatSightingActivity" />
+        <activity android:name=".Registration" />
+        <activity android:name=".Login" />
+        <activity android:name=".Dashboard" />
+        <activity android:name=".RatSightingDetails" />
+        <activity
+            android:name=".TestMaps"
+            android:label="@string/title_activity_test_maps"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

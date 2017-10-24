@@ -41,7 +41,7 @@ public class RatSighting implements Serializable {
      * Creates a new RatSighting from a JSON object.
      */
     public RatSighting(JSONObject json) throws JSONException, ParseException {
-        uniqueKey = json.getString("ny_uid");
+        uniqueKey = json.getJSONObject("_id").getString("$oid");
         createDate = dateFormat.parse(json.getString("created_at")); // TODO: handle ParseException?
         locType = json.getString("location_type"); // TODO: use enum?
 
