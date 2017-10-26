@@ -28,4 +28,9 @@
     <string name="google_maps_key">AIzaSyA3uLpITJlvyWW7k1S0p8eVIgzF4LP2pZg</string>
     <string name="map_view">Map View</string>
     <string name="title_activity_test_maps">Map</string>
+    <string name="start_date">start date:</string>
+    <string name="end_date">end date:</string>
+    <string name="select_end_date">select end date</string>
+    <string name="select_start_date">select start date</string>
+    <string name="find_rat_sightings">find rat sightings</string>
 </resources>

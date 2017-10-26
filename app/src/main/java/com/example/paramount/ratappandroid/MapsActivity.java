@@ -1,9 +1,11 @@
 package com.example.paramount.ratappandroid;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,22 +23,39 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by joshuareno on 10/21/17.
+ *
+ * Displays rat sightings on a map, with the ability to choose a date range for which to display sightings.
  */
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private final static String TAG = "MAPS_ACTIVITY";
-    private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings";
+    private static final String TAG = "MAPS_ACTIVITY";
+    private static final String baseUrl = "http://10.0.2.2:9292/api/rat_sightings";
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     RequestQueue requestQueue;
 
     private GoogleMap googlemap;
+
+    private Button selectStartDateButton;
+    private Button selectEndDateButton;
+    private DatePickerDialog startDatePickerDialog;
+    private DatePickerDialog endDatePickerDialog;
+    private Date startDate;
+    private Date endDate;
+
+    private Button findRatSightingsButton;
 
     /**
      * Creates the dashboard page.
@@ -51,6 +70,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
         requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+
+        // initialize start and end dates to today
+        startDate = new Date();
+        endDate = new Date();
+
+        startDatePickerDialog = new DatePickerDialog(MapsActivity.this);
+        endDatePickerDialog = new DatePickerDialog(MapsActivity.this);
+        selectStartDateButton = (Button) findViewById(R.id.selectStartDateButton);
+        selectEndDateButton = (Button) findViewById(R.id.selectEndDateButton);
+        findRatSightingsButton = (Button) findViewById(R.id.findRatSightings);
+
+        // clicking start/end date button shows start/end date picker
+        selectStartDateButton.setOnClickListener(click -> startDatePickerDialog.show());
+        selectEndDateButton.setOnClickListener(click -> endDatePickerDialog.show());
+
+        startDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            startDate = calendar.getTime();
+            selectStartDateButton.setText(String.format("SELECT START DATE (current date: %s)", simpleDateFormat.format(startDate)));
+        });
+
+        endDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            endDate = calendar.getTime();
+            selectEndDateButton.setText(String.format("SELECT END DATE (current date: %s)", simpleDateFormat.format(endDate)));
+        });
+
+        // clicking "find rat sightings" button causes only rat sightings that fall within
+        // the selected dates to be shown
+        findRatSightingsButton.setOnClickListener(view -> {
+            filter(startDate, endDate);
+        });
     }
 
     /**
@@ -92,7 +145,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    public void getData(String startDate, String endDate) {
+    /**
+     * Get rat sightings with a certain creation date
+     * @param startDate earliest date for the selected rat sightings
+     * @param endDate latest date for the selected rat sightings
+     */
+    private void getData(String startDate, String endDate) {
         String getDataUrl = baseUrl; // TODO: add start date and end date parameters
         JsonArrayRequest jsObjRequest = new JsonArrayRequest
                 (Request.Method.GET, getDataUrl, null, new Response.Listener<JSONArray>() {
@@ -114,7 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         // after rat sightings are loaded, display them on the map
                         Log.i(TAG, String.format("displaying %d rat sightings", len));
-                        displayRatSightings();
+                        showAllRatSightings();
                     }
                 }, new Response.ErrorListener() {
 
@@ -128,26 +186,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         requestQueue.add(jsObjRequest);
     }
 
-    public void filter(String startDate, String endDate) {
+    /**
+     * Displays only certain rat sightings on the map
+     * @param startDate earliest date for the displayed rat sightings
+     * @param endDate latest date for the displayed rat sightings
+     */
+    private void filter(Date startDate, Date endDate) {
         googlemap.clear();
-
+        Model.getInstance().getMapRatSightings().values().stream()
+            .filter(ratSighting -> ratSighting.getCreateDate().after(startDate) && ratSighting.getCreateDate().before(endDate))
+            .forEach(ratSighting -> {
+                Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
+                final Marker marker = googlemap.addMarker(
+                    new MarkerOptions()
+                        .position(
+                            new LatLng(
+                                ratSighting.getLatitude(),
+                                ratSighting.getLongitude())));
+                marker.setTag(ratSighting.getUniqueKey());
+        });
     }
 
     /**
-     * Creates a marker for each rat sighting, with each rat sighting's unique key as a tag for its marker
+     * Shows all rat sightings by calling the filter method with a date long in the past.
      */
-    public void displayRatSightings() {
-        googlemap.clear();
-        Model.getInstance().getMapRatSightings().values().forEach(ratSighting -> {
-            Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
-            final Marker marker = googlemap.addMarker(
-                    new MarkerOptions()
-                            .position(
-                                    new LatLng(
-                                            ratSighting.getLatitude(),
-                                            ratSighting.getLongitude())));
-            marker.setTag(ratSighting.getUniqueKey());
-
-        });
+    private void showAllRatSightings() {
+        Calendar calendar = Calendar.getInstance();
+        Date now = calendar.getTime();
+        calendar.add(Calendar.YEAR, -100);
+        Date aLongTimeAgo = calendar.getTime();
+        filter(aLongTimeAgo, now);
     }
 }
