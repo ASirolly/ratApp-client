@@ -22,7 +22,8 @@
         android:id="@+id/findRatSightings"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/find_rat_sightings" />
+        android:text="@string/find_rat_sightings"
+        android:layout_marginBottom="4dp"/>
 
     <LinearLayout
         android:orientation="vertical"
