@@ -1,12 +1,6 @@
 package com.example.paramount.ratappandroid.model;
 
 
-import android.content.Context;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +15,6 @@ import java.util.Map;
 public class Model {
     // singleton instance
     private static final Model _instance = new Model();
-    final private String getDataUrl = "http://10.0.2.2:9292/api/rat_sightings?page=2";
-//    RequestQueue mRequestQueue;
-//    private static Context mCtx;
     private ArrayList<RatSighting> ratSightings;
 
     // maps unique key to rat sighting
@@ -130,19 +121,4 @@ public class Model {
         allAccounts.put(account.getUsername(), account);
         return true;
     }
-
-//    public RequestQueue getRequestQueue() {
-//        if (mRequestQueue == null) {
-//            // getApplicationContext() is key, it keeps you from leaking the
-//            // Activity or BroadcastReceiver if someone passes one in.
-//            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
-//        }
-//        return mRequestQueue;
-//    }
-
-//    public <T> void addToRequestQueue(Request<T> req) {
-//        getRequestQueue().add(req);
-//    }
-
-
 }

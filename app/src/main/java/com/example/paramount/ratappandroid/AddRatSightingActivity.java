@@ -8,17 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.model.Model;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,8 +36,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     EditText zipEditText;
 
     private final static String TAG = "ADD_RAT_SIGHTING";
-    private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings";
-    private RequestQueue requestQueue;
+    private RatSightingDAO ratSightingDAO;
 
     /**
      * Creates the dashboard page.
@@ -54,7 +47,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_rat_sighting);
-        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+        ratSightingDAO = RatSightingDAO.getInstance(this.getApplicationContext());
 
         longitudeEditText = (EditText) findViewById(R.id.longitudeInput);
         latitudeEditText = (EditText) findViewById(R.id.latitudeInput);
@@ -100,46 +93,18 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     }
 
     public void createRatSighting() {
-        StringRequest stringRequest = new StringRequest(
-            Request.Method.POST,
-            baseUrl,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Log.i(TAG, String.format("create rat sighting response: %s", response));
-                }
-            },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    String body;
-                    try {
-                        body = new String(error.networkResponse.data, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        body = e.getMessage();
-                    }
-                    Log.w(TAG, String.format("create rat sighting error. body is: %s", body));
-                    error.printStackTrace();
-                }
-            }) {
+        Map<String,String> params = new HashMap<>();
+        params.put("longitude", longitudeEditText.getText().toString());
+        params.put("latitude", latitudeEditText.getText().toString());
+        params.put("city", cityEditText.getText().toString());
+        params.put("location_type", locationTypeEditText.getText().toString());
+        params.put("borough", boroughEditText.getText().toString());
+        params.put("address", addressEditText.getText().toString());
+        params.put("zip", zipEditText.getText().toString());
 
-            @Override
-            protected Map<String,String> getParams() {
-            Map<String,String> params = new HashMap<>();
-            params.put("longitude", longitudeEditText.getText().toString());
-            params.put("latitude", latitudeEditText.getText().toString());
-            params.put("city", cityEditText.getText().toString());
-            params.put("location_type", locationTypeEditText.getText().toString());
-            params.put("borough", boroughEditText.getText().toString());
-            params.put("address", addressEditText.getText().toString());
-            params.put("zip", zipEditText.getText().toString());
-
-            return params;
-            }
-        };
-
-        Log.i(TAG, "right before adding stringRequest");
-        requestQueue.add(stringRequest);
+        ratSightingDAO.createRatSighting(params, response ->
+            Log.i(TAG, String.format("create rat sighting response: %s", response))
+        );
     }
 
     /**

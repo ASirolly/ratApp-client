@@ -1,17 +1,13 @@
 package com.example.paramount.ratappandroid;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,11 +36,9 @@ import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = "MAPS_ACTIVITY";
-    private static final String baseUrl = "http://10.0.2.2:9292/api/rat_sightings_by_date?";
     private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-    private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US); // TODO: put this into a separate class along with getData()
 
-    private RequestQueue requestQueue;
+    private RatSightingDAO ratSightingDAO;
 
     private GoogleMap googlemap;
 
@@ -71,7 +65,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
-        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+//        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
+        ratSightingDAO = RatSightingDAO.getInstance(this.getApplicationContext());
 
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
@@ -111,9 +106,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // clicking "find rat sightings" button causes only rat sightings that fall within
         // the selected dates to be shown
-        findRatSightingsButton.setOnClickListener(view -> {
-            getData(startDate, endDate);
-        });
+        findRatSightingsButton.setOnClickListener(view ->
+            ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData)
+        );
     }
 
     /**
@@ -135,7 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setZoomControlsEnabled(true); // add buttons so user can zoom in and out
 
         // When map is first loaded, load sightings that fall within the initial values for start/end date
-        getData(startDate, endDate);
+        ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData);
 
         googlemap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             /**
@@ -157,57 +152,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Get rat sightings with a certain creation date, with a default limit of 100.
-     * @param startDate earliest date for the selected rat sightings
-     * @param endDate latest date for the selected rat sightings
-     */
-    private void getData(Date startDate, Date endDate) {
-        getData(startDate, endDate, 100);
-    }
-
-    /**
-     * Get rat sightings with a certain creation date
-     * @param startDate earliest date for the selected rat sightings
-     * @param endDate latest date for the selected rat sightings
-     * @param limit maximum number of records to be returned
-     */
-    private void getData(Date startDate, Date endDate, int limit) {
-        String startDateParam = String.format("start_date=%s", requestDateFormat.format(startDate));
-        String endDateParam = String.format("end_date=%s", requestDateFormat.format(endDate));
-        String limitParam = String.format("limit=%d", limit);
-        String allParams = StringUtils.join(new String[] {startDateParam, endDateParam, limitParam}, "&");
-        String getDataUrl = baseUrl + allParams;
-
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest
-                (Request.Method.GET, getDataUrl, null,
-
-                    (response) -> {
-                        Model.getInstance().resetMapRatSightings();
-
-                        JSONObject json;
-
-                        int len = response.length();
-                        for (int i = 0; i < len; i++) {
-                            try {
-                                json = (JSONObject) response.get(i);
-                                RatSighting ratSighting = new RatSighting(json);
-                                Model.getInstance().getMapRatSightings().put(ratSighting.getUniqueKey(), ratSighting);
-                            } catch (JSONException | ParseException e) {
-                                Log.w(TAG, e);
-                            }
-                        }
-
-                        // after rat sightings are loaded, display them on the map
-                        Log.i(TAG, String.format("displaying %d rat sightings", len));
-                        showAllRatSightings();
-                    },
-
-                    (error) -> System.out.println("Having error: " + error.getMessage())
-                );
-        requestQueue.add(jsObjRequest);
-    }
-
-    /**
      * Displays all rat sightings on the map.
      */
     public void showAllRatSightings() {
@@ -223,5 +167,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                     ratSighting.getLongitude())));
                     marker.setTag(ratSighting.getUniqueKey());
                 });
+    }
+
+    private void handleData(JSONArray response) {
+        Model.getInstance().resetMapRatSightings();
+        JSONObject json;
+        int len = response.length();
+        for (int i = 0; i < len; i++) {
+            try {
+                json = (JSONObject) response.get(i);
+                RatSighting ratSighting = new RatSighting(json);
+                Model.getInstance().getMapRatSightings().put(ratSighting.getUniqueKey(), ratSighting);
+            } catch (JSONException | ParseException e) {
+                Log.w(TAG, e);
+            }
+        }
+        showAllRatSightings();
     }
 }
