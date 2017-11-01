@@ -26,8 +26,6 @@ import java.text.ParseException;
 public class Dashboard extends LoggedInBaseActivity {
     private final static String TAG = "DASHBOARD";
 
-    private RatSightingDAO ratSightingDAO;
-
     private Button mapButton;
     private ArrayAdapter arrayAdapter;
     private ListView sightingListView;
@@ -41,7 +39,6 @@ public class Dashboard extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-        ratSightingDAO = RatSightingDAO.getInstance(this.getApplicationContext());
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Model.getInstance().getRatSightings());
         sightingListView = (ListView) findViewById(R.id.sightingListView);
@@ -63,12 +60,12 @@ public class Dashboard extends LoggedInBaseActivity {
         sightingListView.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                ratSightingDAO.getRatSightings(page, Dashboard.this::handleData);
+                RatSightingDAO.getInstance().getRatSightings(page, Dashboard.this::handleData);
                 return true;
             }
         });
 
-        ratSightingDAO.getRatSightings(0, Dashboard.this::handleData);
+        RatSightingDAO.getInstance().getRatSightings(0, Dashboard.this::handleData);
 
         // Causes add button to open a screen that allows the user to create a new rat sighting.
         findViewById(R.id.addSightingButton).setOnClickListener(view -> {
@@ -78,6 +75,10 @@ public class Dashboard extends LoggedInBaseActivity {
 
     }
 
+    /**
+     * method called upon successful GET request
+     * @param response list of RatSightings returned from GET request
+     */
     private void handleData(JSONArray response) {
         JSONObject json;
 

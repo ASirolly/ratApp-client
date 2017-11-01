@@ -10,6 +10,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.App;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -32,16 +33,13 @@ public class RatSightingDAO {
     private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
     private final RequestQueue requestQueue;
-    private static RatSightingDAO _instance;
+    private static final RatSightingDAO _instance = new RatSightingDAO();
 
-    private RatSightingDAO(Context context) {
-        requestQueue = Volley.newRequestQueue(context);
+    private RatSightingDAO() {
+        requestQueue = Volley.newRequestQueue(App.getContext());
     }
 
-    public static RatSightingDAO getInstance(Context context) {
-        if (_instance == null) {
-            _instance = new RatSightingDAO(context);
-        }
+    public static RatSightingDAO getInstance() {
         return _instance;
     }
 

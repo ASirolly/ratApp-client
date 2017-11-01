@@ -6,13 +6,17 @@ import android.content.Context;
 /**
  * Created by greg on 11/1/17.
  *
- * App class that provides global access to application access
+ * App class that provides global access to application context
  */
 
 public class App extends Application {
 
     private static Application application;
 
+    /**
+     * Returns application context
+     * @return application context
+     */
     public static Context getContext() {
         return application.getApplicationContext();
     }

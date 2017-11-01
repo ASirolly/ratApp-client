@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.App;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -23,16 +24,13 @@ public class UserDAO {
     private static final String baseUrl = "http://10.0.2.2:9292/api/";
 
     private final RequestQueue requestQueue;
-    private static UserDAO _instance;
+    private static final UserDAO _instance = new UserDAO();
 
-    private UserDAO(Context context) {
-        requestQueue = Volley.newRequestQueue(context);
+    private UserDAO() {
+        requestQueue = Volley.newRequestQueue(App.getContext());
     }
 
-    public static UserDAO getInstance(Context context) {
-        if (_instance == null) {
-            _instance = new UserDAO(context);
-        }
+    public static UserDAO getInstance() {
         return _instance;
     }
 

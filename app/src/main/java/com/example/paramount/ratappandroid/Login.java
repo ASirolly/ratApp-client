@@ -84,7 +84,7 @@ public class Login extends AppCompatActivity {
     }
 
     /**
-     * method called upon successful registration
+     * method called upon successful login
      * @param result message returned from POST request
      */
     private void onSuccess(String result) {

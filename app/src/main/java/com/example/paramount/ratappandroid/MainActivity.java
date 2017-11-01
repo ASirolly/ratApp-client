@@ -7,10 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 
+/**
+ * Created by joshuareno on 9/21/17.
+ *
+ * First activity that is shown when the app is started.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private Button login;
-    private Button registration;
 
     /**
      * Creates the welcome page and sets atcions for the login and registration buttons.

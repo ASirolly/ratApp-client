@@ -20,7 +20,6 @@ public class Model {
     // singleton instance
     private static final Model _instance = new Model();
     private ArrayList<RatSighting> ratSightings;
-    private UserDAO userDAO;
 
     // maps unique key to rat sighting
     private Map<String, RatSighting> mapRatSightings;
@@ -29,7 +28,6 @@ public class Model {
         // leaving in test account for now
         ratSightings = new ArrayList<>(25);
         mapRatSightings = new HashMap<>();
-        userDAO = UserDAO.getInstance(App.getContext());
     }
 
     /**
@@ -97,7 +95,7 @@ public class Model {
 //            return account;
 //        }
 //        return null; // account exists, but wrong password provided
-        userDAO.authenticate(username, password, callback);
+        UserDAO.getInstance().authenticate(username, password, callback);
     }
 
     /**
@@ -110,6 +108,6 @@ public class Model {
 //        }
 //        allAccounts.put(account.getUsername(), account);
 //        return true;
-        userDAO.createUser(account.getUsername(), account.getPassword(), account.getPassword(), callback);
+        UserDAO.getInstance().createUser(account.getUsername(), account.getPassword(), account.getPassword(), callback);
     }
 }

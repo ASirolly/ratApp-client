@@ -38,8 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MAPS_ACTIVITY";
     private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-    private RatSightingDAO ratSightingDAO;
-
     private GoogleMap googlemap;
 
     private static final String selectStartDateButtonTextTemplate = "SELECT START DATE (selected date: %s)";
@@ -65,8 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
-//        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
-        ratSightingDAO = RatSightingDAO.getInstance(this.getApplicationContext());
 
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
@@ -107,7 +103,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // clicking "find rat sightings" button causes only rat sightings that fall within
         // the selected dates to be shown
         findRatSightingsButton.setOnClickListener(view ->
-            ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData)
+            RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData)
         );
     }
 
@@ -130,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setZoomControlsEnabled(true); // add buttons so user can zoom in and out
 
         // When map is first loaded, load sightings that fall within the initial values for start/end date
-        ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData);
+        RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData);
 
         googlemap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             /**
@@ -169,6 +165,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
     }
 
+    /**
+     * method called upon successful response from GET request
+     * @param response list of RatSightings returned from GET request
+     */
     private void handleData(JSONArray response) {
         Model.getInstance().resetMapRatSightings();
         JSONObject json;

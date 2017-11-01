@@ -11,6 +11,8 @@ import java.util.Locale;
 
 /**
  * Created by Greg on 10/14/17.
+ *
+ * Displays details for a single RatSighting.
  */
 
 public class RatSightingDetails extends LoggedInBaseActivity {

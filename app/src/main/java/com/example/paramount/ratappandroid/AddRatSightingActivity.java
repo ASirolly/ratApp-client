@@ -36,7 +36,6 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     EditText zipEditText;
 
     private final static String TAG = "ADD_RAT_SIGHTING";
-    private RatSightingDAO ratSightingDAO;
 
     /**
      * Creates the dashboard page.
@@ -47,7 +46,6 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_rat_sighting);
-        ratSightingDAO = RatSightingDAO.getInstance(this.getApplicationContext());
 
         longitudeEditText = (EditText) findViewById(R.id.longitudeInput);
         latitudeEditText = (EditText) findViewById(R.id.latitudeInput);
@@ -102,7 +100,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         params.put("address", addressEditText.getText().toString());
         params.put("zip", zipEditText.getText().toString());
 
-        ratSightingDAO.createRatSighting(params, response ->
+        RatSightingDAO.getInstance().createRatSighting(params, response ->
             Log.i(TAG, String.format("create rat sighting response: %s", response))
         );
     }
