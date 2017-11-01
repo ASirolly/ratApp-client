@@ -1,6 +1,10 @@
 package com.example.paramount.ratappandroid.model;
 
 
+import com.example.paramount.ratappandroid.App;
+import com.example.paramount.ratappandroid.dao.Callback;
+import com.example.paramount.ratappandroid.dao.UserDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,17 +20,16 @@ public class Model {
     // singleton instance
     private static final Model _instance = new Model();
     private ArrayList<RatSighting> ratSightings;
+    private UserDAO userDAO;
 
     // maps unique key to rat sighting
     private Map<String, RatSighting> mapRatSightings;
 
     private Model() {
-        allAccounts = new HashMap<>();
         // leaving in test account for now
-        Account testAccount = new Account("u", "p", AccountType.ADMIN);
-        allAccounts.put("u", testAccount);
         ratSightings = new ArrayList<>(25);
         mapRatSightings = new HashMap<>();
+        userDAO = UserDAO.getInstance(App.getContext());
     }
 
     /**
@@ -39,12 +42,6 @@ public class Model {
      * Account of the currently logged in user.
       */
     private Account account;
-
-    /**
-     * Maps username to corresponding account, for all existing accounts.
-     * Temporary (for M5).
-     */
-    private Map<String, Account> allAccounts;
 
     /**
      * Get list of rat sightings.
@@ -71,12 +68,6 @@ public class Model {
     public void resetMapRatSightings() { mapRatSightings.clear(); }
 
     /**
-     * Returns the boolean status of an account
-     * @return account == null Whether an account is null
-     */
-    public boolean isLoggedIn() { return account == null; }
-
-    /**
      * Sets the account to null when an actor logs out.
      */
     public void logOut() { account = null; }
@@ -97,28 +88,28 @@ public class Model {
      * Makes a call to the backend to determine whether the provided username/password combination is valid.
      * @return the corresponding account if the combination is valid, and none otherwise
      */
-    public Account lookUpAccount(String username, String password) {
-        // TODO: call to backend here. And move to separate class?
-        Account account = allAccounts.get(username);
-        if (account == null) { // there is no account with the given username
-            return null;
-        }
-        if (password.equals(account.getPassword())) { // account exists and correct password was provided
-            return account;
-        }
-        return null; // account exists, but wrong password provided
+    public void lookUpAccount(String username, String password, Callback<String> callback) {
+//        Account account = allAccounts.get(username);
+//        if (account == null) { // there is no account with the given username
+//            return null;
+//        }
+//        if (password.equals(account.getPassword())) { // account exists and correct password was provided
+//            return account;
+//        }
+//        return null; // account exists, but wrong password provided
+        userDAO.authenticate(username, password, callback);
     }
 
     /**
      * Attempts to register an account.
      * @return true if successful and false if unsuccessful (e.g. because the provided username is already taken).
      */
-    public boolean registerAccount(Account account) {
-        // TODO: call to backend here. And move to separate class?
-        if (allAccounts.containsKey(account.getUsername())) { // username already taken
-            return false;
-        }
-        allAccounts.put(account.getUsername(), account);
-        return true;
+    public void registerAccount(Account account, Callback<String> callback) {
+//        if (allAccounts.containsKey(account.getUsername())) { // username already taken
+//            return false;
+//        }
+//        allAccounts.put(account.getUsername(), account);
+//        return true;
+        userDAO.createUser(account.getUsername(), account.getPassword(), account.getPassword(), callback);
     }
 }

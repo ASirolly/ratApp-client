@@ -3,7 +3,6 @@ package com.example.paramount.ratappandroid;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +24,8 @@ public class Registration extends AppCompatActivity {
     private final static String TAG = "Registration"; // used in log messages
     private Button cancel;
     private Button submit;
+
+    private String username;
 
     /**
      * Creates the registration page and sets actions for the username, password, account status, submit, and cancel elements.
@@ -70,22 +71,34 @@ public class Registration extends AppCompatActivity {
                     AccountType accountType = userRadioButton.isChecked() ? AccountType.USER : AccountType.ADMIN;
                     Account account = new Account(username, password, accountType);
 
-                    if (Model.getInstance().registerAccount(account)) { // successful registration
-                        Log.i(TAG, String.format("registered account: %s", account));
-                        finish();
-                        showMessage(String.format("successfully registered with username: %s", username));
-                    } else {
-                        Log.i(TAG, String.format("failed to register account: %s", account));
-                        showMessage("registration could not be completed");
-                    }
+                    Registration.this.username = username;
+
+//                    if (Model.getInstance().registerAccount(userDAO, account)) { // successful registration
+//                        Log.i(TAG, String.format("registered account: %s", account));
+//                        finish();
+//                        showMessage(String.format("successfully registered with username: %s", username));
+//                    } else {
+//                        Log.i(TAG, String.format("failed to register account: %s", account));
+//                        showMessage("registration could not be completed");
+//                    }
+                    Model.getInstance().registerAccount(account, Registration.this::onSuccess); // TODO: handle failure (username already taken)
                 }
             }
         });
     }
 
     /**
+     * method called upon successful registration
+     * @param result message returned from POST request
+     */
+    private void onSuccess(String result) {
+        finish();
+        showMessage(String.format("successfully registered with username: %s", username));
+    }
+
+    /**
      * Shows the message
-     * @param message
+     * @param message message to be shown
      */
     private void showMessage(String message) {
         Context context = getApplicationContext();

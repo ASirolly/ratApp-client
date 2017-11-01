@@ -1,6 +1,5 @@
 package com.example.paramount.ratappandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.paramount.ratappandroid.model.Account;
+import com.example.paramount.ratappandroid.model.AccountType;
 import com.example.paramount.ratappandroid.model.Model;
 
 /**
@@ -23,6 +22,8 @@ public class Login extends AppCompatActivity {
     private final static String TAG = "Login"; // used in log messages
     private Button submit;
     private Button cancel;
+
+    private Account account;
 
     /**
      * Creates the login page and sets actions for the username, password, submit and cancel elements.
@@ -51,32 +52,47 @@ public class Login extends AppCompatActivity {
                 String username = usernameEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
+                Login.this.account = new Account(username, password, AccountType.ADMIN);
+
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s", username, password));
-                Account account = Model.getInstance().lookUpAccount(username, password); // returns null if the provided username/password combination is invalid
-                if (account != null) {
-                    Log.i(TAG, "successful login attempt");
-                    // set username in model
-                    Model.getInstance().setAccount(account);
-                    // open dashboard
-                    Intent intent = new Intent(getBaseContext(), Dashboard.class);
-                    startActivity(intent);
-                } else {
-                    Log.i(TAG, "unsuccessful login attempt");
-                    // show popup message indicating that username and password don't match
-                    // (this) https://developer.android.com/guide/topics/ui/notifiers/toasts.html
-                    Context context = getApplicationContext();
-                    CharSequence text = "incorrect username or password";
-                    int duration = Toast.LENGTH_LONG;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-
-                    // clear the entered username/password
-                    usernameEditText.setText("");
-                    passwordEditText.setText("");
-                    usernameEditText.requestFocus(); // focus on username EditText
-                }
+                Model.getInstance().lookUpAccount(username, password, Login.this::onSuccess); // TODO: handle failure (invalid username/password combination)
+//                if (account != null) {
+////                    Log.i(TAG, "successful login attempt");
+////                    // set username in model
+////                    Model.getInstance().setAccount(account);
+////                    // open dashboard
+////                    Intent intent = new Intent(getBaseContext(), Dashboard.class);
+////                    startActivity(intent);
+//                } else {
+//                    Log.i(TAG, "unsuccessful login attempt");
+//                    // show popup message indicating that username and password don't match
+//                    // (this) https://developer.android.com/guide/topics/ui/notifiers/toasts.html
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "incorrect username or password";
+//                    int duration = Toast.LENGTH_LONG;
+//
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//
+//                    // clear the entered username/password
+//                    usernameEditText.setText("");
+//                    passwordEditText.setText("");
+//                    usernameEditText.requestFocus(); // focus on username EditText
+//                }
             }
         });
+    }
+
+    /**
+     * method called upon successful registration
+     * @param result message returned from POST request
+     */
+    private void onSuccess(String result) {
+        Log.i(TAG, "successful login attempt");
+        // set username in model
+        Model.getInstance().setAccount(account);
+        // open dashboard
+        Intent intent = new Intent(getBaseContext(), Dashboard.class);
+        startActivity(intent);
     }
 }

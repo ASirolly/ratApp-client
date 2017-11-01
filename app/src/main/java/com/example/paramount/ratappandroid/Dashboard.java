@@ -88,7 +88,7 @@ public class Dashboard extends LoggedInBaseActivity {
                 Model.getInstance().getRatSightings().add(new RatSighting(json));
                 arrayAdapter.notifyDataSetChanged();
             } catch (JSONException | ParseException e) {
-                Log.w(TAG, e);
+                Log.d(TAG, "error parsing rat sighting field");
             }
         }
     }
