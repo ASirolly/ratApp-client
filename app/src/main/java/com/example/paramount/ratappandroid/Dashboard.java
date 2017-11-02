@@ -24,11 +24,9 @@ import java.text.ParseException;
  */
 
 public class Dashboard extends LoggedInBaseActivity {
-    private final static String TAG = "DASHBOARD";
+    private static final String TAG = "DASHBOARD";
 
-    private Button mapButton;
     private ArrayAdapter arrayAdapter;
-    private ListView sightingListView;
 
     /**
      * Creates the dashboard page.
@@ -40,11 +38,12 @@ public class Dashboard extends LoggedInBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
 
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Model.getInstance().getRatSightings());
-        sightingListView = (ListView) findViewById(R.id.sightingListView);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                Model.getInstance().getRatSightings());
+        ListView sightingListView = (ListView) findViewById(R.id.sightingListView);
         sightingListView.setAdapter(arrayAdapter);
 
-        mapButton = (Button) findViewById(R.id.mapViewButton);
+        Button mapButton = (Button) findViewById(R.id.mapViewButton);
         mapButton.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), MapsActivity.class);
             startActivity(intent);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,14 +18,12 @@ import com.example.paramount.ratappandroid.model.Model;
 
 public class Login extends AppCompatActivity {
 
-    private final static String TAG = "Login"; // used in log messages
-    private Button submit;
-    private Button cancel;
+    private static final String TAG = "Login"; // used in log messages
 
     private Account account;
 
     /**
-     * Creates the login page and sets actions for the username, password, submit and cancel elements.
+     * Creates login page and sets actions for the username, password, submit and cancel elements.
      * @param savedInstanceState Bundle object containing the activity's previously saved state.
      */
     @Override
@@ -34,18 +31,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        cancel = (Button) findViewById(R.id.cancelButtonLogin);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        Button cancel = (Button) findViewById(R.id.cancelButtonLogin);
+        cancel.setOnClickListener(view -> finish());
 
-        submit = (Button) findViewById(R.id.submitButtonLogin);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        Button submit = (Button) findViewById(R.id.submitButtonLogin);
+        submit.setOnClickListener(view -> {
                 EditText usernameEditText = (EditText) findViewById(R.id.usernameEditTextLogin);
                 EditText passwordEditText = (EditText) findViewById(R.id.passwordEditTextLogin);
 
@@ -54,8 +44,9 @@ public class Login extends AppCompatActivity {
 
                 Login.this.account = new Account(username, password, AccountType.ADMIN);
 
-                Log.i(TAG, String.format("attempting login with username: %s, password: %s", username, password));
-                Model.getInstance().lookUpAccount(username, password, Login.this::onSuccess); // TODO: handle failure (invalid username/password combination)
+                Log.i(TAG, String.format("attempting login with username: %s, password: %s",
+                        username, password));
+                Model.getInstance().lookUpAccount(username, password, Login.this::onSuccess);
 //                if (account != null) {
 ////                    Log.i(TAG, "successful login attempt");
 ////                    // set username in model
@@ -79,7 +70,7 @@ public class Login extends AppCompatActivity {
 //                    passwordEditText.setText("");
 //                    usernameEditText.requestFocus(); // focus on username EditText
 //                }
-            }
+
         });
     }
 

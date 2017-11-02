@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by Greg on 9/22/17.
  */
 
-public class Model {
+public final class Model {
     // singleton instance
     private static final Model _instance = new Model();
     private final ArrayList<RatSighting> ratSightings;
@@ -42,6 +42,7 @@ public class Model {
 
     /**
      * Get list of rat sightings.
+     * @return list of rat sightings
      */
     public ArrayList<RatSighting> getRatSightings() {
         return ratSightings;
@@ -76,21 +77,18 @@ public class Model {
     public void setAccount(Account account) { this.account = account; }
 
     /**
-     * Returns the viewed account instance.
-     * @return account An instance of account
-     */
-    public Account getAccount() { return account; }
-
-    /**
-     * Makes a call to the backend to determine whether the provided username/password combination is valid.
-     * @return the corresponding account if the combination is valid, and none otherwise
+     * Determines whether the provided username/password combination is valid.
+     * @param username provided username
+     * @param password provided password
+     * @param callback provides onSuccess method to execute upon successful registration
      */
     public void lookUpAccount(String username, String password, Callback<String> callback) {
 //        Account account = allAccounts.get(username);
 //        if (account == null) { // there is no account with the given username
 //            return null;
 //        }
-//        if (password.equals(account.getPassword())) { // account exists and correct password was provided
+//         // account exists and correct password was provided
+//        if (password.equals(account.getPassword())) {
 //            return account;
 //        }
 //        return null; // account exists, but wrong password provided
@@ -99,7 +97,8 @@ public class Model {
 
     /**
      * Attempts to register an account.
-     * @return true if successful and false if unsuccessful (e.g. because the provided username is already taken).
+     * @param account account to register
+     * @param callback provides onSuccess method to execute upon successful registration
      */
     public void registerAccount(Account account, Callback<String> callback) {
 //        if (allAccounts.containsKey(account.getUsername())) { // username already taken
@@ -107,6 +106,7 @@ public class Model {
 //        }
 //        allAccounts.put(account.getUsername(), account);
 //        return true;
-        UserDAO.getInstance().createUser(account.getUsername(), account.getPassword(), account.getPassword(), callback);
+        UserDAO.getInstance().createUser(account.getUsername(), account.getPassword(),
+                account.getPassword(), callback);
     }
 }

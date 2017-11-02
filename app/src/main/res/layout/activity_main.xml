@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,26 +30,27 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/registratoin_test"
+        android:id="@+id/registration_test"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:paddingLeft="36dp"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/reg_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dont have an account? " />
+            android:text="@string/dont_have_an_account" />
 
         <TextView
             android:id="@+id/text_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/reg_message"
+            android:layout_toEndOf="@+id/reg_message"
             android:clickable="true"
-            android:text="Sign up"
+            android:text="@string/sign_up"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
 

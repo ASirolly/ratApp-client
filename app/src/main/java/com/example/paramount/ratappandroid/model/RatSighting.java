@@ -17,31 +17,31 @@ import java.util.Locale;
  */
 
 public class RatSighting implements Serializable {
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-    private static final DateFormat displayDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm", Locale.US);
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+            Locale.US);
+    private static final DateFormat displayDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm",
+            Locale.US);
 
-    private String uniqueKey;
-    private Date createDate;
-    private String locType;
+    private final String uniqueKey;
+    private final Date createDate;
+    private final String locType;
     private String incidentZip;
     private String incidentAddr;
     private String city;
     private String borough;
-    private Double latitude;
-    private Double longitude;
-
-
-    public RatSighting() {
-
-    }
+    private final Double latitude;
+    private final Double longitude;
 
     /**
      * Creates a new RatSighting from a JSON object.
+     * @param json json with values for each RatSighting field
+     * @throws JSONException if there is an error when parsing JSON fields
+     * @throws ParseException if createDate cannot be parsed
      */
     public RatSighting(JSONObject json) throws JSONException, ParseException {
         uniqueKey = json.getJSONObject("_id").getString("$oid");
-        createDate = dateFormat.parse(json.getString("created_at")); // TODO: handle ParseException?
-        locType = json.getString("location_type"); // TODO: use enum?
+        createDate = dateFormat.parse(json.getString("created_at"));
+        locType = json.getString("location_type");
 
         JSONObject locationJson = json.getJSONObject("location");
         incidentZip = locationJson.getString("zip");
@@ -66,79 +66,79 @@ public class RatSighting implements Serializable {
      * returns "value" parameter.
      */
     private String checkForMissingValue(String value, String missing) {
-        return StringUtils.isEmpty(value) || value.equals("null") ? missing : value;
+        return (StringUtils.isEmpty(value) || "null".equals(value)) ? missing : value;
     }
 
+    /**
+     * Returns the rat sighting's unique key
+     * @return unique key
+     */
     public String getUniqueKey() {
         return uniqueKey;
     }
 
-    public void setUniqueKey(String uniqueKey) {
-        this.uniqueKey = uniqueKey;
-    }
-
+    /**
+     * Returns the rat sighting's creation date
+     * @return creation date
+     */
     public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getLocType() {
+    /**
+     * Returns the rat sighting's location type
+     * @return location type
+     */
+    public CharSequence getLocType() {
         return locType;
     }
 
-    public void setLocType(String locType) {
-        this.locType = locType;
-    }
-
-    public String getIncidentZip() {
+    /**
+     * Returns the rat sighting's incident zip
+     * @return incident zip
+     */
+    public CharSequence getIncidentZip() {
         return incidentZip;
     }
 
-    public void setIncidentZip(String incidentZip) {
-        this.incidentZip = incidentZip;
-    }
-
-    public String getIncidentAddr() {
+    /**
+     * Returns the rat sighting's incident address
+     * @return incident address
+     */
+    public CharSequence getIncidentAddr() {
         return incidentAddr;
     }
 
-    public void setIncidentAddr(String incidentAddr) {
-        this.incidentAddr = incidentAddr;
-    }
-
-    public String getCity() {
+    /**
+     * Returns the rat sighting's city
+     * @return city
+     */
+    public CharSequence getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getBorough() {
+    /**
+     * Returns the rat sighting's borough
+     * @return borough
+     */
+    public CharSequence getBorough() {
         return borough;
     }
 
-    public void setBorough(String borough) {
-        this.borough = borough;
-    }
-
+    /**
+     * Returns the rat sighting's latitude
+     * @return latitude
+     */
     public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
+    /**
+     * Returns the rat sighting's longitude
+     * @return longitude
+     */
     public Double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 
     public String toString() {

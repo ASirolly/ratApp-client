@@ -6,9 +6,9 @@ package com.example.paramount.ratappandroid.model;
  */
 
 public class Account {
-    private String username;
-    private String password;
-    private AccountType accountType;
+    private final String username;
+    private final String password;
+    private final AccountType accountType;
 
     /**
      * Sets the accounts information.
@@ -26,29 +26,22 @@ public class Account {
      * Returns an account's username.
      * @return username
      */
-    public String getUsername() { return username; }
+    String getUsername() { return username; }
 
     /**
      * Returns an account's password
      * @return password
      */
-    public String getPassword() { return password; }
+    String getPassword() { return password; }
 
     /**
-     * Returns an account's type.
-     * @return accountType
-     */
-    public AccountType getAccountType() { return accountType; }
-
-    /**
-     * For easy printing of account information in log messages. Not the most secure way to do things...
+     * For easy printing of account information in log messages.
      * @return string
      */
     @Override
     public String toString() {
         return "Account{" +
                 "username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", accountType=" + accountType +
                 '}';
     }

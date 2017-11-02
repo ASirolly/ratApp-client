@@ -26,18 +26,24 @@ import java.util.Map;
  * Data Access Object for RatSightings. Uses singleton design pattern.
  */
 
-public class RatSightingDAO {
+public final class RatSightingDAO {
     private static final String TAG = "rat_sighting_dao";
     private static final String baseUrl = "http://10.0.2.2:9292/api";
-    private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private static final SimpleDateFormat requestDateFormat = new SimpleDateFormat("dd/MM/yyyy",
+            Locale.US);
 
     private final RequestQueue requestQueue;
     private static final RatSightingDAO _instance = new RatSightingDAO();
+    private static final int TIMEOUT_TIME = 30000; // 30 seconds - change to what you want
 
     private RatSightingDAO() {
         requestQueue = Volley.newRequestQueue(App.getContext());
     }
 
+    /**
+     * Returns the singleton instance of this class
+     * @return singleton instance
+     */
     public static RatSightingDAO getInstance() {
         return _instance;
     }
@@ -46,7 +52,8 @@ public class RatSightingDAO {
      * Get rat sightings with a certain creation date
      * @param startDate earliest date for the selected rat sightings
      * @param endDate latest date for the selected rat sightings
-     * @param callback callback providing an onSuccess method that will be called after a response to the request is received.
+     * @param callback callback providing an onSuccess method that will be called after a response
+     *                 to the request is received.
      */
     public void getRatSightingsByDate(Date startDate, Date endDate, Callback<JSONArray> callback) {
         String resourceUrl = "/rat_sightings_by_date?";
@@ -63,6 +70,8 @@ public class RatSightingDAO {
     /**
       * Loads a single page of rat sightings
       * @param page which page of rat sightings to get
+     * @param callback callback providing an onSuccess method that will be called after a response
+     *                 to the request is received.
       */
     public void getRatSightings(int page, Callback<JSONArray> callback) {
         String resourceUrl = "/rat_sightings?";
@@ -95,8 +104,8 @@ public class RatSightingDAO {
                 error -> Log.w(TAG, "Having error: " + error.getMessage())
             );
 
-        int socketTimeout = 30000; // 30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        RetryPolicy policy = new DefaultRetryPolicy(TIMEOUT_TIME,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsObjRequest.setRetryPolicy(policy);
         requestQueue.add(jsObjRequest);
     }

@@ -36,20 +36,21 @@ import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = "MAPS_ACTIVITY";
-    private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd",
+            Locale.US);
 
     private GoogleMap googlemap;
 
-    private static final String selectStartDateButtonTextTemplate = "SELECT START DATE (selected date: %s)";
-    private static final String selectEndDateButtonTextTemplate = "SELECT END DATE (selected date: %s)";
+    private static final String selectStartDateButtonTextTemplate =
+            "SELECT START DATE (selected date: %s)";
+    private static final String selectEndDateButtonTextTemplate =
+            "SELECT END DATE (selected date: %s)";
     private Button selectStartDateButton;
     private Button selectEndDateButton;
     private DatePickerDialog startDatePickerDialog;
     private DatePickerDialog endDatePickerDialog;
     private Date startDate;
     private Date endDate;
-
-    private Button findRatSightingsButton;
 
     /**
      * Creates the dashboard page.
@@ -76,28 +77,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         endDatePickerDialog = new DatePickerDialog(MapsActivity.this);
         selectStartDateButton = (Button) findViewById(R.id.selectStartDateButton);
         selectEndDateButton = (Button) findViewById(R.id.selectEndDateButton);
-        findRatSightingsButton = (Button) findViewById(R.id.findRatSightings);
+        Button findRatSightingsButton = (Button) findViewById(R.id.findRatSightings);
 
         // clicking start/end date button shows start/end date picker
         selectStartDateButton.setOnClickListener(click -> startDatePickerDialog.show());
         selectEndDateButton.setOnClickListener(click -> endDatePickerDialog.show());
 
         // set initial text for start/end date buttons
-        selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate, displayDateFormat.format(startDate)));
+        selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
+                displayDateFormat.format(startDate)));
         selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate, displayDateFormat.format(endDate)));
 
-        // choosing a date in the start/end DatePicker stores that date in the startDate/endDate variable,
+        // choosing date in start/end DatePicker stores that date in the startDate/endDate variable,
         // and changes the text of the button to display that date
         startDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
             calendar.set(year, month, day);
             startDate = calendar.getTime();
-            selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate, displayDateFormat.format(startDate)));
+            selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
+                    displayDateFormat.format(startDate)));
         });
 
         endDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
             calendar.set(year, month, day);
             endDate = calendar.getTime();
-            selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate, displayDateFormat.format(endDate)));
+            selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate,
+                    displayDateFormat.format(endDate)));
         });
 
         // clicking "find rat sightings" button causes only rat sightings that fall within
@@ -125,13 +129,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         UiSettings uiSettings = googleMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true); // add buttons so user can zoom in and out
 
-        // When map is first loaded, load sightings that fall within the initial values for start/end date
+        // When map is first loaded, load sightings that fall within the initial values for
+        // start/end date
         RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData);
 
         googlemap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             /**
-             * Gets the unique key associated with the rat sighting that was clicked, and opens a details page
-             * displaying information about that sighting.
+             * Gets the unique key associated with the rat sighting that was clicked, and opens a
+             * details page displaying information about that sighting.
              * @param marker The marker that was clicked
              * @return true, to indicate that this action was consumed
              */

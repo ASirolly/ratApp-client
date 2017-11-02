@@ -18,7 +18,7 @@ import java.util.Map;
  * Data Access Object for user class. Implements singleton design pattern
  */
 
-public class UserDAO {
+public final class UserDAO {
     private static final String TAG = "user_dao";
     private static final String baseUrl = "http://10.0.2.2:9292/api/";
 
@@ -30,7 +30,7 @@ public class UserDAO {
     }
 
     /**
-     * Get the singleton instance of this class.
+     * Returns the singleton instance of this class.
      * @return singleton instance
      */
     public static UserDAO getInstance() {

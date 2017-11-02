@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,7 +36,8 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     private EditText addressEditText;
     private EditText zipEditText;
 
-    private final static String TAG = "ADD_RAT_SIGHTING";
+    private static final String TAG = "ADD_RAT_SIGHTING";
+    private static final int WAIT_TIME = 500;
 
     /**
      * Creates the dashboard page.
@@ -56,40 +58,49 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         zipEditText = (EditText) findViewById(R.id.zipInput);
 
         Button submit = (Button) findViewById(R.id.submitButton);
-        submit.setOnClickListener(view -> {
-            if (StringUtils.isEmpty(longitudeEditText.getText())) {
-                showMessage("longitude field is empty");
-            } else if (StringUtils.isEmpty(latitudeEditText.getText())) {
-                showMessage("latitude field is empty");
-            } else if (StringUtils.isEmpty(cityEditText.getText())) {
-                showMessage("city field is empty");
-            } else if (StringUtils.isEmpty(locationTypeEditText.getText())) {
-                showMessage("location type field is empty");
-            } else if (StringUtils.isEmpty(boroughEditText.getText())) {
-                showMessage("borough field is empty");
-            } else if (StringUtils.isEmpty(addressEditText.getText())) {
-                showMessage("address field is empty");
-            } else if (StringUtils.isEmpty(zipEditText.getText())) {
-                showMessage("zip field is empty");
-            } else {
-                createRatSighting();
-                // Black magic to start a new Dashboard activity (so the new sighting is displayed)
-                // https://stackoverflow.com/a/4186097/5377941
-                Model.getInstance().resetRatSightings();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Log.w(TAG, "I can't believe you've done this");
-                }
-                Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
-                AddRatSightingActivity.this.startActivity(intent);
-            }
-        });
+        submit.setOnClickListener(this::submit);
 
         Button cancel = (Button) findViewById(R.id.cancelButton);
         cancel.setOnClickListener(view -> finish());
     }
 
+    /**
+     * Method that is called when submit button is clicked
+     * @param view the view that submit button belongs to
+     */
+    private void submit(View view) {
+        if (StringUtils.isEmpty(longitudeEditText.getText())) {
+            showMessage("longitude field is empty");
+        } else if (StringUtils.isEmpty(latitudeEditText.getText())) {
+            showMessage("latitude field is empty");
+        } else if (StringUtils.isEmpty(cityEditText.getText())) {
+            showMessage("city field is empty");
+        } else if (StringUtils.isEmpty(locationTypeEditText.getText())) {
+            showMessage("location type field is empty");
+        } else if (StringUtils.isEmpty(boroughEditText.getText())) {
+            showMessage("borough field is empty");
+        } else if (StringUtils.isEmpty(addressEditText.getText())) {
+            showMessage("address field is empty");
+        } else if (StringUtils.isEmpty(zipEditText.getText())) {
+            showMessage("zip field is empty");
+        } else {
+            createRatSighting();
+            // Black magic to start a new Dashboard activity (so the new sighting is displayed)
+            // https://stackoverflow.com/a/4186097/5377941
+            Model.getInstance().resetRatSightings();
+            try {
+                Thread.sleep(WAIT_TIME);
+            } catch (InterruptedException e) {
+                Log.w(TAG, "I can't believe you've done this");
+            }
+            Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
+            AddRatSightingActivity.this.startActivity(intent);
+        }
+    }
+
+    /**
+     * Creates a rat sighting using the values stored in activity's EditTexts
+     */
     private void createRatSighting() {
         Map<String,String> params = new HashMap<>();
         params.put("longitude", longitudeEditText.getText().toString());
@@ -109,7 +120,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
      * Shows the message
      * @param message The message to be shown
      */
-    private void showMessage(String message) {
+    private void showMessage(CharSequence message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
 

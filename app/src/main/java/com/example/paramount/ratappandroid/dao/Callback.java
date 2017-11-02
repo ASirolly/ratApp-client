@@ -7,5 +7,9 @@ package com.example.paramount.ratappandroid.dao;
  */
 
 public interface Callback<T> {
+    /**
+     * called upon successful response from server
+     * @param result response from server
+     */
     void onSuccess(T result);
 }

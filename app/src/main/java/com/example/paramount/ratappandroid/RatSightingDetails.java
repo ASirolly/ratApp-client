@@ -17,7 +17,6 @@ import java.util.Locale;
 
 public class RatSightingDetails extends LoggedInBaseActivity {
     private static final DateFormat displayDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss", Locale.US);
-    private RatSighting ratSighting;
 
     /**
      * Creates the dashboard page.
@@ -28,7 +27,7 @@ public class RatSightingDetails extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_sighting_details);
-        ratSighting = (RatSighting) getIntent().getSerializableExtra("ratSighting");
+        RatSighting ratSighting = (RatSighting) getIntent().getSerializableExtra("ratSighting");
 
         TextView keyValueTextView = (TextView) findViewById(R.id.keyValue);
         TextView createDateTextView = (TextView) findViewById(R.id.createDateValue);
