@@ -1,6 +1,5 @@
 package com.example.paramount.ratappandroid.dao;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -16,7 +15,7 @@ import java.util.Map;
 /**
  * Created by greg on 11/1/17.
  *
- * Data Access Object for user class.
+ * Data Access Object for user class. Implements singleton design pattern
  */
 
 public class UserDAO {
@@ -30,10 +29,20 @@ public class UserDAO {
         requestQueue = Volley.newRequestQueue(App.getContext());
     }
 
+    /**
+     * Get the singleton instance of this class.
+     * @return singleton instance
+     */
     public static UserDAO getInstance() {
         return _instance;
     }
 
+    /**
+     * attempts to log in
+     * @param email user email
+     * @param password user password
+     * @param callback provides an onSuccess method to be called upon a successful response from the server
+     */
     public void authenticate(String email, String password, Callback<String> callback) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
@@ -42,6 +51,13 @@ public class UserDAO {
         makePostRequest(baseUrl + "login", params, callback);
     }
 
+    /**
+     * Creates a user
+     * @param email user email
+     * @param password user password
+     * @param passwordConfirmation confirmation for password
+     * @param callback provides an onSuccess method to be called upon a successful response from the server
+     */
     public void createUser(String email, String password, String passwordConfirmation, Callback<String> callback) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);

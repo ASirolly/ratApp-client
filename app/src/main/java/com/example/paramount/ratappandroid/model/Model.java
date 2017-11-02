@@ -1,7 +1,6 @@
 package com.example.paramount.ratappandroid.model;
 
 
-import com.example.paramount.ratappandroid.App;
 import com.example.paramount.ratappandroid.dao.Callback;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
@@ -19,10 +18,10 @@ import java.util.Map;
 public class Model {
     // singleton instance
     private static final Model _instance = new Model();
-    private ArrayList<RatSighting> ratSightings;
+    private final ArrayList<RatSighting> ratSightings;
 
     // maps unique key to rat sighting
-    private Map<String, RatSighting> mapRatSightings;
+    private final Map<String, RatSighting> mapRatSightings;
 
     private Model() {
         // leaving in test account for now

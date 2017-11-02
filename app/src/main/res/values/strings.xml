@@ -33,4 +33,5 @@
     <string name="select_end_date">select end date</string>
     <string name="select_start_date">select start date</string>
     <string name="find_rat_sightings">find rat sightings</string>
+    <string name="click_to_add_a_rat_sighting">click to add a rat sighting</string>
 </resources>

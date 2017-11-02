@@ -1,7 +1,5 @@
 package com.example.paramount.ratappandroid.model;
 
-import com.example.paramount.ratappandroid.Registration;
-
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;

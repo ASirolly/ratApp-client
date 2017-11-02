@@ -5,9 +5,11 @@ import android.widget.AbsListView;
 
 /**
  * Created by Paramount on 2017/10/12.
+ *
+ * Provides a way for endless scrolling in a ListView
  */
 
-public abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
+abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
     // The minimum number of items to have below your current scroll position
     // before loading more.
     private int visibleThreshold = 5;
@@ -22,21 +24,13 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 
     private static final String TAG = "ENDLESS SCROLL LISTENER";
 
-    public EndlessScrollListener() {
-    }
-
-    /**
-     * Sets the threshold
-     * @param visibleThreshold
-     */
-    public EndlessScrollListener(int visibleThreshold) {
-        this.visibleThreshold = visibleThreshold;
+    EndlessScrollListener() {
     }
 
     /**
      * Sets appropriate variables.
-     * @param visibleThreshold
-     * @param startPage
+     * @param visibleThreshold starting visible threshold
+     * @param startPage starting page
      */
     public EndlessScrollListener(int visibleThreshold, int startPage) {
         this.visibleThreshold = visibleThreshold;
@@ -47,10 +41,10 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
 
     /**
      * Defines procedures for scrolling.
-     * @param view
-     * @param firstVisibleItem
-     * @param visibleItemCount
-     * @param totalItemCount
+     * @param view current view
+     * @param firstVisibleItem index of the first visible item
+     * @param visibleItemCount number of visible items
+     * @param totalItemCount number of total items
      */
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
@@ -80,14 +74,18 @@ public abstract class EndlessScrollListener implements AbsListView.OnScrollListe
         }
     }
 
-    // Defines the process for actually loading more data based on page
-    // Returns true if more data is being loaded; returns false if there is no more data to load.
+    /**
+     * Defines the process for actually loading more data based on page.
+     * @param page page to loud
+     * @param totalItemsCount number of total items
+     * @return Returns true if more data is being loaded; returns false if there is no more data to load.
+     */
     public abstract boolean onLoadMore(int page, int totalItemsCount);
 
     /**
      * abstract method for detailing if scroll state changed
-     * @param view
-     * @param scrollState
+     * @param view  current view
+     * @param scrollState current scrollState
      */
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {

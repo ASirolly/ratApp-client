@@ -27,13 +27,13 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     /**
      * Declare EditTexts here so that they can be used in createRatSighting() method
      */
-    EditText longitudeEditText;
-    EditText latitudeEditText;
-    EditText cityEditText;
-    EditText locationTypeEditText;
-    EditText boroughEditText;
-    EditText addressEditText;
-    EditText zipEditText;
+    private EditText longitudeEditText;
+    private EditText latitudeEditText;
+    private EditText cityEditText;
+    private EditText locationTypeEditText;
+    private EditText boroughEditText;
+    private EditText addressEditText;
+    private EditText zipEditText;
 
     private final static String TAG = "ADD_RAT_SIGHTING";
 
@@ -90,7 +90,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         cancel.setOnClickListener(view -> finish());
     }
 
-    public void createRatSighting() {
+    private void createRatSighting() {
         Map<String,String> params = new HashMap<>();
         params.put("longitude", longitudeEditText.getText().toString());
         params.put("latitude", latitudeEditText.getText().toString());

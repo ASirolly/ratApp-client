@@ -1,6 +1,5 @@
 package com.example.paramount.ratappandroid.dao;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -44,28 +43,17 @@ public class RatSightingDAO {
     }
 
     /**
-     * Get rat sightings with a certain creation date, with a default limit of 100.
+     * Get rat sightings with a certain creation date
      * @param startDate earliest date for the selected rat sightings
      * @param endDate latest date for the selected rat sightings
      * @param callback callback providing an onSuccess method that will be called after a response to the request is received.
      */
     public void getRatSightingsByDate(Date startDate, Date endDate, Callback<JSONArray> callback) {
-        getRatSightingsByDate(startDate, endDate, 100, callback);
-    }
-
-    /**
-     * Get rat sightings with a certain creation date
-     * @param startDate earliest date for the selected rat sightings
-     * @param endDate latest date for the selected rat sightings
-     * @param limit maximum number of records to be returned
-     * @param callback callback providing an onSuccess method that will be called after a response to the request is received.
-     */
-    public void getRatSightingsByDate(Date startDate, Date endDate, int limit, Callback<JSONArray> callback) {
         String resourceUrl = "/rat_sightings_by_date?";
 
         String startDateParam = String.format("start_date=%s", requestDateFormat.format(startDate));
         String endDateParam = String.format("end_date=%s", requestDateFormat.format(endDate));
-        String limitParam = "limit=" + limit;
+        String limitParam = "limit=" + 100;
         String allParams = StringUtils.join(new String[] {startDateParam, endDateParam, limitParam}, "&");
 
         String url = baseUrl + resourceUrl + allParams;

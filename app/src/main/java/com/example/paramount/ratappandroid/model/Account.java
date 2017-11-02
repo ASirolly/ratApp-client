@@ -29,34 +29,16 @@ public class Account {
     public String getUsername() { return username; }
 
     /**
-     * Sets an account's username
-     * @param username
-     */
-    public void setUsername(String username) { this.username = username; }
-
-    /**
      * Returns an account's password
      * @return password
      */
     public String getPassword() { return password; }
 
     /**
-     * Sets an account's password.
-     * @param password
-     */
-    public void setPassword(String password) { this.password = password; }
-
-    /**
      * Returns an account's type.
      * @return accountType
      */
     public AccountType getAccountType() { return accountType; }
-
-    /**
-     * Sets an account's type.
-     * @param accountType
-     */
-    public void setAccountType(AccountType accountType) { this.accountType = accountType; }
 
     /**
      * For easy printing of account information in log messages. Not the most secure way to do things...

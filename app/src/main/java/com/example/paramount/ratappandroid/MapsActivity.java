@@ -150,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Displays all rat sightings on the map.
      */
-    public void showAllRatSightings() {
+    private void showAllRatSightings() {
         googlemap.clear();
         Model.getInstance().getMapRatSightings().values()
                 .forEach(ratSighting -> {
