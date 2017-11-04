@@ -68,4 +68,14 @@
         android:text="@string/map_view"
         app:layout_constraintRight_toRightOf="@+id/include"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/graphViewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/graph_view"
+        app:layout_constraintStart_toStartOf="@+id/include"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
