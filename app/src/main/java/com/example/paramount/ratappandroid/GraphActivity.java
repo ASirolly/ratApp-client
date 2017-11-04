@@ -99,22 +99,12 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         findRatSightingsButton.setOnClickListener(view ->
-                RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData)
+                RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleThisData)
         );
-        Log.d("myThing", "tag1");
-        LineDataSet set = new LineDataSet(ratSightingsList, "entries");
-        Log.d("myThing", "tag2");
-        LineData lineData = new LineData(set);
-        Log.d("myThing", "tag3");
-        lineChart.setData(lineData);
-        Log.d("myThing", "tag4");
-        lineChart.invalidate();
-        Log.d("myThing", "tag5");
-
     }
 
-    private void handleData(JSONArray response) {
-        Log.d("myThing", "tag6");
+    private void handleThisData(JSONArray response) {
+        Log.d("this1", "tag6");
         Model.getInstance().resetMapRatSightings();
         JSONObject json;
         int len = response.length();
@@ -131,18 +121,28 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     private void showAllRatSightings() {
-        Log.d("myThing", "tag7");
+        Log.d("this", "tag7");
         Model.getInstance().getMapRatSightings().values()
                 .forEach(ratSighting -> {
                     Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
                     Date date = ratSighting.getCreateDate();
-                    int num = frequency.get(date);
-                    frequency.put(date, num + 1);
+                    Integer num = frequency.get(date);
+                    int count = num != null ? num.intValue() : 0;
+                    frequency.put(date, count + 1);
                 });
         Set<Date> dateSet = frequency.keySet();
-        Date[] dateArray = (Date[]) dateSet.toArray();
+        Date[] dateArray = dateSet.toArray(new Date[dateSet.size()]);
         for (Date key : dateArray) {
             ratSightingsList.add(new Entry(key.getMonth(), (float) frequency.get(key)));
         }
+        Log.d("myThing", "tag1");
+        LineDataSet set = new LineDataSet(ratSightingsList, "entries");
+        Log.d("myThing", "tag2");
+        LineData lineData = new LineData(set);
+        Log.d("myThing", "tag3");
+        lineChart.setData(lineData);
+        Log.d("myThing", "tag4");
+        lineChart.invalidate();
+        Log.d("myThing", "tag5");
     }
 }

@@ -32,4 +32,8 @@
     <string name="dont_have_an_account">Dont have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="graph_view">Graph View</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
