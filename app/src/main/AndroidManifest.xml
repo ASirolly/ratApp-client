@@ -31,6 +31,7 @@
         <activity android:name=".Login" />
         <activity android:name=".Dashboard" />
         <activity android:name=".RatSightingDetails" />
+        <activity android:name=".GraphActivity"/>
     </application>
 
 </manifest>
