@@ -7,40 +7,24 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/selectStartDateButton"
+        android:id="@+id/selectStartDateButtonGraph"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_start_date" />
 
     <Button
-        android:id="@+id/selectEndDateButton"
+        android:id="@+id/selectEndDateButtonGraph"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/select_end_date" />
 
     <Button
-        android:id="@+id/findRatSightings"
+        android:id="@+id/findRatSightingsGraph"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/find_rat_sightings"
         android:layout_marginBottom="4dp"/>
-
-    <!--<LinearLayout-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent">-->
-
-        <!--<fragment-->
-            <!--android:id="@+id/map1"-->
-            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-            <!--class="com.google.android.gms.maps.SupportMapFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--map:cameraTargetLat="40.72"-->
-            <!--map:cameraTargetLng="-74.00"-->
-            <!--map:cameraZoom="11" />-->
-
-    <!--</LinearLayout>-->
+    
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart"
         android:layout_width="match_parent"

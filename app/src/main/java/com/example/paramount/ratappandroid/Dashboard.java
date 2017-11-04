@@ -49,6 +49,12 @@ public class Dashboard extends LoggedInBaseActivity {
             startActivity(intent);
         });
 
+        Button graphButton = (Button) findViewById(R.id.graphViewButton);
+        graphButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getBaseContext(), GraphActivity.class);
+            startActivity(intent);
+        });
+
         //Sets the actions that happen when you click on an item in the listview
         sightingListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
