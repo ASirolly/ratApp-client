@@ -2,6 +2,7 @@ package com.example.paramount.ratappandroid.model;
 
 
 import com.example.paramount.ratappandroid.dao.Callback;
+import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public final class Model {
     // singleton instance
     private static final Model _instance = new Model();
     private final ArrayList<RatSighting> ratSightings;
+    private final ArrayList<GraphDate> graphDates;
 
     // maps unique key to rat sighting
     private final Map<String, RatSighting> mapRatSightings;
@@ -27,6 +29,7 @@ public final class Model {
         // leaving in test account for now
         ratSightings = new ArrayList<>(25);
         mapRatSightings = new HashMap<>();
+        graphDates = new ArrayList<>();
     }
 
     /**
@@ -56,9 +59,23 @@ public final class Model {
     }
 
     /**
+     * Clears out the list of dates being used for the graph
+     */
+    public void resetGraphDates() { graphDates.clear(); }
+
+
+    /**
      * @return list of rat sightings for display on the map.
      */
     public Map<String, RatSighting> getMapRatSightings() { return mapRatSightings; }
+
+    /**
+     *
+     * @return list of the dates that will be used for the graph
+     */
+    public ArrayList<GraphDate> getGraphDates() {
+        return graphDates;
+    }
 
     /**
      * Clears out list of rat sightings for display on the map.

@@ -8,7 +8,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
+import com.example.paramount.ratappandroid.model.GraphDate;
 import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
 import com.github.mikephil.charting.charts.LineChart;
@@ -54,7 +56,7 @@ public class GraphActivity extends AppCompatActivity {
 
     private LineChart lineChart;
     private RelativeLayout rl; // need to change
-    private List<Entry> ratSightingsList = new ArrayList<Entry>();
+    private List<Entry> entriesList = new ArrayList<Entry>();
     private HashMap<Date, Integer> frequency = new HashMap<>();
 
 
@@ -99,50 +101,65 @@ public class GraphActivity extends AppCompatActivity {
         });
 
         findRatSightingsButton.setOnClickListener(view ->
-                RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleThisData)
+                GraphDateDAO.getInstance().getDates(startDate, endDate, this::handleThisData)
         );
     }
 
     private void handleThisData(JSONArray response) {
         Log.d("this1", "tag6");
-        Model.getInstance().resetMapRatSightings();
+        Model.getInstance().resetGraphDates();
         JSONObject json;
-        int len = response.length();
-        for (int i = 0; i < len; i++) {
-            try {
+
+        try {
+//            JSONArray innerArr = response.getJSONArray("data");
+            int len = response.length();
+            for (int i = 0; i < len; i++) {
+//                json = (JSONObject) innerArr.get(i);
                 json = (JSONObject) response.get(i);
-                RatSighting ratSighting = new RatSighting(json);
-                Model.getInstance().getMapRatSightings().put(ratSighting.getUniqueKey(), ratSighting);
-            } catch (JSONException | ParseException e) {
-                Log.w(TAG, e);
+                Model.getInstance().getGraphDates().add(new GraphDate(json));
             }
+
+        } catch (JSONException e) {
+            Log.w(TAG, "HAPPENING HERE");
+            Log.w(TAG, e);
         }
-        showAllRatSightings();
+        //showAllFrequencies();
+        testing();
     }
 
-    private void showAllRatSightings() {
-        Log.d("this", "tag7");
-        Model.getInstance().getMapRatSightings().values()
-                .forEach(ratSighting -> {
-                    Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
-                    Date date = ratSighting.getCreateDate();
-                    Integer num = frequency.get(date);
-                    int count = num != null ? num.intValue() : 0;
-                    frequency.put(date, count + 1);
-                });
-        Set<Date> dateSet = frequency.keySet();
-        Date[] dateArray = dateSet.toArray(new Date[dateSet.size()]);
-        for (Date key : dateArray) {
-            ratSightingsList.add(new Entry(key.getMonth(), (float) frequency.get(key)));
-        }
-        Log.d("myThing", "tag1");
-        LineDataSet set = new LineDataSet(ratSightingsList, "entries");
-        Log.d("myThing", "tag2");
-        LineData lineData = new LineData(set);
-        Log.d("myThing", "tag3");
-        lineChart.setData(lineData);
-        Log.d("myThing", "tag4");
-        lineChart.invalidate();
-        Log.d("myThing", "tag5");
+    private void testing() {
+        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
+        System.out.println(temp.get(0));
     }
+//    private void showAllFrequencies() {
+//        Log.d("this", "tag7");
+////        Model.getInstance().getMapRatSightings().values()
+////                .forEach(ratSighting -> {
+////                    Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
+////                    Date date = ratSighting.getCreateDate();
+////                    Integer num = frequency.get(date);
+////                    int count = num != null ? num.intValue() : 0;
+////                    frequency.put(date, count + 1);
+////                });
+//        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
+//
+//        for (GraphDate gD: temp) {
+//            String dat = gD.getMonth() + " " + gD.getYear();
+//            entriesList.add(new Entry(dat, gD.getFrequency()));
+//        }
+//        //Set<Date> dateSet = frequency.keySet();
+//        //Date[] dateArray = dateSet.toArray(new Date[dateSet.size()]);
+////        for (Date key : dateArray) {
+////            ratSightingsList.add(new Entry(key.getMonth(), (float) frequency.get(key)));
+////        }
+//        Log.d("myThing", "tag1");
+//        LineDataSet set = new LineDataSet(entriesList, "entries");
+//        Log.d("myThing", "tag2");
+//        LineData lineData = new LineData(set);
+//        Log.d("myThing", "tag3");
+//        lineChart.setData(lineData);
+//        Log.d("myThing", "tag4");
+//        lineChart.invalidate();
+//        Log.d("myThing", "tag5");
+//    }
 }
