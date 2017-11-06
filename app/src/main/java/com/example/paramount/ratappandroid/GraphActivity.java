@@ -3,6 +3,7 @@ package com.example.paramount.ratappandroid;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SyncStatusObserver;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -181,20 +182,40 @@ public class GraphActivity extends AppCompatActivity {
 //    }
     private void showAllFrequencies() {
         ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
-        LinkedList<DataPoint> soHacky = new LinkedList<>();
+        LineGraphSeries<DataPoint> series;
+        DataPoint[] dataPoints = new DataPoint[temp.size()];
+        int count = 0;
         for (GraphDate gD: temp) {
-            int year = Integer.getInteger(gD.getYear());
-            int month = Integer.getInteger(gD.getMonth());
-            Date date = new Date();
+            if (gD != null && gD.getYear() != null && gD.getMonth() != null
+                    && gD.getYear() != "" && gD.getMonth() != "") {
+                Log.d("asdf", gD.getYear());
+                Log.d("asdf", gD.getMonth());
+                int year = Integer.parseInt(gD.getYear());
+                int month = Integer.parseInt(gD.getMonth());
+                Date date = new Date();
+                date.setYear(year);
+                date.setMonth(month);
+                int frequency = Integer.parseInt(gD.getFrequency());
+                dataPoints[count] = new DataPoint(date.getMonth(), frequency);
+                count++;
+            }
         }
-         = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
+        series = new LineGraphSeries<DataPoint>(dataPoints);
+        GraphView graph = (GraphView) findViewById(R.id.chart);
+
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+//                new DataPoint(0, 1),
+//                new DataPoint(1, 5),
+//                new DataPoint(2, 3),
+//                new DataPoint(3, 2),
+//                new DataPoint(4, 6)
+//        });
+        series.setTitle("This");
+        series.setColor(Color.GREEN);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(10);
+        series.setThickness(8);
+
         graph.addSeries(series);
     }
 }
