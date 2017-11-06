@@ -42,5 +42,6 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'org.apache.commons:commons-lang3:3.6'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'
 }

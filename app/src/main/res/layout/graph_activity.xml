@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/map_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/selectStartDateButtonGraph"
@@ -25,10 +26,17 @@
         android:text="@string/find_rat_sightings"
         android:layout_marginBottom="4dp"/>
 
-    <com.github.mikephil.charting.charts.LineChart
+    <!--<com.github.mikephil.charting.charts.BarChart-->
+        <!--android:id="@+id/chart"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+    <com.jjoe64.graphview.helper.GraphViewXML
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="100dip"
+        app:seriesData="0=5;2=5;3=0;4=2"
+        app:seriesType="line"
+        app:seriesColor="#ee0000" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"

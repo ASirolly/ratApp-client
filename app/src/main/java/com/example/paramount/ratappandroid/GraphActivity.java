@@ -2,6 +2,7 @@ package com.example.paramount.ratappandroid;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,10 +14,19 @@ import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.model.GraphDate;
 import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.example.paramount.ratappandroid.DayAxisValueFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -58,13 +69,15 @@ public class GraphActivity extends AppCompatActivity {
     private RelativeLayout rl; // need to change
     private List<Entry> entriesList = new ArrayList<Entry>();
     private HashMap<Date, Integer> frequency = new HashMap<>();
+    private BarChart barChart;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
 
-        lineChart = (LineChart) findViewById(R.id.chart);
+//        lineChart = (LineChart) findViewById(R.id.chart);
+//        barChart = (BarChart) findViewById(R.id.chart);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -103,19 +116,26 @@ public class GraphActivity extends AppCompatActivity {
         findRatSightingsButton.setOnClickListener(view ->
                 GraphDateDAO.getInstance().getDates(startDate, endDate, this::handleThisData)
         );
+
+        GraphView graph = (GraphView) findViewById(R.id.chart);
     }
 
-    private void handleThisData(JSONArray response) {
+    private void handleThisData(JSONObject response) {
         Log.d("this1", "tag6");
         Model.getInstance().resetGraphDates();
         JSONObject json;
-
+        Log.w(TAG, "Wir sind successful!");
         try {
-//            JSONArray innerArr = response.getJSONArray("data");
-            int len = response.length();
+            System.out.println("DATA GETTING BACK: " + response);
+            JSONArray innerArr = response.getJSONArray("data");
+            int len = innerArr.length();
+            System.out.println("THIS IS INNERARR: " + innerArr);
+            System.out.println("THIS IS LEN: " + len);
             for (int i = 0; i < len; i++) {
-//                json = (JSONObject) innerArr.get(i);
-                json = (JSONObject) response.get(i);
+                json = (JSONObject) innerArr.get(i);
+                System.out.println("THIS IS json: " + json);
+
+                //json = (JSONObject) response.get(i);
                 Model.getInstance().getGraphDates().add(new GraphDate(json));
             }
 
@@ -123,43 +143,58 @@ public class GraphActivity extends AppCompatActivity {
             Log.w(TAG, "HAPPENING HERE");
             Log.w(TAG, e);
         }
-        //showAllFrequencies();
-        testing();
+        showAllFrequencies();
+//        testing();
     }
 
     private void testing() {
         ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
         System.out.println(temp.get(0));
     }
+
 //    private void showAllFrequencies() {
 //        Log.d("this", "tag7");
-////        Model.getInstance().getMapRatSightings().values()
-////                .forEach(ratSighting -> {
-////                    Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
-////                    Date date = ratSighting.getCreateDate();
-////                    Integer num = frequency.get(date);
-////                    int count = num != null ? num.intValue() : 0;
-////                    frequency.put(date, count + 1);
-////                });
 //        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
-//
-//        for (GraphDate gD: temp) {
-//            String dat = gD.getMonth() + " " + gD.getYear();
-//            entriesList.add(new Entry(dat, gD.getFrequency()));
+//        List<BarEntry> barData = new LinkedList<>();
+//        List<String> xValuesDates = new LinkedList<>();
+//        System.out.println("THIS IS SIZE OF temp: " + temp.size());
+//        for (GraphDate gD : temp) {
+//            String dat = gD.getMonth() + "-" + gD.getYear();
+//            int month = Integer.parseInt(gD.getMonth());
+//            int frequency = Integer.parseInt(gD.getFrequency());
+//            xValuesDates.add(dat);
+//            barData.add(new BarEntry(month, frequency));
 //        }
-//        //Set<Date> dateSet = frequency.keySet();
-//        //Date[] dateArray = dateSet.toArray(new Date[dateSet.size()]);
-////        for (Date key : dateArray) {
-////            ratSightingsList.add(new Entry(key.getMonth(), (float) frequency.get(key)));
-////        }
-//        Log.d("myThing", "tag1");
-//        LineDataSet set = new LineDataSet(entriesList, "entries");
-//        Log.d("myThing", "tag2");
-//        LineData lineData = new LineData(set);
-//        Log.d("myThing", "tag3");
-//        lineChart.setData(lineData);
-//        Log.d("myThing", "tag4");
-//        lineChart.invalidate();
-//        Log.d("myThing", "tag5");
+//        System.out.println("PRINGINT OUT STUFFFFF");
+//        for (BarEntry bE: barData) {
+//            System.out.println(bE);
+//        }
+//
+//        System.out.println("All fine");
+//
+//        XAxis xAxis = barChart.getXAxis();
+//        xAxis.setValueFormatter(new DayAxisValueFormatter(barChart));
+//        BarDataSet set = new BarDataSet(barData, "entries");
+//        BarData barDat = new BarData(set);
+//        barChart.setData(barDat);
+//        barChart.invalidate();
 //    }
+    private void showAllFrequencies() {
+        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+        LinkedList<DataPoint> soHacky = new LinkedList<>();
+        for (GraphDate gD: temp) {
+            int year = Integer.getInteger(gD.getYear());
+            int month = Integer.getInteger(gD.getMonth());
+            Date date = new Date();
+        }
+         = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 6)
+        });
+        graph.addSeries(series);
+    }
 }
