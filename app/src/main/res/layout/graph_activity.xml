@@ -41,6 +41,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/findRatSightingsGraph"
+        android:layout_toStartOf="@+id/radioGroup2"
         app:seriesColor="#ee0000"
         app:seriesData="0=5;2=5;3=0;4=2"
         app:seriesType="line" />
@@ -50,8 +51,8 @@
         android:layout_height="1000px"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/findRatSightingsGraph"
-        android:layout_toEndOf="@+id/chart"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/radioGroup2">
 
         <RadioButton
             android:id="@+id/twenty-ten"

@@ -143,8 +143,6 @@ public class GraphActivity extends AppCompatActivity {
         findRatSightingsButton.setOnClickListener(view ->
                 GraphDateDAO.getInstance().getDates(startDate, endDate, this::handleThisData)
         );
-
-        GraphView graph = (GraphView) findViewById(R.id.chart);
     }
 
     private void handleThisData(JSONObject response) {
@@ -347,58 +345,58 @@ public class GraphActivity extends AppCompatActivity {
     public void populate() {
         for (int i = 0; i < ten.length; i++) {
             if (ten[i] == null ) {
-                ten[i] = new DataPoint(i, 0);
+                ten[i] = new DataPoint(i+1, 0);
             } else if (ten[i].getY() != 0) {
-                ten[i] = new DataPoint(i, 0);
+                ten[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < eleven.length; i++) {
             if (eleven[i] == null) {
-                eleven[i] = new DataPoint(i, 0);
+                eleven[i] = new DataPoint(i+1, 0);
             } else if (eleven[i].getY() == 0) {
-                eleven[i] = new DataPoint(i, 0);
+                eleven[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < twelve.length; i++) {
             if (twelve[i] == null) {
-                twelve[i] = new DataPoint(i, 0);
+                twelve[i] = new DataPoint(i+1, 0);
             } else if (twelve[i].getY() == 0) {
-                twelve[i] = new DataPoint(i, 0);
+                twelve[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < thirteen.length; i++) {
             if (thirteen[i] == null) {
-                thirteen[i] = new DataPoint(i, 0);
+                thirteen[i] = new DataPoint(i+1, 0);
             } else if (thirteen[i].getY() == 0) {
-                thirteen[i] = new DataPoint(i, 0);
+                thirteen[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < fourteen.length; i++) {
             if (fourteen[i] == null) {
-                fourteen[i] = new DataPoint(i, 0);
+                fourteen[i] = new DataPoint(i+1, 0);
             } else if (fourteen[i].getY() == 0) {
-                fourteen[i] = new DataPoint(i, 0);
+                fourteen[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < fifteen.length; i++) {
             if (fifteen[i] == null) {
-                fifteen[i] = new DataPoint(i, 0);
+                fifteen[i] = new DataPoint(i+1, 0);
             } else if (fifteen[i].getY() == 0) {
-                fifteen[i] = new DataPoint(i, 0);
+                fifteen[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < sixteen.length; i++) {
             if (sixteen[i] == null) {
-                sixteen[i] = new DataPoint(i, 0);
+                sixteen[i] = new DataPoint(i+1, 0);
             } else if (sixteen[i].getY() == 0) {
-                sixteen[i] = new DataPoint(i, 0);
+                sixteen[i] = new DataPoint(i+1, 0);
             }
         }
         for (int i = 0; i < seventeen.length; i++) {
             if (seventeen[i] == null) {
-                seventeen[i] = new DataPoint(i, 0);
+                seventeen[i] = new DataPoint(i+1, 0);
             } else if (seventeen[i].getY() == 0) {
-                seventeen[i] = new DataPoint(i, 0);
+                seventeen[i] = new DataPoint(i+1, 0);
             }
         }
     }
