@@ -181,7 +181,6 @@ public class GraphActivity extends AppCompatActivity {
         ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
         LineGraphSeries<DataPoint> series;
         DataPoint[] dataPoints = new DataPoint[temp.size()];
-        int count = 0;
         for (GraphDate gD: temp) {
             if (gD != null && gD.getYear() != null && gD.getMonth() != null
                     && gD.getYear() != "" && gD.getMonth() != "") {
@@ -193,57 +192,55 @@ public class GraphActivity extends AppCompatActivity {
                 date.setYear(year);
                 date.setMonth(month);
                 int frequency = Integer.parseInt(gD.getFrequency());
-                dataPoints[count] = new DataPoint(date.getMonth(), frequency);
-                Log.d("thing", "a" + year + "c");
                 switch(year) {
                     case 2010:
                         Log.d("ten", "");
                         Log.d("ten", "" + month);
                         try {
                             Log.d("ten", "");
-                            ten[month] = new DataPoint(date.getMonth(), frequency);
+                            ten[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("ten", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2011:
                         try {
                             Log.d("eleven", "");
-                            eleven[month] = new DataPoint(date.getMonth(), frequency);
+                            eleven[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("eleven", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2012:
                         try {
                             Log.d("twelve", "");
-                            twelve[month] = new DataPoint(date.getMonth(), frequency);
+                            twelve[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("twelve", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2013:
                         try {
                             Log.d("thirteen", "");
-                            thirteen[month] = new DataPoint(date.getMonth(), frequency);
+                            thirteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("thirteen", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2014:
                         try {
                             Log.d("fourteen", "");
-                            fourteen[month] = new DataPoint(date.getMonth(), frequency);
+                            fourteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("fourteen", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2015:
                         try {
                             Log.d("fifteen", "");
-                            fifteen[month] = new DataPoint(date.getMonth(), frequency);
+                            fifteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("fifteen", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2016:
@@ -251,9 +248,9 @@ public class GraphActivity extends AppCompatActivity {
                         Log.d("six", "" + month);
                         try {
                             Log.d("sixteen", "");
-                            sixteen[month] = new DataPoint(date.getMonth(), frequency);
+                            sixteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            // do alert
+                            Log.d("sixteen", "asdfsadfasdfasdf");
                         }
                         break;
                     case 2017:
@@ -261,13 +258,12 @@ public class GraphActivity extends AppCompatActivity {
                         Log.d("seven", "" + month);
                         try {
                             Log.d("seventeen", "hi");
-                            seventeen[month] = new DataPoint(date.getMonth(), frequency);
+                            seventeen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("seventeen", "asdfsadfasdfasdf");
                         }
                         break;
                 }
-                count++;
             }
         }
         populate();
@@ -280,7 +276,6 @@ public class GraphActivity extends AppCompatActivity {
         series2016 = new LineGraphSeries<>(sixteen);
         series2017 = new LineGraphSeries<>(seventeen);
 
-        //series = new LineGraphSeries<>(dataPoints);
 
         populateColor();
         graphChart = (GraphView) findViewById(R.id.chart);
@@ -289,7 +284,7 @@ public class GraphActivity extends AppCompatActivity {
         //graph.removeAllSeries();
         //graph.addSeries(series);
         graphChart.removeAllSeries();
-        graphChart.addSeries(series2010);
+        graphChart.addSeries(series2017);
     }
 
     public void populateColor() {
