@@ -35,16 +35,17 @@
 
     <com.jjoe64.graphview.helper.GraphViewXML
         android:id="@+id/chart"
-        android:layout_width="290dp"
-        android:layout_height="330dp"
+        android:layout_width="100dp"
 
+        android:layout_height="300dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/findRatSightingsGraph"
         android:layout_toStartOf="@+id/radioGroup2"
         app:seriesColor="#ee0000"
         app:seriesData="0=5;2=5;3=0;4=2"
-        app:seriesType="line" />
+        app:seriesType="line"
+        />
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="150px"

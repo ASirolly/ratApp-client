@@ -169,12 +169,6 @@ public class GraphActivity extends AppCompatActivity {
             Log.w(TAG, e);
         }
         showAllFrequencies();
-//        testing();
-    }
-
-    private void testing() {
-        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
-        System.out.println(temp.get(0));
     }
 
     private void showAllFrequencies() {
@@ -197,7 +191,7 @@ public class GraphActivity extends AppCompatActivity {
                         Log.d("ten", "");
                         Log.d("ten", "" + month);
                         try {
-                            Log.d("ten", "");
+                            Log.d("ten", "a");
                             ten[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("ten", "asdfsadfasdfasdf");
@@ -205,7 +199,7 @@ public class GraphActivity extends AppCompatActivity {
                         break;
                     case 2011:
                         try {
-                            Log.d("eleven", "");
+                            Log.d("eleven", "a");
                             eleven[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("eleven", "asdfsadfasdfasdf");
@@ -213,7 +207,7 @@ public class GraphActivity extends AppCompatActivity {
                         break;
                     case 2012:
                         try {
-                            Log.d("twelve", "");
+                            Log.d("twelve", "a");
                             twelve[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("twelve", "asdfsadfasdfasdf");
@@ -221,7 +215,7 @@ public class GraphActivity extends AppCompatActivity {
                         break;
                     case 2013:
                         try {
-                            Log.d("thirteen", "");
+                            Log.d("thirteen", "a");
                             thirteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("thirteen", "asdfsadfasdfasdf");
@@ -229,7 +223,7 @@ public class GraphActivity extends AppCompatActivity {
                         break;
                     case 2014:
                         try {
-                            Log.d("fourteen", "");
+                            Log.d("fourteen", "a");
                             fourteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("fourteen", "asdfsadfasdfasdf");
@@ -237,7 +231,7 @@ public class GraphActivity extends AppCompatActivity {
                         break;
                     case 2015:
                         try {
-                            Log.d("fifteen", "");
+                            Log.d("fifteen", "a");
                             fifteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("fifteen", "asdfsadfasdfasdf");
@@ -247,7 +241,7 @@ public class GraphActivity extends AppCompatActivity {
                         Log.d("six", "");
                         Log.d("six", "" + month);
                         try {
-                            Log.d("sixteen", "");
+                            Log.d("sixteen", "a");
                             sixteen[month - 1] = new DataPoint(month, frequency);
                         } catch (ArrayIndexOutOfBoundsException e) {
                             Log.d("sixteen", "asdfsadfasdfasdf");
@@ -285,6 +279,7 @@ public class GraphActivity extends AppCompatActivity {
         //graph.addSeries(series);
         graphChart.removeAllSeries();
         graphChart.addSeries(series2017);
+
     }
 
     public void populateColor() {
@@ -341,7 +336,7 @@ public class GraphActivity extends AppCompatActivity {
         for (int i = 0; i < ten.length; i++) {
             if (ten[i] == null ) {
                 ten[i] = new DataPoint(i+1, 0);
-            } else if (ten[i].getY() != 0) {
+            } else if (ten[i].getY() == 0) {
                 ten[i] = new DataPoint(i+1, 0);
             }
         }
