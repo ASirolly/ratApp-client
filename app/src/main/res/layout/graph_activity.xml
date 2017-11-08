@@ -6,35 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/selectStartDateButtonGraph"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_start_date" />
-
-    <Button
-        android:id="@+id/selectEndDateButtonGraph"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/select_end_date" />
-
-    <Button
-        android:id="@+id/findRatSightingsGraph"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/find_rat_sightings"
-        android:layout_marginBottom="4dp" />
-
-    <!--<com.github.mikephil.charting.charts.BarChart-->
-        <!--android:id="@+id/chart"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
-
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/radioGroup2">
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup1">
 
         <RadioButton
             android:id="@+id/twenty-ten"
@@ -63,6 +40,14 @@
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/thirteen" />
+    </RadioGroup>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup2">
 
         <RadioButton
             android:id="@+id/twenty-fourteen"

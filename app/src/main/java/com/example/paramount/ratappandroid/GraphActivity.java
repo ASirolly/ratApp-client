@@ -1,12 +1,11 @@
 package com.example.paramount.ratappandroid;
 
-import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.RadioButton;
 
 import com.example.paramount.ratappandroid.dao.GraphDateDAO;
@@ -21,12 +20,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by joshuareno on 11/4/17.
@@ -37,24 +34,6 @@ import java.util.Locale;
 public class GraphActivity extends AppCompatActivity {
 
     private static final String TAG = "GRAPH_ACTIVITY";
-    private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd",
-            Locale.US);
-    private static final String selectStartDateButtonTextTemplate =
-            "SELECT START DATE (selected date: %s)";
-    private static final String selectEndDateButtonTextTemplate =
-            "SELECT END DATE (selected date: %s)";
-    private Button selectStartDateButton;
-    private Button selectEndDateButton;
-    private DatePickerDialog startDatePickerDialog;
-    private DatePickerDialog endDatePickerDialog;
-    private Date startDate;
-    private Date endDate;
-
-//    private LineChart lineChart;
-//    private RelativeLayout rl; // need to change
-//    private List<Entry> entriesList = new ArrayList<Entry>();
-//    private HashMap<Date, Integer> frequency = new HashMap<>();
-//    private BarChart barChart;
 
     private final DataPoint[] ten = new DataPoint[12];
     private final DataPoint[] eleven = new DataPoint[12];
@@ -79,47 +58,15 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
 
-//        lineChart = (LineChart) findViewById(R.id.chart);
-//        barChart = (BarChart) findViewById(R.id.chart);
-
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
-        endDate = calendar.getTime();
+        Date endOfTime = calendar.getTime();
+
         calendar.add(Calendar.DAY_OF_MONTH, -1);
-        calendar.add(Calendar.YEAR, -1);
-        startDate = calendar.getTime();
+        calendar.add(Calendar.YEAR, -10);
+        Date beginningOfTime = calendar.getTime();
 
-        startDatePickerDialog = new DatePickerDialog(GraphActivity.this);
-        endDatePickerDialog = new DatePickerDialog(GraphActivity.this);
-        selectStartDateButton = (Button) findViewById(R.id.selectStartDateButtonGraph);
-        selectEndDateButton = (Button) findViewById(R.id.selectEndDateButtonGraph);
-        Button findRatSightingsButton = (Button) findViewById(R.id.findRatSightingsGraph);
-
-        selectStartDateButton.setOnClickListener(click -> startDatePickerDialog.show());
-        selectEndDateButton.setOnClickListener(click -> endDatePickerDialog.show());
-
-        selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
-                displayDateFormat.format(startDate)));
-        selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate,
-                displayDateFormat.format(endDate)));
-
-        startDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
-            calendar.set(year, month, day);
-            startDate = calendar.getTime();
-            selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
-                    displayDateFormat.format(startDate)));
-        });
-
-        endDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
-            calendar.set(year, month, day);
-            endDate = calendar.getTime();
-            selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate,
-                    displayDateFormat.format(endDate)));
-        });
-
-        findRatSightingsButton.setOnClickListener(view ->
-                GraphDateDAO.getInstance().getDates(startDate, endDate, this::handleThisData)
-        );
+        GraphDateDAO.getInstance().getDates(beginningOfTime, endOfTime, this::handleThisData);
 
         graphChart = (GraphView) findViewById(R.id.chart);
     }
@@ -204,7 +151,9 @@ public class GraphActivity extends AppCompatActivity {
         populateColor();
 
         graphChart.removeAllSeries();
-        graphChart.addSeries(series2017); // TODO: set 2017 button to checked
+        graphChart.addSeries(series2017);
+        Checkable button2017 = (RadioButton) findViewById(R.id.twenty_seventeen);
+        button2017.setChecked(true);
 
         Viewport viewport = graphChart.getViewport();
         viewport.setMinX(1);
