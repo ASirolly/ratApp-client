@@ -41,7 +41,8 @@ public final class UserDAO {
      * attempts to log in
      * @param email user email
      * @param password user password
-     * @param callback provides an onSuccess method to be called upon a successful response from the server
+     * @param callback provides an onSuccess method to be called upon a successful response from
+     *                 the server
      */
     public void authenticate(String email, String password, Callback<String> callback) {
         Map<String, String> params = new HashMap<>();
@@ -56,9 +57,11 @@ public final class UserDAO {
      * @param email user email
      * @param password user password
      * @param passwordConfirmation confirmation for password
-     * @param callback provides an onSuccess method to be called upon a successful response from the server
+     * @param callback provides an onSuccess method to be called upon a successful response from
+     *                 the server
      */
-    public void createUser(String email, String password, String passwordConfirmation, Callback<String> callback) {
+    public void createUser(
+            String email, String password, String passwordConfirmation, Callback<String> callback) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
@@ -73,7 +76,8 @@ public final class UserDAO {
      * @param params parameters for the request
      * @param callback provides function to be called after receiving a response
      */
-    private void makePostRequest(String url, Map<String, String> params, Callback<String> callback) {
+    private void makePostRequest(
+            String url, Map<String, String> params, Callback<String> callback) {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 url,

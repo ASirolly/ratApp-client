@@ -61,7 +61,8 @@ public final class RatSightingDAO {
         String startDateParam = String.format("start_date=%s", requestDateFormat.format(startDate));
         String endDateParam = String.format("end_date=%s", requestDateFormat.format(endDate));
         String limitParam = "limit=" + 100;
-        String allParams = StringUtils.join(new String[] {startDateParam, endDateParam, limitParam}, "&");
+        String allParams = StringUtils.join(
+                new String[] {startDateParam, endDateParam, limitParam}, "&");
 
         String url = baseUrl + resourceUrl + allParams;
         makeJsonArrayRequest(url, callback);
@@ -116,7 +117,8 @@ public final class RatSightingDAO {
      * @param params parameters for the request
      * @param callback provides function to be called after receiving a response
      */
-    private void makePostRequest(String url, Map<String, String> params, Callback<String> callback) {
+    private void makePostRequest(
+            String url, Map<String, String> params, Callback<String> callback) {
         StringRequest stringRequest = new StringRequest(
             Request.Method.POST,
             url,

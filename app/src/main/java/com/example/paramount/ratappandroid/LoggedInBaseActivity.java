@@ -11,7 +11,7 @@ import com.example.paramount.ratappandroid.model.Model;
  * Created by Greg on 9/22/17.
  */
 
-public abstract class LoggedInBaseActivity extends AppCompatActivity {
+public class LoggedInBaseActivity extends AppCompatActivity {
 
     /**
      * Sets the action for logging out of the dashboard screen.

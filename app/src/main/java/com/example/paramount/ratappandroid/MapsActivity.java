@@ -31,7 +31,8 @@ import java.util.Locale;
 /**
  * Created by joshuareno on 10/21/17.
  *
- * Displays rat sightings on a map, with the ability to choose a date range for which to display sightings.
+ * Displays rat sightings on a map, with the ability to choose a date range for which to display
+ * sightings.
  */
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -86,7 +87,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // set initial text for start/end date buttons
         selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
                 displayDateFormat.format(startDate)));
-        selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate, displayDateFormat.format(endDate)));
+        selectEndDateButton.setText(
+                String.format(selectEndDateButtonTextTemplate, displayDateFormat.format(endDate)));
 
         // choosing date in start/end DatePicker stores that date in the startDate/endDate variable,
         // and changes the text of the button to display that date
@@ -145,7 +147,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String uniqueKey = (String) marker.getTag();
                 Log.i(TAG, String.format("sighting with key %s was clicked", uniqueKey));
                 Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
-                intent.putExtra("ratSighting", Model.getInstance().getMapRatSightings().get(uniqueKey));
+                intent.putExtra(
+                        "ratSighting",
+                        Model.getInstance().getMapRatSightings().get(uniqueKey));
                 startActivity(intent);
                 return true;
             }
@@ -159,7 +163,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googlemap.clear();
         Model.getInstance().getMapRatSightings().values()
                 .forEach(ratSighting -> {
-                    Log.i(TAG, String.format("Placing marker at lat %f and long %f", ratSighting.getLatitude(), ratSighting.getLongitude()));
+                    Log.i(TAG,
+                            String.format(
+                                "Placing marker at lat %f and long %f",
+                                ratSighting.getLatitude(),
+                                ratSighting.getLongitude()));
                     final Marker marker = googlemap.addMarker(
                             new MarkerOptions()
                                     .position(
@@ -182,7 +190,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             try {
                 json = (JSONObject) response.get(i);
                 RatSighting ratSighting = new RatSighting(json);
-                Model.getInstance().getMapRatSightings().put(ratSighting.getUniqueKey(), ratSighting);
+                Model.getInstance().getMapRatSightings()
+                        .put(ratSighting.getUniqueKey(), ratSighting);
             } catch (JSONException | ParseException e) {
                 Log.w(TAG, e);
             }

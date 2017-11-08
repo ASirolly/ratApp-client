@@ -2,11 +2,11 @@ package com.example.paramount.ratappandroid.model;
 
 
 import com.example.paramount.ratappandroid.dao.Callback;
-import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,7 +73,7 @@ public final class Model {
      *
      * @return list of the dates that will be used for the graph
      */
-    public ArrayList<GraphDate> getGraphDates() {
+    public List<GraphDate> getGraphDates() {
         return graphDates;
     }
 

@@ -157,7 +157,7 @@ public class GraphActivity extends AppCompatActivity {
                 }
             }
         }
-        
+
         populate();
         series2010.resetData(ten);
         series2011.resetData(eleven);
@@ -284,16 +284,12 @@ public class GraphActivity extends AppCompatActivity {
     private void resetRadioGroup1() {
         rg1.setOnCheckedChangeListener(null);
         rg1.clearCheck();
-        rg1.setOnCheckedChangeListener((group, checkedId) -> {
-            resetRadioGroup2();
-        });
+        rg1.setOnCheckedChangeListener((group, checkedId) -> resetRadioGroup2());
     }
 
     private void resetRadioGroup2() {
         rg2.setOnCheckedChangeListener(null);
         rg2.clearCheck();
-        rg2.setOnCheckedChangeListener((group, checkedId) -> {
-            resetRadioGroup1();
-        });
+        rg2.setOnCheckedChangeListener((group, checkedId) -> resetRadioGroup1());
     }
 }

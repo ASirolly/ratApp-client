@@ -13,5 +13,5 @@ public enum AccountType {
     /**
      * Administration account type
      */
-    ADMIN;
+    ADMIN
 }

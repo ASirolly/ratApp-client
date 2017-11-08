@@ -27,6 +27,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
+        <activity android:name=".LoggedInBaseActivity" />
         <activity android:name=".AddRatSightingActivity" />
         <activity android:name=".Registration" />
         <activity android:name=".Login" />
@@ -35,7 +36,7 @@
         <activity android:name=".GraphActivity" />
         <activity
             android:name=".TabActivity"
-            android:label="@string/title_activity_tab"></activity>
+            android:label="@string/title_activity_tab" />
     </application>
 
 </manifest>

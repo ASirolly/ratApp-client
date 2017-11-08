@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/reg_message"
             android:clickable="true"
+            android:focusable="true"
             android:text="@string/sign_up"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold" />

@@ -16,7 +16,8 @@ import java.util.Locale;
  */
 
 public class RatSightingDetails extends LoggedInBaseActivity {
-    private static final DateFormat displayDateFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss", Locale.US);
+    private static final DateFormat displayDateFormat =
+            new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss", Locale.US);
 
     /**
      * Creates the dashboard page.

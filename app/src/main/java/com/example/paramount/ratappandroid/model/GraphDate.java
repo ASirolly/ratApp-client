@@ -3,8 +3,6 @@ package com.example.paramount.ratappandroid.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-
 /**
  * Created by Paramount on 2017/11/4.
  *
