@@ -1,40 +1,18 @@
 package com.example.paramount.ratappandroid;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.SyncStatusObserver;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 
 import com.example.paramount.ratappandroid.dao.GraphDateDAO;
-import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.model.GraphDate;
 import com.example.paramount.ratappandroid.model.Model;
-import com.example.paramount.ratappandroid.model.RatSighting;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.example.paramount.ratappandroid.DayAxisValueFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.LegendRenderer;
-import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -42,16 +20,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * Created by joshuareno on 11/4/17.
@@ -81,14 +55,14 @@ public class GraphActivity extends AppCompatActivity {
 //    private HashMap<Date, Integer> frequency = new HashMap<>();
 //    private BarChart barChart;
 
-    private DataPoint[] ten = new DataPoint[12];
-    private DataPoint[] eleven = new DataPoint[12];
-    private DataPoint[] twelve = new DataPoint[12];
-    private DataPoint[] thirteen = new DataPoint[12];
-    private DataPoint[] fourteen = new DataPoint[12];
-    private DataPoint[] fifteen = new DataPoint[12];
-    private DataPoint[] sixteen = new DataPoint[12];
-    private DataPoint[] seventeen = new DataPoint[12];
+    private final DataPoint[] ten = new DataPoint[12];
+    private final DataPoint[] eleven = new DataPoint[12];
+    private final DataPoint[] twelve = new DataPoint[12];
+    private final DataPoint[] thirteen = new DataPoint[12];
+    private final DataPoint[] fourteen = new DataPoint[12];
+    private final DataPoint[] fifteen = new DataPoint[12];
+    private final DataPoint[] sixteen = new DataPoint[12];
+    private final DataPoint[] seventeen = new DataPoint[12];
     private LineGraphSeries<DataPoint> series2010;
     private LineGraphSeries<DataPoint> series2011;
     private LineGraphSeries<DataPoint> series2012;
@@ -99,6 +73,7 @@ public class GraphActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> series2017;
     private GraphView graphChart;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
@@ -124,7 +99,8 @@ public class GraphActivity extends AppCompatActivity {
 
         selectStartDateButton.setText(String.format(selectStartDateButtonTextTemplate,
                 displayDateFormat.format(startDate)));
-        selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate, displayDateFormat.format(endDate)));
+        selectEndDateButton.setText(String.format(selectEndDateButtonTextTemplate,
+                displayDateFormat.format(endDate)));
 
         startDatePickerDialog.setOnDateSetListener((view, year, month, day) -> {
             calendar.set(year, month, day);
@@ -143,119 +119,73 @@ public class GraphActivity extends AppCompatActivity {
         findRatSightingsButton.setOnClickListener(view ->
                 GraphDateDAO.getInstance().getDates(startDate, endDate, this::handleThisData)
         );
+
+        graphChart = (GraphView) findViewById(R.id.chart);
     }
 
     private void handleThisData(JSONObject response) {
-        Log.d("this1", "tag6");
+        Log.d(TAG, "handling data");
         Model.getInstance().resetGraphDates();
         JSONObject json;
         Log.w(TAG, "Wir sind successful!");
         try {
-            System.out.println("DATA GETTING BACK: " + response);
+            Log.d(TAG, "DATA GETTING BACK: " + response);
             JSONArray innerArr = response.getJSONArray("data");
             int len = innerArr.length();
-            System.out.println("THIS IS INNERARR: " + innerArr);
-            System.out.println("THIS IS LEN: " + len);
+            Log.d(TAG, "THIS IS INNERARR: " + innerArr);
+            Log.d(TAG, "THIS IS LEN: " + len);
             for (int i = 0; i < len; i++) {
                 json = (JSONObject) innerArr.get(i);
-                System.out.println("THIS IS json: " + json);
+                Log.d(TAG,"THIS IS json: " + json);
 
                 //json = (JSONObject) response.get(i);
                 Model.getInstance().getGraphDates().add(new GraphDate(json));
             }
 
         } catch (JSONException e) {
-            Log.w(TAG, "HAPPENING HERE");
+            Log.w(TAG, "EXCEPTION HAPPENING HERE");
             Log.w(TAG, e);
         }
         showAllFrequencies();
     }
 
     private void showAllFrequencies() {
-        ArrayList<GraphDate> temp = Model.getInstance().getGraphDates();
-        LineGraphSeries<DataPoint> series;
-        DataPoint[] dataPoints = new DataPoint[temp.size()];
+        List<GraphDate> temp = Model.getInstance().getGraphDates();
+//        LineGraphSeries<DataPoint> series;
+//        DataPoint[] dataPoints = new DataPoint[temp.size()];
         for (GraphDate gD: temp) {
-            if (gD != null && gD.getYear() != null && gD.getMonth() != null
-                    && gD.getYear() != "" && gD.getMonth() != "") {
-                Log.d("asdf", gD.getYear());
-                Log.d("asdf", gD.getMonth());
+            if ((gD != null) && (gD.getYear() != null) && (gD.getMonth() != null)
+                    && !("".equals(gD.getYear())) && !("".equals(gD.getMonth()))) {
                 int year = Integer.parseInt(gD.getYear());
                 int month = Integer.parseInt(gD.getMonth());
-                Date date = new Date();
-                date.setYear(year);
-                date.setMonth(month);
                 int frequency = Integer.parseInt(gD.getFrequency());
+                Log.d(TAG, String.format(
+                        "found date with year %d, month %d, and frequency %d",
+                        year, month, frequency));
                 switch(year) {
                     case 2010:
-                        Log.d("ten", "");
-                        Log.d("ten", "" + month);
-                        try {
-                            Log.d("ten", "a");
-                            ten[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("ten", "asdfsadfasdfasdf");
-                        }
+                        ten[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2011:
-                        try {
-                            Log.d("eleven", "a");
-                            eleven[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("eleven", "asdfsadfasdfasdf");
-                        }
+                        eleven[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2012:
-                        try {
-                            Log.d("twelve", "a");
-                            twelve[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("twelve", "asdfsadfasdfasdf");
-                        }
+                        twelve[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2013:
-                        try {
-                            Log.d("thirteen", "a");
-                            thirteen[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("thirteen", "asdfsadfasdfasdf");
-                        }
+                        thirteen[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2014:
-                        try {
-                            Log.d("fourteen", "a");
-                            fourteen[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("fourteen", "asdfsadfasdfasdf");
-                        }
+                        fourteen[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2015:
-                        try {
-                            Log.d("fifteen", "a");
-                            fifteen[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("fifteen", "asdfsadfasdfasdf");
-                        }
+                        fifteen[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2016:
-                        Log.d("six", "");
-                        Log.d("six", "" + month);
-                        try {
-                            Log.d("sixteen", "a");
-                            sixteen[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("sixteen", "asdfsadfasdfasdf");
-                        }
+                        sixteen[month - 1] = new DataPoint(month, frequency);
                         break;
                     case 2017:
-                        Log.d("seven", "abc");
-                        Log.d("seven", "" + month);
-                        try {
-                            Log.d("seventeen", "hi");
-                            seventeen[month - 1] = new DataPoint(month, frequency);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            Log.d("seventeen", "asdfsadfasdfasdf");
-                        }
+                        seventeen[month - 1] = new DataPoint(month, frequency);
                         break;
                 }
             }
@@ -270,66 +200,36 @@ public class GraphActivity extends AppCompatActivity {
         series2016 = new LineGraphSeries<>(sixteen);
         series2017 = new LineGraphSeries<>(seventeen);
 
-
         populateColor();
-        graphChart = (GraphView) findViewById(R.id.chart);
 
-        //GraphView graph = (GraphView) findViewById(R.id.chart);
-        //graph.removeAllSeries();
-        //graph.addSeries(series);
         graphChart.removeAllSeries();
-        graphChart.addSeries(series2017);
+        graphChart.addSeries(series2017); // TODO: set 2017 button to checked
+
 
     }
 
-    public void populateColor() {
-        series2010.setTitle("This");
-        series2010.setColor(Color.GREEN);
-        series2010.setDrawDataPoints(true);
-        series2010.setDataPointsRadius(10);
-        series2010.setThickness(8);
+    /**
+     * Set styling for all series.
+     */
+    private void populateColor() {
+        LineGraphSeries[] allSeries = new LineGraphSeries[] {
+                series2010,
+                series2011,
+                series2012,
+                series2013,
+                series2014,
+                series2015,
+                series2016,
+                series2017,
+        };
 
-        series2011.setTitle("This");
-        series2011.setColor(Color.GREEN);
-        series2011.setDrawDataPoints(true);
-        series2011.setDataPointsRadius(10);
-        series2011.setThickness(8);
-
-        series2012.setTitle("This");
-        series2012.setColor(Color.GREEN);
-        series2012.setDrawDataPoints(true);
-        series2012.setDataPointsRadius(10);
-        series2012.setThickness(8);
-
-        series2013.setTitle("This");
-        series2013.setColor(Color.GREEN);
-        series2013.setDrawDataPoints(true);
-        series2013.setDataPointsRadius(10);
-        series2013.setThickness(8);
-
-        series2014.setTitle("This");
-        series2014.setColor(Color.GREEN);
-        series2014.setDrawDataPoints(true);
-        series2014.setDataPointsRadius(10);
-        series2014.setThickness(8);
-
-        series2015.setTitle("This");
-        series2015.setColor(Color.GREEN);
-        series2015.setDrawDataPoints(true);
-        series2015.setDataPointsRadius(10);
-        series2015.setThickness(8);
-
-        series2016.setTitle("This");
-        series2016.setColor(Color.GREEN);
-        series2016.setDrawDataPoints(true);
-        series2016.setDataPointsRadius(10);
-        series2016.setThickness(8);
-
-        series2017.setTitle("This");
-        series2017.setColor(Color.GREEN);
-        series2017.setDrawDataPoints(true);
-        series2017.setDataPointsRadius(10);
-        series2017.setThickness(8);
+        Arrays.stream(allSeries).forEach(series -> {
+            series.setTitle("This");
+            series.setColor(Color.GREEN);
+            series.setDrawDataPoints(true);
+            series.setDataPointsRadius(10);
+            series.setThickness(8);
+        });
     }
 
     public void populate() {
@@ -393,13 +293,16 @@ public class GraphActivity extends AppCompatActivity {
 
     public void onSwitchYear(View view) {
         boolean check = ((RadioButton) view).isChecked();
-        Log.d("" + view.getId(), "thing");
         RadioButton button = (RadioButton) view;
+        Log.d(TAG, String.format("button with year %s was clicked", button.getText()));
+
+        if (check) {
+            graphChart.removeAllSeries();
+        }
 
         switch(Integer.parseInt((String) button.getText())) {
             case 2010:
                 if(check) {
-                    graphChart.removeAllSeries();
                     if (series2010 != null) {
                         graphChart.addSeries(series2010);
                     }
@@ -407,7 +310,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2011:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2011 != null) {
                         graphChart.addSeries(series2011);
                     }
@@ -415,7 +317,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2012:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2012 != null) {
                         graphChart.addSeries(series2012);
                     }
@@ -423,7 +324,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2013:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2013 != null) {
                         graphChart.addSeries(series2013);
                     }
@@ -431,7 +331,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2014:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2014 != null) {
                         graphChart.addSeries(series2014);
                     }
@@ -439,7 +338,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2015:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2015 != null) {
                         graphChart.addSeries(series2015);
                     }
@@ -447,7 +345,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2016:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2016 != null) {
                         graphChart.addSeries(series2016);
                     }
@@ -455,7 +352,6 @@ public class GraphActivity extends AppCompatActivity {
                 break;
             case 2017:
                 if (check) {
-                    graphChart.removeAllSeries();
                     if (series2017 != null) {
                         graphChart.addSeries(series2017);
                     }

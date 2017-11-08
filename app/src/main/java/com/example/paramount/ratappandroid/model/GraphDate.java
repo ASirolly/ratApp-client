@@ -7,42 +7,48 @@ import java.text.ParseException;
 
 /**
  * Created by Paramount on 2017/11/4.
+ *
+ * Represents a single data point in rat sighting frequency graph.
  */
 
 public class GraphDate {
-    private String month;
-    private String year;
-    private String frequency;
+    private final String month;
+    private final String year;
+    private final String frequency;
 
+    /**
+     * Creates a GraphDate from the provided JSON
+     * @param obj json object
+     * @throws JSONException if a field is missing
+     */
     public GraphDate (JSONObject obj) throws JSONException {
-        //TODO: Make the constructor actually create the graphDate
         year = obj.getJSONObject("_id").getString("year");
         month = obj.getJSONObject("_id").getString("month");
         frequency = obj.getString("rat_sightings");
     }
 
+    /**
+     * Get the GraphDate's month
+     * @return the GraphDate's month
+     */
     public String getMonth() {
         return month;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
-    }
-
+    /**
+     * Get the GraphDate's year
+     * @return the GraphDate's year
+     */
     public String getYear() {
         return year;
     }
 
-    public void setYear(String year) {
-        this.year = year;
-    }
-
+    /**
+     * Get the GraphDate's frequency
+     * @return the GraphDate's frequency
+     */
     public String getFrequency() {
         return frequency;
-    }
-
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
     }
 
     public String toString() {
