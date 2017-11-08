@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.model.GraphDate;
 import com.example.paramount.ratappandroid.model.Model;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -52,11 +54,29 @@ public class GraphActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> series2016;
     private LineGraphSeries<DataPoint> series2017;
     private GraphView graphChart;
+    private RadioGroup rg1;
+    private RadioGroup rg2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
+
+        rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
+        rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
+        rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
+        rg2.clearCheck();
+        rg1.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId != -1) {
+                resetRadioGroup2();
+            }
+        });
+
+        rg2.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId != -1) {
+                resetRadioGroup1();
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -86,7 +106,6 @@ public class GraphActivity extends AppCompatActivity {
                 json = (JSONObject) innerArr.get(i);
                 Log.d(TAG,"THIS IS json: " + json);
 
-                //json = (JSONObject) response.get(i);
                 Model.getInstance().getGraphDates().add(new GraphDate(json));
             }
 
@@ -99,8 +118,6 @@ public class GraphActivity extends AppCompatActivity {
 
     private void showAllFrequencies() {
         List<GraphDate> temp = Model.getInstance().getGraphDates();
-//        LineGraphSeries<DataPoint> series;
-//        DataPoint[] dataPoints = new DataPoint[temp.size()];
         for (GraphDate gD: temp) {
             if ((gD != null) && (gD.getYear() != null) && (gD.getMonth() != null)
                     && !("".equals(gD.getYear())) && !("".equals(gD.getMonth()))) {
@@ -159,6 +176,11 @@ public class GraphActivity extends AppCompatActivity {
         viewport.setMinX(1);
         viewport.setMaxX(12);
         viewport.setXAxisBoundsManual(true);
+
+        GridLabelRenderer gridLabelRenderer = graphChart.getGridLabelRenderer();
+        gridLabelRenderer.setGridStyle(GridLabelRenderer.GridStyle.BOTH);
+        gridLabelRenderer.setNumHorizontalLabels(12);
+        gridLabelRenderer.setHorizontalAxisTitle("month");
     }
 
     /**
@@ -311,5 +333,21 @@ public class GraphActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void resetRadioGroup1() {
+        rg1.setOnCheckedChangeListener(null);
+        rg1.clearCheck();
+        rg1.setOnCheckedChangeListener((group, checkedId) -> {
+            resetRadioGroup2();
+        });
+    }
+
+    private void resetRadioGroup2() {
+        rg2.setOnCheckedChangeListener(null);
+        rg2.clearCheck();
+        rg2.setOnCheckedChangeListener((group, checkedId) -> {
+            resetRadioGroup1();
+        });
     }
 }
