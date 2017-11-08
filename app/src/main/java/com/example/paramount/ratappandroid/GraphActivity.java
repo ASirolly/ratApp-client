@@ -59,6 +59,10 @@ public class GraphActivity extends AppCompatActivity {
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
 
+    /**
+     * Set RadioGroup and set Calendar information
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +97,10 @@ public class GraphActivity extends AppCompatActivity {
         graphChart = (GraphView) findViewById(R.id.chart);
     }
 
+    /**
+     * Sends the JSON request.
+     * @param response
+     */
     private void handleThisData(JSONObject response) {
         Log.d(TAG, "handling data");
         Model.getInstance().resetGraphDates();
@@ -118,6 +126,9 @@ public class GraphActivity extends AppCompatActivity {
         showAllFrequencies();
     }
 
+    /**
+     * Sets the data with the appropriate year.
+     */
     private void showAllFrequencies() {
         List<GraphDate> temp = Model.getInstance().getGraphDates();
         for (GraphDate gD: temp) {
@@ -281,12 +292,18 @@ public class GraphActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * resets the first RadioGroup
+     */
     private void resetRadioGroup1() {
         rg1.setOnCheckedChangeListener(null);
         rg1.clearCheck();
         rg1.setOnCheckedChangeListener((group, checkedId) -> resetRadioGroup2());
     }
 
+    /**
+     * resets the second RadioGroup
+     */
     private void resetRadioGroup2() {
         rg2.setOnCheckedChangeListener(null);
         rg2.clearCheck();
