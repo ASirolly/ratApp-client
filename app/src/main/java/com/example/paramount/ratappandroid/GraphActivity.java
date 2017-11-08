@@ -13,6 +13,7 @@ import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.model.GraphDate;
 import com.example.paramount.ratappandroid.model.Model;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -205,7 +206,10 @@ public class GraphActivity extends AppCompatActivity {
         graphChart.removeAllSeries();
         graphChart.addSeries(series2017); // TODO: set 2017 button to checked
 
-
+        Viewport viewport = graphChart.getViewport();
+        viewport.setMinX(1);
+        viewport.setMaxX(12);
+        viewport.setXAxisBoundsManual(true);
     }
 
     /**
