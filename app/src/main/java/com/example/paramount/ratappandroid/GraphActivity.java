@@ -45,17 +45,19 @@ public class GraphActivity extends AppCompatActivity {
     private final DataPoint[] fifteen = new DataPoint[12];
     private final DataPoint[] sixteen = new DataPoint[12];
     private final DataPoint[] seventeen = new DataPoint[12];
-    private LineGraphSeries<DataPoint> series2010;
-    private LineGraphSeries<DataPoint> series2011;
-    private LineGraphSeries<DataPoint> series2012;
-    private LineGraphSeries<DataPoint> series2013;
-    private LineGraphSeries<DataPoint> series2014;
-    private LineGraphSeries<DataPoint> series2015;
-    private LineGraphSeries<DataPoint> series2016;
-    private LineGraphSeries<DataPoint> series2017;
+    private final LineGraphSeries<DataPoint> series2010 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2011 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2012 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2013 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2014 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2015 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2016 = new LineGraphSeries<>();
+    private final LineGraphSeries<DataPoint> series2017 = new LineGraphSeries<>();
     private GraphView graphChart;
     private RadioGroup rg1;
     private RadioGroup rg2;
+
+    private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -155,17 +157,17 @@ public class GraphActivity extends AppCompatActivity {
                 }
             }
         }
+        
         populate();
-        series2010 = new LineGraphSeries<>(ten);
-        series2011 = new LineGraphSeries<>(eleven);
-        series2012 = new LineGraphSeries<>(twelve);
-        series2013 = new LineGraphSeries<>(thirteen);
-        series2014 = new LineGraphSeries<>(fourteen);
-        series2015 = new LineGraphSeries<>(fifteen);
-        series2016 = new LineGraphSeries<>(sixteen);
-        series2017 = new LineGraphSeries<>(seventeen);
-
-        populateColor();
+        series2010.resetData(ten);
+        series2011.resetData(eleven);
+        series2012.resetData(twelve);
+        series2013.resetData(thirteen);
+        series2014.resetData(fourteen);
+        series2015.resetData(fifteen);
+        series2016.resetData(sixteen);
+        series2017.resetData(seventeen);
+        setSeriesStyling();
 
         graphChart.removeAllSeries();
         graphChart.addSeries(series2017);
@@ -174,7 +176,7 @@ public class GraphActivity extends AppCompatActivity {
 
         Viewport viewport = graphChart.getViewport();
         viewport.setMinX(1);
-        viewport.setMaxX(12);
+        viewport.setMaxX(NUMBER_OF_MONTHS_IN_A_YEAR);
         viewport.setXAxisBoundsManual(true);
 
         GridLabelRenderer gridLabelRenderer = graphChart.getGridLabelRenderer();
@@ -186,7 +188,7 @@ public class GraphActivity extends AppCompatActivity {
     /**
      * Set styling for all series.
      */
-    private void populateColor() {
+    private void setSeriesStyling() {
         LineGraphSeries[] allSeries = new LineGraphSeries[] {
                 series2010,
                 series2011,
@@ -207,65 +209,42 @@ public class GraphActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fill in missing data points.
+     */
     public void populate() {
-        for (int i = 0; i < ten.length; i++) {
+        for (int i = 0; i < NUMBER_OF_MONTHS_IN_A_YEAR; i++) {
             if (ten[i] == null ) {
                 ten[i] = new DataPoint(i+1, 0);
-            } else if (ten[i].getY() == 0) {
-                ten[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < eleven.length; i++) {
             if (eleven[i] == null) {
                 eleven[i] = new DataPoint(i+1, 0);
-            } else if (eleven[i].getY() == 0) {
-                eleven[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < twelve.length; i++) {
             if (twelve[i] == null) {
                 twelve[i] = new DataPoint(i+1, 0);
-            } else if (twelve[i].getY() == 0) {
-                twelve[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < thirteen.length; i++) {
             if (thirteen[i] == null) {
                 thirteen[i] = new DataPoint(i+1, 0);
-            } else if (thirteen[i].getY() == 0) {
-                thirteen[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < fourteen.length; i++) {
             if (fourteen[i] == null) {
                 fourteen[i] = new DataPoint(i+1, 0);
-            } else if (fourteen[i].getY() == 0) {
-                fourteen[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < fifteen.length; i++) {
             if (fifteen[i] == null) {
                 fifteen[i] = new DataPoint(i+1, 0);
-            } else if (fifteen[i].getY() == 0) {
-                fifteen[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < sixteen.length; i++) {
             if (sixteen[i] == null) {
                 sixteen[i] = new DataPoint(i+1, 0);
-            } else if (sixteen[i].getY() == 0) {
-                sixteen[i] = new DataPoint(i+1, 0);
             }
-        }
-        for (int i = 0; i < seventeen.length; i++) {
             if (seventeen[i] == null) {
-                seventeen[i] = new DataPoint(i+1, 0);
-            } else if (seventeen[i].getY() == 0) {
                 seventeen[i] = new DataPoint(i+1, 0);
             }
         }
     }
 
+    /**
+     * Method called when a year radio button is clicked.
+     * @param view View on which method was called
+     */
     public void onSwitchYear(View view) {
         boolean check = ((RadioButton) view).isChecked();
         RadioButton button = (RadioButton) view;
@@ -273,65 +252,32 @@ public class GraphActivity extends AppCompatActivity {
 
         if (check) {
             graphChart.removeAllSeries();
-        }
-
-        switch(Integer.parseInt((String) button.getText())) {
-            case 2010:
-                if(check) {
-                    if (series2010 != null) {
-                        graphChart.addSeries(series2010);
-                    }
-                }
-                break;
-            case 2011:
-                if (check) {
-                    if (series2011 != null) {
-                        graphChart.addSeries(series2011);
-                    }
-                }
-                break;
-            case 2012:
-                if (check) {
-                    if (series2012 != null) {
-                        graphChart.addSeries(series2012);
-                    }
-                }
-                break;
-            case 2013:
-                if (check) {
-                    if (series2013 != null) {
-                        graphChart.addSeries(series2013);
-                    }
-                }
-                break;
-            case 2014:
-                if (check) {
-                    if (series2014 != null) {
-                        graphChart.addSeries(series2014);
-                    }
-                }
-                break;
-            case 2015:
-                if (check) {
-                    if (series2015 != null) {
-                        graphChart.addSeries(series2015);
-                    }
-                }
-                break;
-            case 2016:
-                if (check) {
-                    if (series2016 != null) {
-                        graphChart.addSeries(series2016);
-                    }
-                }
-                break;
-            case 2017:
-                if (check) {
-                    if (series2017 != null) {
-                        graphChart.addSeries(series2017);
-                    }
-                }
-                break;
+            switch(Integer.parseInt((String) button.getText())) {
+                case 2010:
+                    graphChart.addSeries(series2010);
+                    break;
+                case 2011:
+                    graphChart.addSeries(series2011);
+                    break;
+                case 2012:
+                    graphChart.addSeries(series2012);
+                    break;
+                case 2013:
+                    graphChart.addSeries(series2013);
+                    break;
+                case 2014:
+                    graphChart.addSeries(series2014);
+                    break;
+                case 2015:
+                    graphChart.addSeries(series2015);
+                    break;
+                case 2016:
+                    graphChart.addSeries(series2016);
+                    break;
+                case 2017:
+                    graphChart.addSeries(series2017);
+                    break;
+            }
         }
     }
 
