@@ -71,8 +71,8 @@ public final class RatSightingDAO {
     /**
       * Loads a single page of rat sightings
       * @param page which page of rat sightings to get
-     * @param callback callback providing an onSuccess method that will be called after a response
-     *                 to the request is received.
+      * @param callback callback providing an onSuccess method that will be called after a response
+      *                 to the request is received.
       */
     public void getRatSightings(int page, Callback<JSONArray> callback) {
         String resourceUrl = "/rat_sightings?";
