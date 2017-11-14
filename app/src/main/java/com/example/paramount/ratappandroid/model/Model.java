@@ -2,7 +2,10 @@ package com.example.paramount.ratappandroid.model;
 
 
 import com.example.paramount.ratappandroid.dao.Callback;
+import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.dao.UserDAO;
+
+import java.util.Map;
 
 /**
  * Holds application state information. Uses the singleton design pattern to allow
@@ -61,4 +64,5 @@ public final class Model {
         userDAO.createUser(account.getUsername(), account.getPassword(),
                 account.getPassword(), callback);
     }
+
 }
