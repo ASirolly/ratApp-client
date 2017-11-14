@@ -17,6 +17,7 @@ import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -145,10 +146,11 @@ public class GraphActivity extends AppCompatActivity {
      * Sets the data with the appropriate year.
      */
     private void showAllFrequencies() {
-        List<GraphDate> temp = graphDates;
-        for (GraphDate gD: temp) {
-            if ((gD != null) && (gD.getYear() != null) && (gD.getMonth() != null)
-                    && !("".equals(gD.getYear())) && !("".equals(gD.getMonth()))) {
+        for (GraphDate gD: graphDates) {
+            if (!StringUtils.isEmpty(gD.getYear()) &&
+                !StringUtils.isEmpty(gD.getMonth()) &&
+                !StringUtils.isEmpty(gD.getFrequency())) {
+
                 int year = Integer.parseInt(gD.getYear());
                 int month = Integer.parseInt(gD.getMonth());
                 int frequency = Integer.parseInt(gD.getFrequency());
@@ -200,6 +202,13 @@ public class GraphActivity extends AppCompatActivity {
         Checkable button2017 = (RadioButton) findViewById(R.id.twenty_seventeen);
         button2017.setChecked(true);
 
+        setChartStyling();
+    }
+
+    /**
+     * Sets chart styling.
+     */
+    private void setChartStyling() {
         Viewport viewport = graphChart.getViewport();
         viewport.setMinX(1);
         viewport.setMaxX(NUMBER_OF_MONTHS_IN_A_YEAR);
