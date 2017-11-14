@@ -69,6 +69,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
      * @param view the view that submit button belongs to
      */
     private void submit(View view) {
+        Log.d("this", view.toString());
         if (StringUtils.isEmpty(longitudeEditText.getText())) {
             showMessage("longitude field is empty");
         } else if (StringUtils.isEmpty(latitudeEditText.getText())) {

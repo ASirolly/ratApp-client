@@ -2,6 +2,7 @@ package com.example.paramount.ratappandroid;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -16,6 +17,7 @@ public class LoggedInBaseActivity extends AppCompatActivity {
      * @param view building block for user interface components
      */
     public void logOutAndReturnToMainScreen(View view) {
+        Log.d("msg", view.toString());
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         navigateUpTo(intent);
     }

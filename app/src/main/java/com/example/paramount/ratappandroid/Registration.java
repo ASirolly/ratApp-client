@@ -93,7 +93,7 @@ public class Registration extends AppCompatActivity {
      */
     private void onSuccess(String result) {
         finish();
-        showMessage(String.format("successfully registered with username: %s", username));
+        showMessage(String.format(result + "successfully registered with username: %s", username));
     }
 
     /**

@@ -72,6 +72,7 @@ public class Dashboard extends LoggedInBaseActivity {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
                 ratSightingDAO.getRatSightings(page, Dashboard.this::handleData);
+                Log.d("count", "" + totalItemsCount);
                 return true;
             }
         });
