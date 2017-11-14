@@ -19,17 +19,10 @@ import java.util.Map;
 public final class Model {
     // singleton instance
     private static final Model _instance = new Model();
-    private final ArrayList<RatSighting> ratSightings;
-    private final ArrayList<GraphDate> graphDates;
 
     // maps unique key to rat sighting
-    private final Map<String, RatSighting> mapRatSightings;
 
     private Model() {
-        // leaving in test account for now
-        ratSightings = new ArrayList<>(25);
-        mapRatSightings = new HashMap<>();
-        graphDates = new ArrayList<>();
     }
 
     /**
@@ -42,45 +35,6 @@ public final class Model {
      * Account of the currently logged in user.
       */
     private Account account;
-
-    /**
-     * Get list of rat sightings.
-     * @return list of rat sightings
-     */
-    public ArrayList<RatSighting> getRatSightings() {
-        return ratSightings;
-    }
-
-    /**
-     * Clears out list of rat sightings.
-     */
-    public void resetRatSightings() {
-        ratSightings.clear();
-    }
-
-    /**
-     * Clears out the list of dates being used for the graph
-     */
-    public void resetGraphDates() { graphDates.clear(); }
-
-
-    /**
-     * @return list of rat sightings for display on the map.
-     */
-    public Map<String, RatSighting> getMapRatSightings() { return mapRatSightings; }
-
-    /**
-     *
-     * @return list of the dates that will be used for the graph
-     */
-    public List<GraphDate> getGraphDates() {
-        return graphDates;
-    }
-
-    /**
-     * Clears out list of rat sightings for display on the map.
-     */
-    public void resetMapRatSightings() { mapRatSightings.clear(); }
 
     /**
      * Sets the account to null when an actor logs out.

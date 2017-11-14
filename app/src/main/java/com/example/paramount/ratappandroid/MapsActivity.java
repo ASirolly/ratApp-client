@@ -26,7 +26,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Joshua Reno on 10/21/17.
@@ -41,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Locale.US);
 
     private GoogleMap googlemap;
+    private Map<String, RatSighting> ratSightingMap;
 
     private static final String selectStartDateButtonTextTemplate =
             "SELECT START DATE (selected date: %s)";
@@ -65,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
+
+        ratSightingMap = new HashMap<>();
 
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
@@ -149,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
                 intent.putExtra(
                         "ratSighting",
-                        Model.getInstance().getMapRatSightings().get(uniqueKey));
+                        ratSightingMap.get(uniqueKey));
                 startActivity(intent);
                 return true;
             }
@@ -161,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void showAllRatSightings() {
         googlemap.clear();
-        Model.getInstance().getMapRatSightings().values()
+        ratSightingMap.values()
                 .forEach(ratSighting -> {
                     Log.i(TAG,
                             String.format(
@@ -183,15 +188,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * @param response list of RatSightings returned from GET request
      */
     private void handleData(JSONArray response) {
-        Model.getInstance().resetMapRatSightings();
+        ratSightingMap.clear();
         JSONObject json;
         int len = response.length();
         for (int i = 0; i < len; i++) {
             try {
                 json = (JSONObject) response.get(i);
                 RatSighting ratSighting = new RatSighting(json);
-                Model.getInstance().getMapRatSightings()
-                        .put(ratSighting.getUniqueKey(), ratSighting);
+                ratSightingMap.put(ratSighting.getUniqueKey(), ratSighting);
             } catch (JSONException | ParseException e) {
                 Log.w(TAG, e);
             }

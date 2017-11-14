@@ -87,7 +87,6 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             createRatSighting();
             // Black magic to start a new Dashboard activity (so the new sighting is displayed)
             // https://stackoverflow.com/a/4186097/5377941
-            Model.getInstance().resetRatSightings();
             try {
                 Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
