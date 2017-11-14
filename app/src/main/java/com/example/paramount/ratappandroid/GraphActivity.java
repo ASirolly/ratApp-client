@@ -94,7 +94,13 @@ public class GraphActivity extends AppCompatActivity {
         yearToDataPointArray.put(NUMBER_2015, fifteen);
         yearToDataPointArray.put(NUMBER_2016, sixteen);
         yearToDataPointArray.put(NUMBER_2017, seventeen);
+        setRadioGroup();
+    }
 
+    /**
+     * sets the radio group
+     */
+    public void setRadioGroup() {
         rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
         rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups

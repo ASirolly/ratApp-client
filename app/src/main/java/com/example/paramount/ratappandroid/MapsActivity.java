@@ -73,7 +73,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ratSightingDAO = RatSightingDAO.getInstance();
 
         ratSightingMap = new HashMap<>();
+        setDatePicker();
 
+    }
+
+    /**
+     * sets the date picker
+     */
+    public void setDatePicker() {
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -117,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // clicking "find rat sightings" button causes only rat sightings that fall within
         // the selected dates to be shown
         findRatSightingsButton.setOnClickListener(view ->
-            ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData)
+                ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData)
         );
     }
 
