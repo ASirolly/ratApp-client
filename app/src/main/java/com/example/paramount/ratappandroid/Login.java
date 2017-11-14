@@ -22,6 +22,7 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "Login"; // used in log messages
 
     private Account account;
+    private Model model;
 
     /**
      * Creates login page and sets actions for the username, password, submit and cancel elements.
@@ -51,7 +52,7 @@ public class Login extends AppCompatActivity {
 
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s",
                         username, password));
-                Model model = Model.getInstance();
+                model = Model.getInstance();
                 model.lookUpAccount(username, password, Login.this::onSuccess);
 //                if (account != null) {
 ////                    Log.i(TAG, "successful login attempt");

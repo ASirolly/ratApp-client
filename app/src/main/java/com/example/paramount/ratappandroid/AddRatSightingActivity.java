@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
+import com.example.paramount.ratappandroid.model.Model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,6 +39,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
 
     private static final String TAG = "ADD_RAT_SIGHTING";
     private static final int WAIT_TIME = 500;
+    private static RatSightingDAO ratSightingDAO;
 
     /**
      * Creates the dashboard page.
@@ -125,7 +127,8 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         Editable zip = zipEditText.getText();
         params.put("zip", zip.toString());
 
-        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance();
+
+        ratSightingDAO = RatSightingDAO.getInstance();
         ratSightingDAO.createRatSighting(params, response ->
             Log.i(TAG, String.format("create rat sighting response: %s", response))
         );

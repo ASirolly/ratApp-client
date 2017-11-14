@@ -23,6 +23,7 @@ import com.example.paramount.ratappandroid.model.Model;
 public class Registration extends AppCompatActivity {
 
     private String username;
+    private Model model;
 
     /**
      * Creates the registration page and sets actions for the username, password, account status,
@@ -81,7 +82,7 @@ public class Registration extends AppCompatActivity {
 //                        Log.i(TAG, String.format("failed to register account: %s", account));
 //                        showMessage("registration could not be completed");
 //                    }
-                    Model model = Model.getInstance();
+                    model = Model.getInstance();
                     model.registerAccount(account, Registration.this::onSuccess);
                 }
         });

@@ -30,6 +30,7 @@ public class Dashboard extends LoggedInBaseActivity {
 
     private List<RatSighting> ratSightings;
     private ArrayAdapter arrayAdapter;
+    private RatSightingDAO ratSightingDAO;
 
     /**
      * Creates the dashboard page.
@@ -40,7 +41,7 @@ public class Dashboard extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance();
+        ratSightingDAO = RatSightingDAO.getInstance();
 
         ratSightings = new ArrayList<>();
 
