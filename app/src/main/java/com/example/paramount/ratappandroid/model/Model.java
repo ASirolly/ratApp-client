@@ -26,22 +26,6 @@ public final class Model {
      */
     public static Model getInstance() { return _instance; }
 
-    /*
-     * Account of the currently logged in user.
-      */
-    private Account account;
-
-    /**
-     * Sets the account to null when an actor logs out.
-     */
-    public void logOut() { account = null; }
-
-    /**
-     * Sets the account variable.
-     * @param account an instance of account
-     */
-    public void setAccount(Account account) { this.account = account; }
-
     /**
      * Determines whether the provided username/password combination is valid.
      * @param username provided username

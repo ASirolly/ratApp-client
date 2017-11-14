@@ -21,8 +21,6 @@ import com.example.paramount.ratappandroid.model.Model;
 
 public class Registration extends AppCompatActivity {
 
-    private static final String TAG = "Registration"; // used in log messages
-
     private String username;
 
     /**
