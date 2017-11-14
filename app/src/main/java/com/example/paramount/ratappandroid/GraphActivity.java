@@ -236,7 +236,7 @@ public class GraphActivity extends AppCompatActivity {
     /**
      * Fill in missing data points.
      */
-    public void populate() {
+    private void populate() {
         for (int i = 0; i < NUMBER_OF_MONTHS_IN_A_YEAR; i++) {
             if (ten[i] == null ) {
                 ten[i] = new DataPoint(i+1, 0);
