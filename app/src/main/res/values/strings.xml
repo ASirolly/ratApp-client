@@ -29,7 +29,7 @@
     <string name="select_start_date">select start date</string>
     <string name="find_rat_sightings">find rat sightings</string>
     <string name="click_to_add_a_rat_sighting">click to add a rat sighting</string>
-    <string name="dont_have_an_account">Dont have an account?</string>
+    <string name="do_not_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="graph_view">Graph View</string>
     <string name="title_activity_tab">TabActivity</string>

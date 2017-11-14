@@ -44,7 +44,7 @@ public class RatSightingDetails extends LoggedInBaseActivity {
         createDateTextView.setText(displayDateFormat.format(ratSighting.getCreateDate()));
         locationTypeTextView.setText(ratSighting.getLocType());
         zipTextView.setText(ratSighting.getIncidentZip());
-        addressTextView.setText(ratSighting.getIncidentAddr());
+        addressTextView.setText(ratSighting.getIncidentAddress());
         cityTextView.setText(ratSighting.getCity());
         boroughTextView.setText(ratSighting.getBorough());
         latitudeTextView.setText(String.format(Locale.US, "%f", ratSighting.getLatitude()));

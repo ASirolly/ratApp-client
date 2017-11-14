@@ -60,7 +60,7 @@ public class Dashboard extends LoggedInBaseActivity {
             startActivity(intent);
         });
 
-        //Sets the actions that happen when you click on an item in the listview
+        //Sets the actions that happen when you click on an item in the list view
         sightingListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
             intent.putExtra("ratSighting", ratSightings.get(position));

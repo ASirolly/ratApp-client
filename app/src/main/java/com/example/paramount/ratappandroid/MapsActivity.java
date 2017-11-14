@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created by joshuareno on 10/21/17.
+ * Created by Joshua Reno on 10/21/17.
  *
  * Displays rat sightings on a map, with the ability to choose a date range for which to display
  * sightings.
@@ -121,7 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Called after map is completely loaded.
      *
-     * @param googleMap The map thas has been loaded
+     * @param googleMap The map has has been loaded
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
