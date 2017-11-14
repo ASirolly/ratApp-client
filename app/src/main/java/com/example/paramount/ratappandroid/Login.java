@@ -13,7 +13,7 @@ import com.example.paramount.ratappandroid.model.Model;
 
 /**
  * Login screen.
- * Created by joshuareno on 9/21/17.
+ * Created by Joshua Reno on 9/21/17.
  */
 
 public class Login extends AppCompatActivity {

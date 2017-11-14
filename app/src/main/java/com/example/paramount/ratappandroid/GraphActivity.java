@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by joshuareno on 11/4/17.
+ * Created by Joshua Reno on 11/4/17.
  *
  * Displays the ratSightings graph.
  */
@@ -61,7 +61,7 @@ public class GraphActivity extends AppCompatActivity {
 
     /**
      * Set RadioGroup and set Calendar information
-     * @param savedInstanceState
+     * @param savedInstanceState the state
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,18 +99,18 @@ public class GraphActivity extends AppCompatActivity {
 
     /**
      * Sends the JSON request.
-     * @param response
+     * @param response the JSON response
      */
     private void handleThisData(JSONObject response) {
         Log.d(TAG, "handling data");
         Model.getInstance().resetGraphDates();
         JSONObject json;
-        Log.w(TAG, "Wir sind successful!");
+        Log.w(TAG, "successful!");
         try {
             Log.d(TAG, "DATA GETTING BACK: " + response);
             JSONArray innerArr = response.getJSONArray("data");
             int len = innerArr.length();
-            Log.d(TAG, "THIS IS INNERARR: " + innerArr);
+            Log.d(TAG, "THIS IS ARRAY: " + innerArr);
             Log.d(TAG, "THIS IS LEN: " + len);
             for (int i = 0; i < len; i++) {
                 json = (JSONObject) innerArr.get(i);

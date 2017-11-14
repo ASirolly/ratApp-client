@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * Created by joshuareno on 9/21/17.
+ * Created by Joshua Reno on 9/21/17.
  *
  * First activity that is shown when the app is started.
  */
@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     /**
-     * Creates the welcome page and sets atcions for the login and registration buttons.
+     * Creates the welcome page and sets actions for the login and registration buttons.
      * @param savedInstanceState Bundle object containing the activity's previously saved state.
      */
     @Override

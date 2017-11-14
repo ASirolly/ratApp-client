@@ -26,7 +26,7 @@ public class RatSighting implements Serializable {
     private final Date createDate;
     private final String locType;
     private String incidentZip;
-    private String incidentAddr;
+    private String incidentAddress;
     private String city;
     private String borough;
     private final Double latitude;
@@ -45,7 +45,7 @@ public class RatSighting implements Serializable {
 
         JSONObject locationJson = json.getJSONObject("location");
         incidentZip = locationJson.getString("zip");
-        incidentAddr = locationJson.getString("address");
+        incidentAddress = locationJson.getString("address");
 
         // Throws JSONException if latitude or longitude cannot be parsed to doubles.
         latitude = locationJson.getDouble("latitude");
@@ -55,7 +55,7 @@ public class RatSighting implements Serializable {
         borough = locationJson.getJSONObject("borough").getString("name");
 
         // Address, zip, city, borough can be missing as long as latitude and longitude are present.
-        incidentAddr = checkForMissingValue(incidentAddr, "missing address");
+        incidentAddress = checkForMissingValue(incidentAddress, "missing address");
         incidentZip = checkForMissingValue(incidentZip, "missing zip code");
         city = checkForMissingValue(city, "missing city");
         borough = checkForMissingValue(borough, "missing borough");
@@ -105,8 +105,8 @@ public class RatSighting implements Serializable {
      * Returns the rat sighting's incident address
      * @return incident address
      */
-    public CharSequence getIncidentAddr() {
-        return incidentAddr;
+    public CharSequence getIncidentAddress() {
+        return incidentAddress;
     }
 
     /**
@@ -143,6 +143,6 @@ public class RatSighting implements Serializable {
 
     public String toString() {
         String formattedDate = displayDateFormat.format(createDate);
-        return String.format("%s\n%s", incidentAddr, formattedDate);
+        return String.format("%s\n%s", incidentAddress, formattedDate);
     }
 }
