@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The first screen that users see after they log in.
@@ -26,6 +28,7 @@ import java.text.ParseException;
 public class Dashboard extends LoggedInBaseActivity {
     private static final String TAG = "DASHBOARD";
 
+    private List<RatSighting> ratSightings;
     private ArrayAdapter arrayAdapter;
 
     /**
@@ -38,8 +41,10 @@ public class Dashboard extends LoggedInBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
 
+        ratSightings = new ArrayList<>();
+
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                Model.getInstance().getRatSightings());
+                ratSightings);
         ListView sightingListView = (ListView) findViewById(R.id.sightingListView);
         sightingListView.setAdapter(arrayAdapter);
 
@@ -58,7 +63,7 @@ public class Dashboard extends LoggedInBaseActivity {
         //Sets the actions that happen when you click on an item in the listview
         sightingListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(getBaseContext(), RatSightingDetails.class);
-            intent.putExtra("ratSighting", Model.getInstance().getRatSightings().get(position));
+            intent.putExtra("ratSighting", ratSightings.get(position));
             startActivity(intent);
         });
 
@@ -91,7 +96,7 @@ public class Dashboard extends LoggedInBaseActivity {
         for (int i = 0; i < len; i++) {
             try {
                 json = (JSONObject) response.get(i);
-                Model.getInstance().getRatSightings().add(new RatSighting(json));
+                ratSightings.add(new RatSighting(json));
                 arrayAdapter.notifyDataSetChanged();
             } catch (JSONException | ParseException e) {
                 Log.d(TAG, "error parsing rat sighting field");

@@ -11,7 +11,6 @@ import android.widget.RadioGroup;
 
 import com.example.paramount.ratappandroid.dao.GraphDateDAO;
 import com.example.paramount.ratappandroid.model.GraphDate;
-import com.example.paramount.ratappandroid.model.Model;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
@@ -22,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +56,7 @@ public class GraphActivity extends AppCompatActivity {
     private GraphView graphChart;
     private RadioGroup rg1;
     private RadioGroup rg2;
+    private List<GraphDate> graphDates;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
 
@@ -67,6 +68,7 @@ public class GraphActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
+        graphDates = new ArrayList<>();
 
         rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
@@ -103,7 +105,7 @@ public class GraphActivity extends AppCompatActivity {
      */
     private void handleThisData(JSONObject response) {
         Log.d(TAG, "handling data");
-        Model.getInstance().resetGraphDates();
+        graphDates.clear();
         JSONObject json;
         Log.w(TAG, "Wir sind successful!");
         try {
@@ -116,7 +118,7 @@ public class GraphActivity extends AppCompatActivity {
                 json = (JSONObject) innerArr.get(i);
                 Log.d(TAG,"THIS IS json: " + json);
 
-                Model.getInstance().getGraphDates().add(new GraphDate(json));
+                graphDates.add(new GraphDate(json));
             }
 
         } catch (JSONException e) {
@@ -130,7 +132,7 @@ public class GraphActivity extends AppCompatActivity {
      * Sets the data with the appropriate year.
      */
     private void showAllFrequencies() {
-        List<GraphDate> temp = Model.getInstance().getGraphDates();
+        List<GraphDate> temp = graphDates;
         for (GraphDate gD: temp) {
             if ((gD != null) && (gD.getYear() != null) && (gD.getMonth() != null)
                     && !("".equals(gD.getYear())) && !("".equals(gD.getMonth()))) {
