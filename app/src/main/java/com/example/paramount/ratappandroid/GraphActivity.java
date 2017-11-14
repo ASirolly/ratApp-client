@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by Joshua Reno on 11/4/17.
  *
@@ -58,6 +59,16 @@ public class GraphActivity extends AppCompatActivity {
     private RadioGroup rg2;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
+    private static final int NUMBER_2010 = 2010;
+    private static final int NUMBER_2011 = 2011;
+    private static final int NUMBER_2012 = 2012;
+    private static final int NUMBER_2013 = 2013;
+    private static final int NUMBER_2014 = 2014;
+    private static final int NUMBER_2015 = 2015;
+    private static final int NUMBER_2016 = 2016;
+    private static final int NUMBER_2017 = 2017;
+
+
 
     /**
      * Set RadioGroup and set Calendar information
@@ -141,28 +152,28 @@ public class GraphActivity extends AppCompatActivity {
                         "found date with year %d, month %d, and frequency %d",
                         year, month, frequency));
                 switch(year) {
-                    case 2010:
+                    case NUMBER_2010:
                         ten[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2011:
+                    case NUMBER_2011:
                         eleven[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2012:
+                    case NUMBER_2012:
                         twelve[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2013:
+                    case NUMBER_2013:
                         thirteen[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2014:
+                    case NUMBER_2014:
                         fourteen[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2015:
+                    case NUMBER_2015:
                         fifteen[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2016:
+                    case NUMBER_2016:
                         sixteen[month - 1] = new DataPoint(month, frequency);
                         break;
-                    case 2017:
+                    case NUMBER_2017:
                         seventeen[month - 1] = new DataPoint(month, frequency);
                         break;
                 }
@@ -192,7 +203,7 @@ public class GraphActivity extends AppCompatActivity {
 
         GridLabelRenderer gridLabelRenderer = graphChart.getGridLabelRenderer();
         gridLabelRenderer.setGridStyle(GridLabelRenderer.GridStyle.BOTH);
-        gridLabelRenderer.setNumHorizontalLabels(12);
+        gridLabelRenderer.setNumHorizontalLabels(NUMBER_OF_MONTHS_IN_A_YEAR);
         gridLabelRenderer.setHorizontalAxisTitle("month");
     }
 
@@ -264,28 +275,28 @@ public class GraphActivity extends AppCompatActivity {
         if (check) {
             graphChart.removeAllSeries();
             switch(Integer.parseInt((String) button.getText())) {
-                case 2010:
+                case NUMBER_2010:
                     graphChart.addSeries(series2010);
                     break;
-                case 2011:
+                case NUMBER_2011:
                     graphChart.addSeries(series2011);
                     break;
-                case 2012:
+                case NUMBER_2012:
                     graphChart.addSeries(series2012);
                     break;
-                case 2013:
+                case NUMBER_2013:
                     graphChart.addSeries(series2013);
                     break;
-                case 2014:
+                case NUMBER_2014:
                     graphChart.addSeries(series2014);
                     break;
-                case 2015:
+                case NUMBER_2015:
                     graphChart.addSeries(series2015);
                     break;
-                case 2016:
+                case NUMBER_2016:
                     graphChart.addSeries(series2016);
                     break;
-                case 2017:
+                case NUMBER_2017:
                     graphChart.addSeries(series2017);
                     break;
             }
