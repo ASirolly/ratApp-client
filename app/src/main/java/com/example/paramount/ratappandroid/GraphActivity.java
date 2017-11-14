@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 
@@ -60,6 +62,7 @@ public class GraphActivity extends AppCompatActivity {
     private RadioGroup rg1;
     private RadioGroup rg2;
     private List<GraphDate> graphDates;
+    private Map<Integer, DataPoint[]> yearToDataPointArray;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
     private static final int NUMBER_2010 = 2010;
@@ -82,6 +85,15 @@ public class GraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
         graphDates = new ArrayList<>();
+        yearToDataPointArray = new HashMap<>();
+        yearToDataPointArray.put(NUMBER_2010, ten);
+        yearToDataPointArray.put(NUMBER_2011, eleven);
+        yearToDataPointArray.put(NUMBER_2012, twelve);
+        yearToDataPointArray.put(NUMBER_2013, thirteen);
+        yearToDataPointArray.put(NUMBER_2014, fourteen);
+        yearToDataPointArray.put(NUMBER_2015, fifteen);
+        yearToDataPointArray.put(NUMBER_2016, sixteen);
+        yearToDataPointArray.put(NUMBER_2017, seventeen);
 
         rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
@@ -157,44 +169,12 @@ public class GraphActivity extends AppCompatActivity {
                 Log.d(TAG, String.format(
                         "found date with year %d, month %d, and frequency %d",
                         year, month, frequency));
-                switch(year) {
-                    case NUMBER_2010:
-                        ten[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2011:
-                        eleven[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2012:
-                        twelve[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2013:
-                        thirteen[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2014:
-                        fourteen[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2015:
-                        fifteen[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2016:
-                        sixteen[month - 1] = new DataPoint(month, frequency);
-                        break;
-                    case NUMBER_2017:
-                        seventeen[month - 1] = new DataPoint(month, frequency);
-                        break;
-                }
+                DataPoint[] dataPoints = yearToDataPointArray.get(year);
+                dataPoints[month - 1]  = new DataPoint(month, frequency);
             }
         }
 
         populate();
-        series2010.resetData(ten);
-        series2011.resetData(eleven);
-        series2012.resetData(twelve);
-        series2013.resetData(thirteen);
-        series2014.resetData(fourteen);
-        series2015.resetData(fifteen);
-        series2016.resetData(sixteen);
-        series2017.resetData(seventeen);
         setSeriesStyling();
 
         graphChart.removeAllSeries();
@@ -246,7 +226,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     /**
-     * Fill in missing data points.
+     * Fill in missing data points, and reset data in all series.
      */
     private void populate() {
         for (int i = 0; i < NUMBER_OF_MONTHS_IN_A_YEAR; i++) {
@@ -275,6 +255,15 @@ public class GraphActivity extends AppCompatActivity {
                 seventeen[i] = new DataPoint(i+1, 0);
             }
         }
+
+        series2010.resetData(ten);
+        series2011.resetData(eleven);
+        series2012.resetData(twelve);
+        series2013.resetData(thirteen);
+        series2014.resetData(fourteen);
+        series2015.resetData(fifteen);
+        series2016.resetData(sixteen);
+        series2017.resetData(seventeen);
     }
 
     /**
