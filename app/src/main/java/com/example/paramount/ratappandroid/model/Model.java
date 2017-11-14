@@ -14,10 +14,12 @@ import com.example.paramount.ratappandroid.dao.UserDAO;
 public final class Model {
     // singleton instance
     private static final Model _instance = new Model();
+    private final UserDAO userDAO;
 
     // maps unique key to rat sighting
 
     private Model() {
+        userDAO = UserDAO.getInstance();
     }
 
     /**
@@ -42,7 +44,7 @@ public final class Model {
 //            return account;
 //        }
 //        return null; // account exists, but wrong password provided
-        UserDAO.getInstance().authenticate(username, password, callback);
+        userDAO.authenticate(username, password, callback);
     }
 
     /**
@@ -56,7 +58,7 @@ public final class Model {
 //        }
 //        allAccounts.put(account.getUsername(), account);
 //        return true;
-        UserDAO.getInstance().createUser(account.getUsername(), account.getPassword(),
+        userDAO.createUser(account.getUsername(), account.getPassword(),
                 account.getPassword(), callback);
     }
 }

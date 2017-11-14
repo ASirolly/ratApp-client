@@ -20,8 +20,12 @@ public class GraphDate {
      * @throws JSONException if a field is missing
      */
     public GraphDate (JSONObject obj) throws JSONException {
-        year = obj.getJSONObject("_id").getString("year");
-        month = obj.getJSONObject("_id").getString("month");
+        JSONObject yearJson = obj.getJSONObject("_id");
+        year = yearJson.getString("year");
+
+        JSONObject monthJson = obj.getJSONObject("_id");
+        month = monthJson.getString("month");
+
         frequency = obj.getString("rat_sightings");
     }
 

@@ -3,6 +3,7 @@ package com.example.paramount.ratappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -101,15 +102,30 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
      */
     private void createRatSighting() {
         Map<String,String> params = new HashMap<>();
-        params.put("longitude", longitudeEditText.getText().toString());
-        params.put("latitude", latitudeEditText.getText().toString());
-        params.put("city", cityEditText.getText().toString());
-        params.put("location_type", locationTypeEditText.getText().toString());
-        params.put("borough", boroughEditText.getText().toString());
-        params.put("address", addressEditText.getText().toString());
-        params.put("zip", zipEditText.getText().toString());
 
-        RatSightingDAO.getInstance().createRatSighting(params, response ->
+        Editable longitude = longitudeEditText.getText();
+        params.put("longitude", longitude.toString());
+
+        Editable latitude = latitudeEditText.getText();
+        params.put("latitude", latitude.toString());
+
+        Editable city = cityEditText.getText();
+        params.put("city", city.toString());
+
+        Editable locationType = locationTypeEditText.getText();
+        params.put("location_type", locationType.toString());
+
+        Editable borough = boroughEditText.getText();
+        params.put("borough", borough.toString());
+
+        Editable address = addressEditText.getText();
+        params.put("address", address.toString());
+
+        Editable zip = zipEditText.getText();
+        params.put("zip", zip.toString());
+
+        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance();
+        ratSightingDAO.createRatSighting(params, response ->
             Log.i(TAG, String.format("create rat sighting response: %s", response))
         );
     }

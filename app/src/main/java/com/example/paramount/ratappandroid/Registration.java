@@ -3,6 +3,7 @@ package com.example.paramount.ratappandroid;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.EditText;
@@ -46,9 +47,14 @@ public class Registration extends AppCompatActivity {
                         R.id.accountTypeRadioGroup);
                 Checkable userRadioButton = (RadioButton) findViewById(R.id.userRadioButton);
 
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String confirmedPassword = passwordConfirmationEditText.getText().toString();
+                Editable usernameEditable = usernameEditText.getText();
+                String username = usernameEditable.toString();
+
+                Editable passwordEditable = passwordEditText.getText();
+                String password = passwordEditable.toString();
+
+                Editable passwordConfirmationEditable = passwordConfirmationEditText.getText();
+                String confirmedPassword = passwordConfirmationEditable.toString();
 
                 if (username.isEmpty()) {
                     showMessage("please enter a username");
@@ -75,7 +81,8 @@ public class Registration extends AppCompatActivity {
 //                        Log.i(TAG, String.format("failed to register account: %s", account));
 //                        showMessage("registration could not be completed");
 //                    }
-                    Model.getInstance().registerAccount(account, Registration.this::onSuccess);
+                    Model model = Model.getInstance();
+                    model.registerAccount(account, Registration.this::onSuccess);
                 }
         });
     }

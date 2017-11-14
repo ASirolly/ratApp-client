@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -43,6 +44,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap googlemap;
     private Map<String, RatSighting> ratSightingMap;
+    private RatSightingDAO ratSightingDAO;
 
     private static final String selectStartDateButtonTextTemplate =
             "SELECT START DATE (selected date: %s)";
@@ -64,9 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
+        ratSightingDAO = RatSightingDAO.getInstance();
 
         ratSightingMap = new HashMap<>();
 
@@ -113,7 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // clicking "find rat sightings" button causes only rat sightings that fall within
         // the selected dates to be shown
         findRatSightingsButton.setOnClickListener(view ->
-            RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData)
+            ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData)
         );
     }
 
@@ -137,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // When map is first loaded, load sightings that fall within the initial values for
         // start/end date
-        RatSightingDAO.getInstance().getRatSightingsByDate(startDate, endDate, this::handleData);
+        ratSightingDAO.getRatSightingsByDate(startDate, endDate, this::handleData);
 
         googlemap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             /**
@@ -165,21 +169,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void showAllRatSightings() {
         googlemap.clear();
-        ratSightingMap.values()
-                .forEach(ratSighting -> {
-                    Log.i(TAG,
-                            String.format(
-                                "Placing marker at lat %f and long %f",
-                                ratSighting.getLatitude(),
-                                ratSighting.getLongitude()));
-                    final Marker marker = googlemap.addMarker(
-                            new MarkerOptions()
-                                    .position(
-                                            new LatLng(
-                                                    ratSighting.getLatitude(),
-                                                    ratSighting.getLongitude())));
-                    marker.setTag(ratSighting.getUniqueKey());
-                });
+        Collection<RatSighting> values = ratSightingMap.values();
+        values.forEach(ratSighting -> {
+                Log.i(TAG,
+                        String.format(
+                            "Placing marker at lat %f and long %f",
+                            ratSighting.getLatitude(),
+                            ratSighting.getLongitude()));
+                MarkerOptions newMarkerOptions = new MarkerOptions();
+                MarkerOptions markerOptions = newMarkerOptions.position(new LatLng(
+                        ratSighting.getLatitude(),
+                        ratSighting.getLongitude()));
+                final Marker marker = googlemap.addMarker(markerOptions);
+                marker.setTag(ratSighting.getUniqueKey());
+        });
     }
 
     /**

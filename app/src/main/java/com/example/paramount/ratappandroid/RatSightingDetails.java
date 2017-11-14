@@ -1,5 +1,6 @@
 package com.example.paramount.ratappandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -28,7 +29,8 @@ public class RatSightingDetails extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rat_sighting_details);
-        RatSighting ratSighting = (RatSighting) getIntent().getSerializableExtra("ratSighting");
+        Intent intent = getIntent();
+        RatSighting ratSighting = (RatSighting) intent.getSerializableExtra("ratSighting");
 
         TextView keyValueTextView = (TextView) findViewById(R.id.keyValue);
         TextView createDateTextView = (TextView) findViewById(R.id.createDateValue);

@@ -3,6 +3,7 @@ package com.example.paramount.ratappandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,14 +40,18 @@ public class Login extends AppCompatActivity {
                 EditText usernameEditText = (EditText) findViewById(R.id.usernameEditTextLogin);
                 EditText passwordEditText = (EditText) findViewById(R.id.passwordEditTextLogin);
 
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                Editable usernameEditable = usernameEditText.getText();
+                String username = usernameEditable.toString();
+
+                Editable passwordEditable = passwordEditText.getText();
+                String password = passwordEditable.toString();
 
                 Login.this.account = new Account(username, password, AccountType.ADMIN);
 
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s",
                         username, password));
-                Model.getInstance().lookUpAccount(username, password, Login.this::onSuccess);
+                Model model = Model.getInstance();
+                model.lookUpAccount(username, password, Login.this::onSuccess);
 //                if (account != null) {
 ////                    Log.i(TAG, "successful login attempt");
 ////                    // set username in model
@@ -81,7 +86,6 @@ public class Login extends AppCompatActivity {
     private void onSuccess(String result) {
         Log.i(TAG, "successful login attempt");
         // set username in model
-        Model.getInstance().setAccount(account);
         // open dashboard
         Intent intent = new Intent(getBaseContext(), Dashboard.class);
         startActivity(intent);

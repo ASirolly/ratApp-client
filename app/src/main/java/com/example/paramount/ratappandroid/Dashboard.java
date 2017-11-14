@@ -3,6 +3,7 @@ package com.example.paramount.ratappandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ public class Dashboard extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
+        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance();
 
         ratSightings = new ArrayList<>();
 
@@ -69,19 +71,19 @@ public class Dashboard extends LoggedInBaseActivity {
         sightingListView.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                RatSightingDAO.getInstance().getRatSightings(page, Dashboard.this::handleData);
+                ratSightingDAO.getRatSightings(page, Dashboard.this::handleData);
                 return true;
             }
         });
 
-        RatSightingDAO.getInstance().getRatSightings(0, Dashboard.this::handleData);
+        ratSightingDAO.getRatSightings(0, Dashboard.this::handleData);
 
         // Causes add button to open a screen that allows the user to create a new rat sighting.
-        findViewById(R.id.addSightingButton).setOnClickListener(view -> {
+        View addSightingButton = findViewById(R.id.addSightingButton);
+        addSightingButton.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), AddRatSightingActivity.class);
             startActivity(intent);
         });
-
     }
 
     /**

@@ -39,7 +39,9 @@ public class RatSighting implements Serializable {
      * @throws ParseException if createDate cannot be parsed
      */
     public RatSighting(JSONObject json) throws JSONException, ParseException {
-        uniqueKey = json.getJSONObject("_id").getString("$oid");
+        JSONObject keyJson = json.getJSONObject("_id");
+        uniqueKey = keyJson.getString("$oid");
+
         createDate = dateFormat.parse(json.getString("created_at"));
         locType = json.getString("location_type");
 
@@ -51,8 +53,11 @@ public class RatSighting implements Serializable {
         latitude = locationJson.getDouble("latitude");
         longitude = locationJson.getDouble("longitude");
 
-        city = locationJson.getJSONObject("city").getString("name");
-        borough = locationJson.getJSONObject("borough").getString("name");
+        JSONObject cityJson = locationJson.getJSONObject("city");
+        city = cityJson.getString("name");
+
+        JSONObject boroughJson = locationJson.getJSONObject("borough");
+        borough = boroughJson.getString("name");
 
         // Address, zip, city, borough can be missing as long as latitude and longitude are present.
         incidentAddress = checkForMissingValue(incidentAddress, "missing address");

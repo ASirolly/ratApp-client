@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 /**
@@ -105,7 +106,8 @@ public class GraphActivity extends AppCompatActivity {
         calendar.add(Calendar.YEAR, -10);
         Date beginningOfTime = calendar.getTime();
 
-        GraphDateDAO.getInstance().getDates(beginningOfTime, endOfTime, this::handleThisData);
+        GraphDateDAO graphDateDAO = GraphDateDAO.getInstance();
+        graphDateDAO.getDates(beginningOfTime, endOfTime, this::handleThisData);
 
         graphChart = (GraphView) findViewById(R.id.chart);
     }
@@ -224,7 +226,8 @@ public class GraphActivity extends AppCompatActivity {
                 series2017,
         };
 
-        Arrays.stream(allSeries).forEach(series -> {
+        Stream<LineGraphSeries> stream = Arrays.stream(allSeries);
+        stream.forEach(series -> {
             series.setTitle("This");
             series.setColor(Color.GREEN);
             series.setDrawDataPoints(true);
