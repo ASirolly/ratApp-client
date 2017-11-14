@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
-import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
 
 import org.json.JSONArray;

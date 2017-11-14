@@ -4,11 +4,6 @@ package com.example.paramount.ratappandroid.model;
 import com.example.paramount.ratappandroid.dao.Callback;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Holds application state information. Uses the singleton design pattern to allow
  * access to the model from each controller.

@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
-import com.example.paramount.ratappandroid.model.Model;
 import com.example.paramount.ratappandroid.model.RatSighting;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
