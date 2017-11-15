@@ -36,16 +36,21 @@ public class GraphActivityTest {
         RadioButton twentySeventeenButton = (RadioButton) activity.findViewById(
                 R.id.twenty_seventeen);
 
+        // both RadioGroups are initially unchecked
         assertEquals(radioGroup1.getCheckedRadioButtonId(), -1);
         assertEquals(radioGroup2.getCheckedRadioButtonId(), -1);
 
+        // check a button in RadioGroup1
         twentyTenButton.performClick();
 
+        // The 2010 button should be checked, and RadioGroup2 should still be unchecked
         assertEquals(radioGroup1.getCheckedRadioButtonId(), R.id.twenty_ten);
         assertEquals(radioGroup2.getCheckedRadioButtonId(), -1);
 
+        // check a button in RadioGroup2
         twentySeventeenButton.performClick();
 
+        // RadioGroup1 should now be unchecked, with the 2017 button in RadioGroup2 checked
         assertEquals(radioGroup1.getCheckedRadioButtonId(), -1);
         assertEquals(radioGroup2.getCheckedRadioButtonId(), R.id.twenty_seventeen);
     }
