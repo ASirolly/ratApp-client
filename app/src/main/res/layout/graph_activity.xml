@@ -14,28 +14,28 @@
         android:id="@+id/radioGroup1">
 
         <RadioButton
-            android:id="@+id/twenty-ten"
+            android:id="@+id/twenty_ten"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/ten" />
 
         <RadioButton
-            android:id="@+id/twenty-eleven"
+            android:id="@+id/twenty_eleven"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/eleven" />
 
         <RadioButton
-            android:id="@+id/twenty-twelve"
+            android:id="@+id/twenty_twelve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/twelve" />
 
         <RadioButton
-            android:id="@+id/twenty-thirteen"
+            android:id="@+id/twenty_thirteen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
@@ -50,28 +50,28 @@
         android:id="@+id/radioGroup2">
 
         <RadioButton
-            android:id="@+id/twenty-fourteen"
+            android:id="@+id/twenty_fourteen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/fourteen" />
 
         <RadioButton
-            android:id="@+id/twenty-fifteen"
+            android:id="@+id/twenty_fifteen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/fifteen" />
 
         <RadioButton
-            android:id="@+id/twenty-sixteen"
+            android:id="@+id/twenty_sixteen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
             android:text="@string/sixteen" />
 
         <RadioButton
-            android:id="@+id/twenty-seventeen"
+            android:id="@+id/twenty_seventeen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onSwitchYear"
