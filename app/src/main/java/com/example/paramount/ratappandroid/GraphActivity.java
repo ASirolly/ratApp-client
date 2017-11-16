@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.RadioButton;
@@ -26,9 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 
@@ -62,7 +61,7 @@ public class GraphActivity extends AppCompatActivity {
     private RadioGroup rg1;
     private RadioGroup rg2;
     private List<GraphDate> graphDates;
-    private Map<Integer, DataPoint[]> yearToDataPointArray;
+    private SparseArray<DataPoint[]> yearToDataPointArray;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
     private static final int NUMBER_2010 = 2010;
@@ -87,7 +86,7 @@ public class GraphActivity extends AppCompatActivity {
         graphChart = findViewById(R.id.chart);
 
         graphDates = new ArrayList<>();
-        yearToDataPointArray = new HashMap<>();
+        yearToDataPointArray = new SparseArray<>();
         yearToDataPointArray.put(NUMBER_2010, ten);
         yearToDataPointArray.put(NUMBER_2011, eleven);
         yearToDataPointArray.put(NUMBER_2012, twelve);
