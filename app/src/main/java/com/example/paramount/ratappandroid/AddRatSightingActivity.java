@@ -38,7 +38,6 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
 
     private static final String TAG = "ADD_RAT_SIGHTING";
     private static final int WAIT_TIME = 500;
-    private static RatSightingDAO ratSightingDAO;
 
     /**
      * Creates the dashboard page.
@@ -127,7 +126,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         params.put("zip", zip.toString());
 
 
-        ratSightingDAO = RatSightingDAO.getInstance();
+        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance(getApplicationContext());
         ratSightingDAO.createRatSighting(params, response ->
             Log.i(TAG, String.format("create rat sighting response: %s", response))
         );

@@ -82,7 +82,7 @@ public class Registration extends AppCompatActivity {
 //                        Log.i(TAG, String.format("failed to register account: %s", account));
 //                        showMessage("registration could not be completed");
 //                    }
-                    model = Model.getInstance();
+                    model = Model.getInstance(getApplicationContext());
                     model.registerAccount(account, Registration.this::onSuccess);
                 }
         });

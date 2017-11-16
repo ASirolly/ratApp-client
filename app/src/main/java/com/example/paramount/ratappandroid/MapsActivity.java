@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
                 .findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
-        ratSightingDAO = RatSightingDAO.getInstance();
+        ratSightingDAO = RatSightingDAO.getInstance(getApplicationContext());
 
         ratSightingMap = new HashMap<>();
         setDatePicker();

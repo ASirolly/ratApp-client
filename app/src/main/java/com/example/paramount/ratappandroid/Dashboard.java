@@ -41,7 +41,7 @@ public class Dashboard extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashboard);
-        ratSightingDAO = RatSightingDAO.getInstance();
+        ratSightingDAO = RatSightingDAO.getInstance(getApplicationContext());
 
         ratSightings = new ArrayList<>();
 

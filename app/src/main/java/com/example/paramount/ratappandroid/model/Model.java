@@ -1,6 +1,8 @@
 package com.example.paramount.ratappandroid.model;
 
 
+import android.content.Context;
+
 import com.example.paramount.ratappandroid.dao.Callback;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
@@ -14,20 +16,25 @@ import com.example.paramount.ratappandroid.dao.UserDAO;
 
 public final class Model {
     // singleton instance
-    private static final Model _instance = new Model();
+    private static Model _instance;
     private final UserDAO userDAO;
 
     // maps unique key to rat sighting
 
-    private Model() {
-        userDAO = UserDAO.getInstance();
+    private Model(Context context) {
+        userDAO = UserDAO.getInstance(context);
     }
 
     /**
      * Returns a model instance.
+     * @param context application context to initialize UserDAO
      * @return _instance An instance of the model.
      */
-    public static Model getInstance() { return _instance; }
+    public static synchronized Model getInstance(Context context) {
+        if (_instance == null) {
+            _instance = new Model(context);
+        }
+        return _instance; }
 
     /**
      * Determines whether the provided username/password combination is valid.

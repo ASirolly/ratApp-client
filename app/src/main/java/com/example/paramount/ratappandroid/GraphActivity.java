@@ -63,7 +63,6 @@ public class GraphActivity extends AppCompatActivity {
     private RadioGroup rg2;
     private List<GraphDate> graphDates;
     private Map<Integer, DataPoint[]> yearToDataPointArray;
-    private GraphDateDAO graphDateDAO;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
     private static final int NUMBER_2010 = 2010;
@@ -134,7 +133,7 @@ public class GraphActivity extends AppCompatActivity {
         calendar.add(Calendar.YEAR, -10);
         Date beginningOfTime = calendar.getTime();
 
-        graphDateDAO = GraphDateDAO.getInstance();
+        GraphDateDAO graphDateDAO = GraphDateDAO.getInstance(getApplicationContext());
         graphDateDAO.getDates(beginningOfTime, endOfTime, this::handleThisData);
     }
 

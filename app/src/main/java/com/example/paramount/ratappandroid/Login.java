@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
 
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s",
                         username, password));
-                model = Model.getInstance();
+                model = Model.getInstance(getApplicationContext());
                 model.lookUpAccount(username, password, Login.this::onSuccess);
 //                if (account != null) {
 ////                    Log.i(TAG, "successful login attempt");

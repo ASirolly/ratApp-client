@@ -1,12 +1,12 @@
 package com.example.paramount.ratappandroid.dao;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.paramount.ratappandroid.App;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -23,17 +23,22 @@ public final class UserDAO {
     private static final String baseUrl = "http://10.0.2.2:9292/api/";
 
     private final RequestQueue requestQueue;
-    private static final UserDAO _instance = new UserDAO();
+    private static UserDAO _instance;
 
-    private UserDAO() {
-        requestQueue = Volley.newRequestQueue(App.getContext());
+    private UserDAO(Context context) {
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     /**
-     * Returns the singleton instance of this class.
+     * Initializes the singleton instance of this DAO if it has not been initialized, then returns
+     * it.
+     * @param context application context to initialize Volley request queue
      * @return singleton instance
      */
-    public static UserDAO getInstance() {
+    public static synchronized UserDAO getInstance(Context context) {
+        if (_instance == null) {
+            _instance = new UserDAO(context);
+        }
         return _instance;
     }
 
