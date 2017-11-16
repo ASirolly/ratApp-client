@@ -21,7 +21,6 @@ public class Login extends AppCompatActivity {
 
     private static final String TAG = "Login"; // used in log messages
 
-    private Account account;
     private Model model;
 
     /**
@@ -46,8 +45,6 @@ public class Login extends AppCompatActivity {
 
                 Editable passwordEditable = passwordEditText.getText();
                 String password = passwordEditable.toString();
-
-                Login.this.account = new Account(username, password, AccountType.ADMIN);
 
                 Log.i(TAG, String.format("attempting login with username: %s, password: %s",
                         username, password));
