@@ -32,7 +32,6 @@ public class Login extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        Log.d("msg", account.toString());
 
         Button cancel = (Button) findViewById(R.id.cancelButtonLogin);
         cancel.setOnClickListener(view -> finish());
