@@ -26,14 +26,14 @@ public class GraphActivityTest {
     @Test
     public void testGraphActivityRadioGroups() {
         GraphActivity activity = Robolectric.setupActivity(GraphActivity.class);
-        RadioGroup radioGroup1 = (RadioGroup) activity.findViewById(R.id.radioGroup1);
-        RadioGroup radioGroup2 = (RadioGroup) activity.findViewById(R.id.radioGroup2);
+        RadioGroup radioGroup1 = activity.findViewById(R.id.radioGroup1);
+        RadioGroup radioGroup2 = activity.findViewById(R.id.radioGroup2);
 
         // belongs to radioGroup1
-        RadioButton twentyTenButton = (RadioButton) activity.findViewById(R.id.twenty_ten);
+        RadioButton twentyTenButton = activity.findViewById(R.id.twenty_ten);
 
         // belongs to radioGroup2
-        RadioButton twentySeventeenButton = (RadioButton) activity.findViewById(
+        RadioButton twentySeventeenButton = activity.findViewById(
                 R.id.twenty_seventeen);
 
         // both RadioGroups are initially unchecked

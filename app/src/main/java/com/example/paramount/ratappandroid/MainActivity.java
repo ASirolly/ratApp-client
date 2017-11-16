@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button login = (Button) findViewById(R.id.button_login);
+        Button login = findViewById(R.id.button_login);
         login.setOnClickListener(view -> {
                 Intent intent = new Intent(getBaseContext(), Login.class);
                 startActivity(intent);
         });
 
-        TextView registration = (TextView) findViewById(R.id.text_registration);
+        TextView registration = findViewById(R.id.text_registration);
         registration.setOnClickListener(view -> {
                 Intent intent = new Intent(getBaseContext(), Registration.class);
                 startActivity(intent);

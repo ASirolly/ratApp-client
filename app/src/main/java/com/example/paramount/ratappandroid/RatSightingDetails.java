@@ -32,15 +32,15 @@ public class RatSightingDetails extends LoggedInBaseActivity {
         Intent intent = getIntent();
         RatSighting ratSighting = (RatSighting) intent.getSerializableExtra("ratSighting");
 
-        TextView keyValueTextView = (TextView) findViewById(R.id.keyValue);
-        TextView createDateTextView = (TextView) findViewById(R.id.createDateValue);
-        TextView locationTypeTextView = (TextView) findViewById(R.id.locationTypeValue);
-        TextView zipTextView = (TextView) findViewById(R.id.zipValue);
-        TextView addressTextView = (TextView) findViewById(R.id.addressValue);
-        TextView cityTextView = (TextView) findViewById(R.id.cityValue);
-        TextView boroughTextView = (TextView) findViewById(R.id.boroughValue);
-        TextView latitudeTextView = (TextView) findViewById(R.id.latitudeValue);
-        TextView longitudeTextView = (TextView) findViewById(R.id.longitudeValue);
+        TextView keyValueTextView = findViewById(R.id.keyValue);
+        TextView createDateTextView = findViewById(R.id.createDateValue);
+        TextView locationTypeTextView = findViewById(R.id.locationTypeValue);
+        TextView zipTextView = findViewById(R.id.zipValue);
+        TextView addressTextView = findViewById(R.id.addressValue);
+        TextView cityTextView = findViewById(R.id.cityValue);
+        TextView boroughTextView = findViewById(R.id.boroughValue);
+        TextView latitudeTextView = findViewById(R.id.latitudeValue);
+        TextView longitudeTextView = findViewById(R.id.longitudeValue);
 
         keyValueTextView.setText(ratSighting.getUniqueKey());
         createDateTextView.setText(displayDateFormat.format(ratSighting.getCreateDate()));

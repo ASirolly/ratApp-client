@@ -47,16 +47,16 @@ public class Dashboard extends LoggedInBaseActivity {
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
                 ratSightings);
-        ListView sightingListView = (ListView) findViewById(R.id.sightingListView);
+        ListView sightingListView = findViewById(R.id.sightingListView);
         sightingListView.setAdapter(arrayAdapter);
 
-        Button mapButton = (Button) findViewById(R.id.mapViewButton);
+        Button mapButton = findViewById(R.id.mapViewButton);
         mapButton.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), MapsActivity.class);
             startActivity(intent);
         });
 
-        Button graphButton = (Button) findViewById(R.id.graphViewButton);
+        Button graphButton = findViewById(R.id.graphViewButton);
         graphButton.setOnClickListener(view -> {
             Intent intent = new Intent(getBaseContext(), GraphActivity.class);
             startActivity(intent);

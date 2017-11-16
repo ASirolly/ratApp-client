@@ -92,9 +92,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         startDatePickerDialog = new DatePickerDialog(MapsActivity.this);
         endDatePickerDialog = new DatePickerDialog(MapsActivity.this);
-        selectStartDateButton = (Button) findViewById(R.id.selectStartDateButton);
-        selectEndDateButton = (Button) findViewById(R.id.selectEndDateButton);
-        Button findRatSightingsButton = (Button) findViewById(R.id.findRatSightings);
+        selectStartDateButton = findViewById(R.id.selectStartDateButton);
+        selectEndDateButton = findViewById(R.id.selectEndDateButton);
+        Button findRatSightingsButton = findViewById(R.id.findRatSightings);
 
         // clicking start/end date button shows start/end date picker
         selectStartDateButton.setOnClickListener(click -> startDatePickerDialog.show());

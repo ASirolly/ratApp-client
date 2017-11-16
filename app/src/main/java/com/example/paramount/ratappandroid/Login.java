@@ -30,13 +30,13 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        Button cancel = (Button) findViewById(R.id.cancelButtonLogin);
+        Button cancel = findViewById(R.id.cancelButtonLogin);
         cancel.setOnClickListener(view -> finish());
 
-        Button submit = (Button) findViewById(R.id.submitButtonLogin);
+        Button submit = findViewById(R.id.submitButtonLogin);
         submit.setOnClickListener(view -> {
-                EditText usernameEditText = (EditText) findViewById(R.id.usernameEditTextLogin);
-                EditText passwordEditText = (EditText) findViewById(R.id.passwordEditTextLogin);
+                EditText usernameEditText = findViewById(R.id.usernameEditTextLogin);
+                EditText passwordEditText = findViewById(R.id.passwordEditTextLogin);
 
                 Editable usernameEditable = usernameEditText.getText();
                 String username = usernameEditable.toString();

@@ -35,16 +35,16 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
 
-        Button cancel = (Button) findViewById(R.id.cancelButton);
+        Button cancel = findViewById(R.id.cancelButton);
         cancel.setOnClickListener(view -> finish());
 
-        Button submit = (Button) findViewById(R.id.submitButton);
+        Button submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(view -> {
-                EditText usernameEditText = (EditText) findViewById(R.id.usernameInput);
-                EditText passwordEditText = (EditText) findViewById(R.id.passwordInput);
-                EditText passwordConfirmationEditText = (EditText) findViewById(
+                EditText usernameEditText = findViewById(R.id.usernameInput);
+                EditText passwordEditText = findViewById(R.id.passwordInput);
+                EditText passwordConfirmationEditText = findViewById(
                         R.id.passwordConfirmationInput);
-                RadioGroup accountTypeRadioGroup = (RadioGroup) findViewById(
+                RadioGroup accountTypeRadioGroup = findViewById(
                         R.id.accountTypeRadioGroup);
                 Checkable userRadioButton = (RadioButton) findViewById(R.id.userRadioButton);
 

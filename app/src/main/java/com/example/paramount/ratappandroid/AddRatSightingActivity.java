@@ -49,18 +49,18 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_rat_sighting);
 
-        longitudeEditText = (EditText) findViewById(R.id.longitudeInput);
-        latitudeEditText = (EditText) findViewById(R.id.latitudeInput);
-        cityEditText = (EditText) findViewById(R.id.cityInput);
-        locationTypeEditText = (EditText) findViewById(R.id.locationTypeInput);
-        boroughEditText = (EditText) findViewById(R.id.boroughInput);
-        addressEditText = (EditText) findViewById(R.id.addressInput);
-        zipEditText = (EditText) findViewById(R.id.zipInput);
+        longitudeEditText = findViewById(R.id.longitudeInput);
+        latitudeEditText = findViewById(R.id.latitudeInput);
+        cityEditText = findViewById(R.id.cityInput);
+        locationTypeEditText = findViewById(R.id.locationTypeInput);
+        boroughEditText = findViewById(R.id.boroughInput);
+        addressEditText = findViewById(R.id.addressInput);
+        zipEditText = findViewById(R.id.zipInput);
 
-        Button submit = (Button) findViewById(R.id.submitButton);
+        Button submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(this::submit);
 
-        Button cancel = (Button) findViewById(R.id.cancelButton);
+        Button cancel = findViewById(R.id.cancelButton);
         cancel.setOnClickListener(view -> finish());
     }
 

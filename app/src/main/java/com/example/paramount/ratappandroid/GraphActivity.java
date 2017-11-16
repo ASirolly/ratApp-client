@@ -84,7 +84,7 @@ public class GraphActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
-        graphChart = (GraphView) findViewById(R.id.chart);
+        graphChart = findViewById(R.id.chart);
 
         graphDates = new ArrayList<>();
         yearToDataPointArray = new HashMap<>();
@@ -104,8 +104,8 @@ public class GraphActivity extends AppCompatActivity {
      * Sets up RadioGroup onCheckedChangeListeners.
      */
     private void setRadioGroups() {
-        rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
-        rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
+        rg1 = findViewById(R.id.radioGroup1);
+        rg2 = findViewById(R.id.radioGroup2);
         rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
         rg2.clearCheck();
         rg1.setOnCheckedChangeListener((group, checkedId) -> {
