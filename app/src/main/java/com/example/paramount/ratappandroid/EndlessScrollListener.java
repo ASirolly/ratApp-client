@@ -58,7 +58,8 @@ abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         if (!loading &&
                 ((firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount)) {
-            loading = onLoadMore(currentPage + 1, totalItemCount);
+            onLoadMore(currentPage + 1, totalItemCount);
+            loading = true;
         }
     }
 
@@ -68,7 +69,7 @@ abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
      * @param totalItemsCount number of total items
      * @return true if more data is being loaded; false if there is no more data to load.
      */
-    public abstract boolean onLoadMore(int page, int totalItemsCount);
+    public abstract void onLoadMore(int page, int totalItemsCount);
 
     /**
      * abstract method for detailing if scroll state changed
