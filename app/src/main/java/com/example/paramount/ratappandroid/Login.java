@@ -8,8 +8,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.paramount.ratappandroid.model.Account;
-import com.example.paramount.ratappandroid.model.AccountType;
 import com.example.paramount.ratappandroid.model.Model;
 
 /**
