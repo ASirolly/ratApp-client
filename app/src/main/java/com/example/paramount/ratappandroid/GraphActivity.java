@@ -85,6 +85,8 @@ public class GraphActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_activity);
+        graphChart = (GraphView) findViewById(R.id.chart);
+
         graphDates = new ArrayList<>();
         yearToDataPointArray = new HashMap<>();
         yearToDataPointArray.put(NUMBER_2010, ten);
@@ -95,13 +97,14 @@ public class GraphActivity extends AppCompatActivity {
         yearToDataPointArray.put(NUMBER_2015, fifteen);
         yearToDataPointArray.put(NUMBER_2016, sixteen);
         yearToDataPointArray.put(NUMBER_2017, seventeen);
-        setRadioGroup();
+        setRadioGroups();
+        getData();
     }
 
     /**
-     * sets the radio group
+     * Sets up RadioGroup onCheckedChangeListeners.
      */
-    public void setRadioGroup() {
+    private void setRadioGroups() {
         rg1 = (RadioGroup) findViewById(R.id.radioGroup1);
         rg2 = (RadioGroup) findViewById(R.id.radioGroup2);
         rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
@@ -117,7 +120,12 @@ public class GraphActivity extends AppCompatActivity {
                 resetRadioGroup1();
             }
         });
+    }
 
+    /**
+     * Uses GraphDateDAO to retrieve graph data.
+     */
+    private void getData() {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
         Date endOfTime = calendar.getTime();
@@ -128,12 +136,10 @@ public class GraphActivity extends AppCompatActivity {
 
         graphDateDAO = GraphDateDAO.getInstance();
         graphDateDAO.getDates(beginningOfTime, endOfTime, this::handleThisData);
-
-        graphChart = (GraphView) findViewById(R.id.chart);
     }
 
     /**
-     * Sends the JSON request.
+     * Stores graph data returned in JSON response.
      * @param response the JSON response
      */
     private void handleThisData(JSONObject response) {
@@ -314,7 +320,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     /**
-     * resets the first RadioGroup
+     * Resets the first RadioGroup.
      */
     private void resetRadioGroup1() {
         rg1.setOnCheckedChangeListener(null);
@@ -323,7 +329,7 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     /**
-     * resets the second RadioGroup
+     * Resets the second RadioGroup.
      */
     private void resetRadioGroup2() {
         rg2.setOnCheckedChangeListener(null);

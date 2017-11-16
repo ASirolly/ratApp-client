@@ -78,9 +78,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * sets the date picker
+     * Sets initial values for the date picker, and sets onClickListeners for date picker buttons
+     * and findRatSightings button.
      */
-    public void setDatePicker() {
+    private void setDatePicker() {
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
