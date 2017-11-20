@@ -43,7 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Locale.US);
 
     private GoogleMap googlemap;
-    private Map<String, RatSighting> ratSightingMap;
+    private Map<String, RatSighting> ratSightingMap = new HashMap<>();
     private RatSightingDAO ratSightingDAO;
 
     private static final String selectStartDateButtonTextTemplate =
@@ -72,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         ratSightingDAO = RatSightingDAO.getInstance(getApplicationContext());
 
-        ratSightingMap = new HashMap<>();
+        //ratSightingMap = new HashMap<>();
         setDatePicker();
 
     }
@@ -81,7 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Sets initial values for the date picker, and sets onClickListeners for date picker buttons
      * and findRatSightings button.
      */
-    private void setDatePicker() {
+    public void setDatePicker() {
         // initialize start date to one year ago, and end date to tomorrow
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -211,5 +211,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         showAllRatSightings();
+    }
+
+    public int getMapSize() {
+        return ratSightingMap.size();
     }
 }
