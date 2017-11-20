@@ -3,13 +3,9 @@ package com.example.paramount.ratappandroid.model;
 
 import android.content.Context;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.dao.Callback;
+import com.example.paramount.ratappandroid.dao.UserDAO;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Holds application state information. Uses the singleton design pattern to allow
@@ -18,131 +14,60 @@ import java.util.Map;
  * Created by Greg on 9/22/17.
  */
 
-public class Model {
+public final class Model {
     // singleton instance
-    private static final Model _instance = new Model();
-    final private String getDataUrl = "http://10.0.2.2:9292/api/rat_sightings?page=2";
-//    RequestQueue mRequestQueue;
-//    private static Context mCtx;
-    private ArrayList<RatSighting> ratSightings;
+    private static Model _instance;
+    private final UserDAO userDAO;
 
     // maps unique key to rat sighting
-    private Map<String, RatSighting> mapRatSightings;
 
-    private Model() {
-        allAccounts = new HashMap<>();
-        // leaving in test account for now
-        Account testAccount = new Account("u", "p", AccountType.ADMIN);
-        allAccounts.put("u", testAccount);
-        ratSightings = new ArrayList<>(25);
-        mapRatSightings = new HashMap<>();
+    private Model(Context context) {
+        userDAO = UserDAO.getInstance(context);
     }
 
     /**
      * Returns a model instance.
+     * @param context application context to initialize UserDAO
      * @return _instance An instance of the model.
      */
-    public static Model getInstance() { return _instance; }
-
-    /*
-     * Account of the currently logged in user.
-      */
-    private Account account;
-
-    /**
-     * Maps username to corresponding account, for all existing accounts.
-     * Temporary (for M5).
-     */
-    private Map<String, Account> allAccounts;
-
-    /**
-     * Get list of rat sightings.
-     */
-    public ArrayList<RatSighting> getRatSightings() {
-        return ratSightings;
-    }
-
-    /**
-     * Clears out list of rat sightings.
-     */
-    public void resetRatSightings() {
-        ratSightings.clear();
-    }
-
-    /**
-     * @return list of rat sightings for display on the map.
-     */
-    public Map<String, RatSighting> getMapRatSightings() { return mapRatSightings; }
-
-    /**
-     * Clears out list of rat sightings for display on the map.
-     */
-    public void resetMapRatSightings() { mapRatSightings.clear(); }
-
-    /**
-     * Returns the boolean status of an account
-     * @return account == null Whether an account is null
-     */
-    public boolean isLoggedIn() { return account == null; }
-
-    /**
-     * Sets the account to null when an actor logs out.
-     */
-    public void logOut() { account = null; }
-
-    /**
-     * Sets the account variable.
-     * @param account an instance of account
-     */
-    public void setAccount(Account account) { this.account = account; }
-
-    /**
-     * Returns the viewed account instance.
-     * @return account An instance of account
-     */
-    public Account getAccount() { return account; }
-
-    /**
-     * Makes a call to the backend to determine whether the provided username/password combination is valid.
-     * @return the corresponding account if the combination is valid, and none otherwise
-     */
-    public Account lookUpAccount(String username, String password) {
-        // TODO: call to backend here. And move to separate class?
-        Account account = allAccounts.get(username);
-        if (account == null) { // there is no account with the given username
-            return null;
+    public static synchronized Model getInstance(Context context) {
+        if (_instance == null) {
+            _instance = new Model(context);
         }
-        if (password.equals(account.getPassword())) { // account exists and correct password was provided
-            return account;
-        }
-        return null; // account exists, but wrong password provided
+        return _instance; }
+
+    /**
+     * Determines whether the provided username/password combination is valid.
+     * @param username provided username
+     * @param password provided password
+     * @param callback provides onSuccess method to execute upon successful registration
+     */
+    public void lookUpAccount(String username, String password, Callback<String> callback) {
+//        Account account = allAccounts.get(username);
+//        if (account == null) { // there is no account with the given username
+//            return null;
+//        }
+//         // account exists and correct password was provided
+//        if (password.equals(account.getPassword())) {
+//            return account;
+//        }
+//        return null; // account exists, but wrong password provided
+        userDAO.authenticate(username, password, callback);
     }
 
     /**
      * Attempts to register an account.
-     * @return true if successful and false if unsuccessful (e.g. because the provided username is already taken).
+     * @param account account to register
+     * @param callback provides onSuccess method to execute upon successful registration
      */
-    public boolean registerAccount(Account account) {
-        // TODO: call to backend here. And move to separate class?
-        if (allAccounts.containsKey(account.getUsername())) { // username already taken
-            return false;
-        }
-        allAccounts.put(account.getUsername(), account);
-        return true;
-    }
-
-//    public RequestQueue getRequestQueue() {
-//        if (mRequestQueue == null) {
-//            // getApplicationContext() is key, it keeps you from leaking the
-//            // Activity or BroadcastReceiver if someone passes one in.
-//            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+    public void registerAccount(Account account, Callback<String> callback) {
+//        if (allAccounts.containsKey(account.getUsername())) { // username already taken
+//            return false;
 //        }
-//        return mRequestQueue;
-//    }
-
-//    public <T> void addToRequestQueue(Request<T> req) {
-//        getRequestQueue().add(req);
-//    }
-
+//        allAccounts.put(account.getUsername(), account);
+//        return true;
+        userDAO.createUser(account.getUsername(), account.getPassword(),
+                account.getPassword(), callback);
+    }
 
 }

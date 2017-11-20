@@ -3,9 +3,9 @@ package com.example.paramount.ratappandroid;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
+import android.text.Editable;
 import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,12 +22,12 @@ import com.example.paramount.ratappandroid.model.Model;
 
 public class Registration extends AppCompatActivity {
 
-    private final static String TAG = "Registration"; // used in log messages
-    private Button cancel;
-    private Button submit;
+    private String username;
+    private Model model;
 
     /**
-     * Creates the registration page and sets actions for the username, password, account status, submit, and cancel elements.
+     * Creates the registration page and sets actions for the username, password, account status,
+     * submit, and cancel elements.
      * @param savedInstanceState Bundle object containing the activity's previously saved state.
      */
     @Override
@@ -35,28 +35,27 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
 
-        cancel = (Button) findViewById(R.id.cancelButton);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        Button cancel = findViewById(R.id.cancelButton);
+        cancel.setOnClickListener(view -> finish());
 
-        submit = (Button) findViewById(R.id.submitButton);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText usernameEditText = (EditText) findViewById(R.id.usernameInput);
-                EditText passwordEditText = (EditText) findViewById(R.id.passwordInput);
-                EditText passwordConfirmationEditText = (EditText) findViewById(R.id.passwordConfirmationInput);
-                RadioGroup accountTypeRadioGroup = (RadioGroup) findViewById(R.id.accountTypeRadioGroup);
-                RadioButton userRadioButton = (RadioButton) findViewById(R.id.userRadioButton);
-                RadioButton adminRadioButton = (RadioButton) findViewById(R.id.adminRadioButton);
+        Button submit = findViewById(R.id.submitButton);
+        submit.setOnClickListener(view -> {
+                EditText usernameEditText = findViewById(R.id.usernameInput);
+                EditText passwordEditText = findViewById(R.id.passwordInput);
+                EditText passwordConfirmationEditText = findViewById(
+                        R.id.passwordConfirmationInput);
+                RadioGroup accountTypeRadioGroup = findViewById(
+                        R.id.accountTypeRadioGroup);
+                Checkable userRadioButton = (RadioButton) findViewById(R.id.userRadioButton);
 
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String confirmedPassword = passwordConfirmationEditText.getText().toString();
+                Editable usernameEditable = usernameEditText.getText();
+                String username = usernameEditable.toString();
+
+                Editable passwordEditable = passwordEditText.getText();
+                String password = passwordEditable.toString();
+
+                Editable passwordConfirmationEditable = passwordConfirmationEditText.getText();
+                String confirmedPassword = passwordConfirmationEditable.toString();
 
                 if (username.isEmpty()) {
                     showMessage("please enter a username");
@@ -67,27 +66,42 @@ public class Registration extends AppCompatActivity {
                 } else if (accountTypeRadioGroup.getCheckedRadioButtonId() == -1) {
                     showMessage("no account type selected");
                 } else {
-                    AccountType accountType = userRadioButton.isChecked() ? AccountType.USER : AccountType.ADMIN;
+                    AccountType accountType =
+                            userRadioButton.isChecked() ? AccountType.USER : AccountType.ADMIN;
                     Account account = new Account(username, password, accountType);
 
-                    if (Model.getInstance().registerAccount(account)) { // successful registration
-                        Log.i(TAG, String.format("registered account: %s", account));
-                        finish();
-                        showMessage(String.format("successfully registered with username: %s", username));
-                    } else {
-                        Log.i(TAG, String.format("failed to register account: %s", account));
-                        showMessage("registration could not be completed");
-                    }
+                    Registration.this.username = username;
+
+                    // successful registration
+//                    if (Model.getInstance().registerAccount(userDAO, account)) {
+//                        Log.i(TAG, String.format("registered account: %s", account));
+//                        finish();
+//                        showMessage(String.format(
+//                          "successfully registered with username: %s", username));
+//                    } else {
+//                        Log.i(TAG, String.format("failed to register account: %s", account));
+//                        showMessage("registration could not be completed");
+//                    }
+                    model = Model.getInstance(getApplicationContext());
+                    model.registerAccount(account, Registration.this::onSuccess);
                 }
-            }
         });
     }
 
     /**
-     * Shows the message
-     * @param message
+     * method called upon successful registration
+     * @param result message returned from POST request
      */
-    private void showMessage(String message) {
+    private void onSuccess(String result) {
+        finish();
+        showMessage(String.format(result + "successfully registered with username: %s", username));
+    }
+
+    /**
+     * Shows the message
+     * @param message message to be shown
+     */
+    private void showMessage(CharSequence message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
 

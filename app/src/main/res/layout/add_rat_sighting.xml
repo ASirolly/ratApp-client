@@ -17,16 +17,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/include" />
 
-        <!--longitude: ,-->
-        <!--latitude: ,-->
-        <!--city: ,-->
-        <!--location_type: ,-->
-        <!--borough: ,-->
-        <!--address: ,-->
-        <!--zip:-->
-
         <TextView
             android:id="@+id/longitudeLabel"
+            android:labelFor="@+id/longitudeInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -55,6 +48,7 @@
 
         <TextView
             android:id="@+id/latitudeLabel"
+            android:labelFor="@+id/latitudeInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -81,6 +75,7 @@
 
         <TextView
             android:id="@+id/cityLabel"
+            android:labelFor="@+id/cityInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -106,6 +101,7 @@
 
         <TextView
             android:id="@+id/locationTypeLabel"
+            android:labelFor="@+id/locationTypeInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -131,6 +127,7 @@
 
         <TextView
             android:id="@+id/boroughLabel"
+            android:labelFor="@+id/boroughInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -156,6 +153,7 @@
 
         <TextView
             android:id="@+id/addressLabel"
+            android:labelFor="@id/addressInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
@@ -181,6 +179,7 @@
 
         <TextView
             android:id="@+id/zipLabel"
+            android:labelFor="@+id/zipInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="51dp"
