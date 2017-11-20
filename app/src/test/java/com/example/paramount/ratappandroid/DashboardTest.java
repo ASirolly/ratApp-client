@@ -1,14 +1,16 @@
 package com.example.paramount.ratappandroid;
 
+import android.util.Log;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.robolectric.RobolectricTestRunner;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by joshuareno on 11/19/17.
- */
+///**
+// * Created by joshuareno on 11/19/17.
+// */
 
 @RunWith(RobolectricTestRunner.class)
 public class DashboardTest {
@@ -37,7 +39,7 @@ public class DashboardTest {
         EndlessScrollListener scrollListener = new EndlessScrollListener() {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                return;
+                Log.d("msg", "" + page);
             }
         };
         assertEquals(scrollListener.getPreviousTotalItemCount(), 0);

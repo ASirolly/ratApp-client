@@ -67,7 +67,7 @@ abstract class EndlessScrollListener implements AbsListView.OnScrollListener {
      * Defines the process for actually loading more data based on page.
      * @param page page to loud
      * @param totalItemsCount number of total items
-     * @return true if more data is being loaded; false if there is no more data to load.
+     * //@return true if more data is being loaded; false if there is no more data to load.
      */
     public abstract void onLoadMore(int page, int totalItemsCount);
 
