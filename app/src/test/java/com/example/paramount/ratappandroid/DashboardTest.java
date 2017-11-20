@@ -1,24 +1,8 @@
 package com.example.paramount.ratappandroid;
-
-import android.app.DatePickerDialog;
-import android.os.Bundle;
-import android.test.AndroidTestCase;
-import android.widget.Button;
-
-import com.example.paramount.ratappandroid.model.Model;
-import com.example.paramount.ratappandroid.model.RatSighting;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 
