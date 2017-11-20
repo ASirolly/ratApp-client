@@ -3,17 +3,22 @@ package com.example.paramount.ratappandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.paramount.ratappandroid.dao.RatSightingDAO;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.paramount.ratappandroid.model.Model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,16 +33,17 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     /**
      * Declare EditTexts here so that they can be used in createRatSighting() method
      */
-    private EditText longitudeEditText;
-    private EditText latitudeEditText;
-    private EditText cityEditText;
-    private EditText locationTypeEditText;
-    private EditText boroughEditText;
-    private EditText addressEditText;
-    private EditText zipEditText;
+    EditText longitudeEditText;
+    EditText latitudeEditText;
+    EditText cityEditText;
+    EditText locationTypeEditText;
+    EditText boroughEditText;
+    EditText addressEditText;
+    EditText zipEditText;
 
-    private static final String TAG = "ADD_RAT_SIGHTING";
-    private static final int WAIT_TIME = 500;
+    private final static String TAG = "ADD_RAT_SIGHTING";
+    private final static String baseUrl = "http://10.0.2.2:9292/api/rat_sightings";
+    private RequestQueue requestQueue;
 
     /**
      * Creates the dashboard page.
@@ -48,95 +54,99 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_rat_sighting);
+        requestQueue = Volley.newRequestQueue(this.getApplicationContext());
 
-        longitudeEditText = findViewById(R.id.longitudeInput);
-        latitudeEditText = findViewById(R.id.latitudeInput);
-        cityEditText = findViewById(R.id.cityInput);
-        locationTypeEditText = findViewById(R.id.locationTypeInput);
-        boroughEditText = findViewById(R.id.boroughInput);
-        addressEditText = findViewById(R.id.addressInput);
-        zipEditText = findViewById(R.id.zipInput);
+        longitudeEditText = (EditText) findViewById(R.id.longitudeInput);
+        latitudeEditText = (EditText) findViewById(R.id.latitudeInput);
+        cityEditText = (EditText) findViewById(R.id.cityInput);
+        locationTypeEditText = (EditText) findViewById(R.id.locationTypeInput);
+        boroughEditText = (EditText) findViewById(R.id.boroughInput);
+        addressEditText = (EditText) findViewById(R.id.addressInput);
+        zipEditText = (EditText) findViewById(R.id.zipInput);
 
-        Button submit = findViewById(R.id.submitButton);
-        submit.setOnClickListener(this::submit);
+        Button submit = (Button) findViewById(R.id.submitButton);
+        submit.setOnClickListener(view -> {
+            if (StringUtils.isEmpty(longitudeEditText.getText())) {
+                showMessage("longitude field is empty");
+            } else if (StringUtils.isEmpty(latitudeEditText.getText())) {
+                showMessage("latitude field is empty");
+            } else if (StringUtils.isEmpty(cityEditText.getText())) {
+                showMessage("city field is empty");
+            } else if (StringUtils.isEmpty(locationTypeEditText.getText())) {
+                showMessage("location type field is empty");
+            } else if (StringUtils.isEmpty(boroughEditText.getText())) {
+                showMessage("borough field is empty");
+            } else if (StringUtils.isEmpty(addressEditText.getText())) {
+                showMessage("address field is empty");
+            } else if (StringUtils.isEmpty(zipEditText.getText())) {
+                showMessage("zip field is empty");
+            } else {
+                createRatSighting();
+                // Black magic to start a new Dashboard activity (so the new sighting is displayed)
+                // https://stackoverflow.com/a/4186097/5377941
+                Model.getInstance().resetRatSightings();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "I can't believe you've done this");
+                }
+                Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
+                AddRatSightingActivity.this.startActivity(intent);
+            }
+        });
 
-        Button cancel = findViewById(R.id.cancelButton);
+        Button cancel = (Button) findViewById(R.id.cancelButton);
         cancel.setOnClickListener(view -> finish());
     }
 
-    /**
-     * Method that is called when submit button is clicked
-     * @param view the view that submit button belongs to
-     */
-    private void submit(View view) {
-        Log.d("this", view.toString());
-        if (StringUtils.isEmpty(longitudeEditText.getText())) {
-            showMessage("longitude field is empty");
-        } else if (StringUtils.isEmpty(latitudeEditText.getText())) {
-            showMessage("latitude field is empty");
-        } else if (StringUtils.isEmpty(cityEditText.getText())) {
-            showMessage("city field is empty");
-        } else if (StringUtils.isEmpty(locationTypeEditText.getText())) {
-            showMessage("location type field is empty");
-        } else if (StringUtils.isEmpty(boroughEditText.getText())) {
-            showMessage("borough field is empty");
-        } else if (StringUtils.isEmpty(addressEditText.getText())) {
-            showMessage("address field is empty");
-        } else if (StringUtils.isEmpty(zipEditText.getText())) {
-            showMessage("zip field is empty");
-        } else {
-            createRatSighting();
-            // Black magic to start a new Dashboard activity (so the new sighting is displayed)
-            // https://stackoverflow.com/a/4186097/5377941
-            try {
-                Thread.sleep(WAIT_TIME);
-            } catch (InterruptedException e) {
-                Log.w(TAG, "I can't believe you've done this");
+    public void createRatSighting() {
+        StringRequest stringRequest = new StringRequest(
+            Request.Method.POST,
+            baseUrl,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.i(TAG, String.format("create rat sighting response: %s", response));
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    String body;
+                    try {
+                        body = new String(error.networkResponse.data, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        body = e.getMessage();
+                    }
+                    Log.w(TAG, String.format("create rat sighting error. body is: %s", body));
+                    error.printStackTrace();
+                }
+            }) {
+
+            @Override
+            protected Map<String,String> getParams() {
+            Map<String,String> params = new HashMap<>();
+            params.put("longitude", longitudeEditText.getText().toString());
+            params.put("latitude", latitudeEditText.getText().toString());
+            params.put("city", cityEditText.getText().toString());
+            params.put("location_type", locationTypeEditText.getText().toString());
+            params.put("borough", boroughEditText.getText().toString());
+            params.put("address", addressEditText.getText().toString());
+            params.put("zip", zipEditText.getText().toString());
+
+            return params;
             }
-            Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
-            AddRatSightingActivity.this.startActivity(intent);
-        }
-    }
+        };
 
-    /**
-     * Creates a rat sighting using the values stored in activity's EditTexts
-     */
-    private void createRatSighting() {
-        Map<String,String> params = new HashMap<>();
-
-        Editable longitude = longitudeEditText.getText();
-        params.put("longitude", longitude.toString());
-
-        Editable latitude = latitudeEditText.getText();
-        params.put("latitude", latitude.toString());
-
-        Editable city = cityEditText.getText();
-        params.put("city", city.toString());
-
-        Editable locationType = locationTypeEditText.getText();
-        params.put("location_type", locationType.toString());
-
-        Editable borough = boroughEditText.getText();
-        params.put("borough", borough.toString());
-
-        Editable address = addressEditText.getText();
-        params.put("address", address.toString());
-
-        Editable zip = zipEditText.getText();
-        params.put("zip", zip.toString());
-
-
-        RatSightingDAO ratSightingDAO = RatSightingDAO.getInstance(getApplicationContext());
-        ratSightingDAO.createRatSighting(params, response ->
-            Log.i(TAG, String.format("create rat sighting response: %s", response))
-        );
+        Log.i(TAG, "right before adding stringRequest");
+        requestQueue.add(stringRequest);
     }
 
     /**
      * Shows the message
      * @param message The message to be shown
      */
-    private void showMessage(CharSequence message) {
+    private void showMessage(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
 
