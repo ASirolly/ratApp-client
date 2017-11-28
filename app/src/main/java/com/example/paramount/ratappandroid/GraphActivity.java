@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Checkable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -15,8 +16,11 @@ import com.example.paramount.ratappandroid.model.GraphDate;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
@@ -24,11 +28,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Map;
 
 
 /**
@@ -49,19 +53,20 @@ public class GraphActivity extends AppCompatActivity {
     private final DataPoint[] fifteen = new DataPoint[12];
     private final DataPoint[] sixteen = new DataPoint[12];
     private final DataPoint[] seventeen = new DataPoint[12];
-    private final LineGraphSeries<DataPoint> series2010 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2011 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2012 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2013 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2014 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2015 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2016 = new LineGraphSeries<>();
-    private final LineGraphSeries<DataPoint> series2017 = new LineGraphSeries<>();
+
     private GraphView graphChart;
-    private RadioGroup rg1;
-    private RadioGroup rg2;
+    private RadioGroup yearsRadioGroup1;
+    private RadioGroup yearsRadioGroup2;
+    private RadioGroup graphTypeRadioGroup;
+
     private List<GraphDate> graphDates;
     private SparseArray<DataPoint[]> yearToDataPointArray;
+
+    // maps year to a map from Series type to the Series of that type for that year
+    private Map<Integer, Map<String, Series>> yearToEachSeriesMap;
+
+    // keeps track of the current series type in use (this should probably be an enum)
+    private String currentSeriesType = LINE_GRAPH_SERIES_KEY;
 
     private static final int NUMBER_OF_MONTHS_IN_A_YEAR = 12; // big if true
     private static final int NUMBER_2010 = 2010;
@@ -72,7 +77,20 @@ public class GraphActivity extends AppCompatActivity {
     private static final int NUMBER_2015 = 2015;
     private static final int NUMBER_2016 = 2016;
     private static final int NUMBER_2017 = 2017;
+    private static final int[] ALL_NUMBERS = new int[]{
+            NUMBER_2010,
+            NUMBER_2011,
+            NUMBER_2012,
+            NUMBER_2013,
+            NUMBER_2014,
+            NUMBER_2015,
+            NUMBER_2016,
+            NUMBER_2017
+    }; // any number not in this array is not actually a number
 
+    private static final String LINE_GRAPH_SERIES_KEY = "lineGraphSeries";
+    private static final String POINTS_GRAPH_SERIES_KEY = "pointsGraphSeries";
+    private static final String BAR_GRAPH_SERIES_KEY = "barGraphSeries";
 
 
     /**
@@ -95,6 +113,18 @@ public class GraphActivity extends AppCompatActivity {
         yearToDataPointArray.put(NUMBER_2015, fifteen);
         yearToDataPointArray.put(NUMBER_2016, sixteen);
         yearToDataPointArray.put(NUMBER_2017, seventeen);
+
+        yearToEachSeriesMap = new HashMap<>();
+        for (int year : ALL_NUMBERS) {
+            Map<String, Series> stringToSeriesMap = new HashMap<>();
+            stringToSeriesMap.put(LINE_GRAPH_SERIES_KEY, new LineGraphSeries<DataPoint>());
+            stringToSeriesMap.put(POINTS_GRAPH_SERIES_KEY, new PointsGraphSeries());
+            stringToSeriesMap.put(BAR_GRAPH_SERIES_KEY, new BarGraphSeries());
+
+            yearToEachSeriesMap.put(year, stringToSeriesMap);
+        }
+
+
         setRadioGroups();
         getData();
     }
@@ -103,20 +133,57 @@ public class GraphActivity extends AppCompatActivity {
      * Sets up RadioGroup onCheckedChangeListeners.
      */
     private void setRadioGroups() {
-        rg1 = findViewById(R.id.radioGroup1);
-        rg2 = findViewById(R.id.radioGroup2);
-        rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
-        rg2.clearCheck();
-        rg1.setOnCheckedChangeListener((group, checkedId) -> {
+        yearsRadioGroup1 = findViewById(R.id.radioGroup1);
+        yearsRadioGroup2 = findViewById(R.id.radioGroup2);
+        yearsRadioGroup1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
+        yearsRadioGroup2.clearCheck();
+
+        findViewById(R.id.twenty_seventeen).performClick();
+
+        yearsRadioGroup1.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId != -1) {
                 resetRadioGroup2();
+                updateDisplay();
             }
         });
 
-        rg2.setOnCheckedChangeListener((group, checkedId) -> {
+        yearsRadioGroup2.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId != -1) {
                 resetRadioGroup1();
+                updateDisplay();
             }
+        });
+
+        graphTypeRadioGroup = findViewById(R.id.graphTypeRadioGroup);
+        graphTypeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            updateDisplay();
+        });
+
+        RadioButton lineGraphRadioButton = findViewById(R.id.lineGraphButton);
+        RadioButton pointsGraphRadioButton = findViewById(R.id.pointGraphButton);
+        RadioButton barGraphRadioButton = findViewById(R.id.barGraphButton);
+
+        lineGraphRadioButton.setChecked(true);
+
+        lineGraphRadioButton.setOnCheckedChangeListener((view, isChecked) -> {
+            if (isChecked) {
+                currentSeriesType = LINE_GRAPH_SERIES_KEY;
+            }
+            updateDisplay();
+        });
+
+        pointsGraphRadioButton.setOnCheckedChangeListener((view, isChecked) -> {
+            if (isChecked) {
+                currentSeriesType = POINTS_GRAPH_SERIES_KEY;
+            }
+            updateDisplay();
+        });
+
+        barGraphRadioButton.setOnCheckedChangeListener((view, isChecked) -> {
+            if (isChecked) {
+                currentSeriesType = BAR_GRAPH_SERIES_KEY;
+            }
+            updateDisplay();
         });
     }
 
@@ -189,7 +256,8 @@ public class GraphActivity extends AppCompatActivity {
         setSeriesStyling();
 
         graphChart.removeAllSeries();
-        graphChart.addSeries(series2017);
+        graphChart.addSeries(yearToEachSeriesMap.get(NUMBER_2017).get(currentSeriesType));
+
         Checkable button2017 = (RadioButton) findViewById(R.id.twenty_seventeen);
         button2017.setChecked(true);
 
@@ -215,24 +283,25 @@ public class GraphActivity extends AppCompatActivity {
      * Set styling for all series.
      */
     private void setSeriesStyling() {
-        LineGraphSeries[] allSeries = new LineGraphSeries[] {
-                series2010,
-                series2011,
-                series2012,
-                series2013,
-                series2014,
-                series2015,
-                series2016,
-                series2017,
-        };
+        yearToEachSeriesMap.values().forEach((stringToSeriesMap) -> {
+            LineGraphSeries lineGraphSeries = (LineGraphSeries) stringToSeriesMap.get(LINE_GRAPH_SERIES_KEY);
+            lineGraphSeries.setTitle("This");
+            lineGraphSeries.setColor(Color.GREEN);
+            lineGraphSeries.setDrawDataPoints(true);
+            lineGraphSeries.setDataPointsRadius(10);
+            lineGraphSeries.setThickness(8);
 
-        Stream<LineGraphSeries> stream = Arrays.stream(allSeries);
-        stream.forEach(series -> {
-            series.setTitle("This");
-            series.setColor(Color.GREEN);
-            series.setDrawDataPoints(true);
-            series.setDataPointsRadius(10);
-            series.setThickness(8);
+            PointsGraphSeries pointsGraphSeries = (PointsGraphSeries) stringToSeriesMap.get(POINTS_GRAPH_SERIES_KEY);
+            pointsGraphSeries.setTitle("This");
+            pointsGraphSeries.setColor(Color.GREEN);
+            pointsGraphSeries.setSize(10);
+
+            BarGraphSeries barGraphSeries = (BarGraphSeries) stringToSeriesMap.get(BAR_GRAPH_SERIES_KEY);
+            barGraphSeries.setTitle("This");
+            barGraphSeries.setColor(Color.GREEN);
+            barGraphSeries.setDrawValuesOnTop(true);
+            barGraphSeries.setSpacing(2);
+            barGraphSeries.setValuesOnTopColor(Color.BLACK);
         });
     }
 
@@ -267,71 +336,56 @@ public class GraphActivity extends AppCompatActivity {
             }
         }
 
-        series2010.resetData(ten);
-        series2011.resetData(eleven);
-        series2012.resetData(twelve);
-        series2013.resetData(thirteen);
-        series2014.resetData(fourteen);
-        series2015.resetData(fifteen);
-        series2016.resetData(sixteen);
-        series2017.resetData(seventeen);
+        yearToEachSeriesMap.forEach((year, seriesTypeToSeriesMap) -> {
+            LineGraphSeries lineGraphSeries = (LineGraphSeries) seriesTypeToSeriesMap.get(LINE_GRAPH_SERIES_KEY);
+            PointsGraphSeries pointsGraphSeries = (PointsGraphSeries) seriesTypeToSeriesMap.get(POINTS_GRAPH_SERIES_KEY);
+            BarGraphSeries barGraphSeries = (BarGraphSeries) seriesTypeToSeriesMap.get(BAR_GRAPH_SERIES_KEY);
+
+            lineGraphSeries.resetData(yearToDataPointArray.get(year));
+            pointsGraphSeries.resetData(yearToDataPointArray.get(year));
+            barGraphSeries.resetData(yearToDataPointArray.get(year));
+
+        });
     }
 
     /**
-     * Method called when a year radio button is clicked.
-     * @param view View on which method was called
+     * Displays graph with correct style (line/points/bar graph) with data from correct year.
      */
-    public void onSwitchYear(View view) {
-        boolean check = ((RadioButton) view).isChecked();
-        RadioButton button = (RadioButton) view;
-        Log.d(TAG, String.format("button with year %s was clicked", button.getText()));
-
-        if (check) {
-            graphChart.removeAllSeries();
-            switch(Integer.parseInt((String) button.getText())) {
-                case NUMBER_2010:
-                    graphChart.addSeries(series2010);
-                    break;
-                case NUMBER_2011:
-                    graphChart.addSeries(series2011);
-                    break;
-                case NUMBER_2012:
-                    graphChart.addSeries(series2012);
-                    break;
-                case NUMBER_2013:
-                    graphChart.addSeries(series2013);
-                    break;
-                case NUMBER_2014:
-                    graphChart.addSeries(series2014);
-                    break;
-                case NUMBER_2015:
-                    graphChart.addSeries(series2015);
-                    break;
-                case NUMBER_2016:
-                    graphChart.addSeries(series2016);
-                    break;
-                case NUMBER_2017:
-                    graphChart.addSeries(series2017);
-                    break;
-            }
+    public void updateDisplay() {
+        System.out.println(yearsRadioGroup1.getCheckedRadioButtonId());
+        System.out.println(yearsRadioGroup2.getCheckedRadioButtonId());
+        int yearId = yearsRadioGroup1.getCheckedRadioButtonId();
+        if (yearId == -1) {
+            yearId = yearsRadioGroup2.getCheckedRadioButtonId();
         }
+        String yearString = (String) ((Button) findViewById(yearId)).getText();
+        int year = Integer.parseInt(yearString);
+
+        graphChart.removeAllSeries();
+        graphChart.addSeries(yearToEachSeriesMap.get(year).get(currentSeriesType));
     }
 
     /**
      * Resets the first RadioGroup.
      */
     private void resetRadioGroup1() {
-        rg1.setOnCheckedChangeListener(null);
-        rg1.clearCheck();
-        rg1.setOnCheckedChangeListener((group, checkedId) -> resetRadioGroup2());
+        yearsRadioGroup1.setOnCheckedChangeListener(null);
+        yearsRadioGroup1.clearCheck();
+        yearsRadioGroup1.setOnCheckedChangeListener((group, checkedId) -> {
+            resetRadioGroup2();
+            updateDisplay();
+        });
     }
 
     /**
      * Resets the second RadioGroup.
      */
     private void resetRadioGroup2() {
-        rg2.setOnCheckedChangeListener(null);
-        rg2.clearCheck();
-        rg2.setOnCheckedChangeListener((group, checkedId) -> resetRadioGroup1());
+        yearsRadioGroup2.setOnCheckedChangeListener(null);
+        yearsRadioGroup2.clearCheck();
+        yearsRadioGroup2.setOnCheckedChangeListener((group, checkedId) -> {
+            resetRadioGroup1();
+            updateDisplay();
+        });
     }
 }

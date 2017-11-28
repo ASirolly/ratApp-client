@@ -44,4 +44,7 @@
     <string name="fifteen">2015</string>
     <string name="sixteen">2016</string>
     <string name="seventeen">2017</string>
+    <string name="point_graph">Point Graph</string>
+    <string name="line_graph">Line Graph</string>
+    <string name="bar_graph">Bar Graph</string>
 </resources>
