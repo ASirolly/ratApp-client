@@ -123,7 +123,6 @@ public class Model {
      * @return true if successful and false if unsuccessful (e.g. because the provided username is already taken).
      */
     public boolean registerAccount(Account account) {
-        // TODO: call to backend here. And move to separate class?
         if (allAccounts.containsKey(account.getUsername())) { // username already taken
             return false;
         }

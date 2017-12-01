@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup1">
+
+        <RadioButton
+            android:id="@+id/twenty_ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ten" />
+
+        <RadioButton
+            android:id="@+id/twenty_eleven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eleven" />
+
+        <RadioButton
+            android:id="@+id/twenty_twelve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/twelve" />
+
+        <RadioButton
+            android:id="@+id/twenty_thirteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/thirteen" />
+    </RadioGroup>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/radioGroup2">
+
+        <RadioButton
+            android:id="@+id/twenty_fourteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fourteen" />
+
+        <RadioButton
+            android:id="@+id/twenty_fifteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fifteen" />
+
+        <RadioButton
+            android:id="@+id/twenty_sixteen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sixteen" />
+
+        <RadioButton
+            android:id="@+id/twenty_seventeen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seventeen" />
+    </RadioGroup>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/graphTypeRadioGroup">
+
+        <RadioButton
+            android:id="@+id/lineGraphButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/line_graph" />
+
+        <RadioButton
+            android:id="@+id/pointGraphButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/point_graph" />
+
+        <RadioButton
+            android:id="@+id/barGraphButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bar_graph" />
+    </RadioGroup>
+
+    <com.jjoe64.graphview.helper.GraphViewXML
+        android:id="@+id/chart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:seriesColor="#ee0000"
+        app:seriesData="0=5;2=5;3=0;4=2"
+        app:seriesType="line"
+        />
+
+</LinearLayout>

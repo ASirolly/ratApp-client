@@ -33,4 +33,26 @@
     <string name="select_end_date">select end date</string>
     <string name="select_start_date">select start date</string>
     <string name="find_rat_sightings">find rat sightings</string>
+<<<<<<< HEAD
+=======
+    <string name="click_to_add_a_rat_sighting">click to add a rat sighting</string>
+    <string name="do_not_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="graph_view">Graph View</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="ten">2010</string>
+    <string name="eleven">2011</string>
+    <string name="twelve">2012</string>
+    <string name="thirteen">2013</string>
+    <string name="fourteen">2014</string>
+    <string name="fifteen">2015</string>
+    <string name="sixteen">2016</string>
+    <string name="seventeen">2017</string>
+    <string name="point_graph">Point Graph</string>
+    <string name="line_graph">Line Graph</string>
+    <string name="bar_graph">Bar Graph</string>
+>>>>>>> 47c10587298705a5c874cddd15aca329fcc64c75
 </resources>
