@@ -4,7 +4,6 @@ package com.example.paramount.ratappandroid;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -28,13 +27,22 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(AndroidJUnit4.class)
+
+/*
+  Runs test for the Registration UI and ensures the branch statements for registration are covered
+ */
 public class RegisterTest2 {
 
     private static final int DEL_MS = 700;
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule =
+            new ActivityTestRule<>(MainActivity.class);
 
+    /**
+     * Makes sure that the registration UI works properly by having no username,
+     * no password, incorrect confirmed password, and no user type button selected
+     */
     @Test
     public void registerTest2() {
         ViewInteraction appCompatTextView = onView(
@@ -42,7 +50,8 @@ public class RegisterTest2 {
                         childAtPosition(
                                 allOf(withId(R.id.registration_test),
                                         childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                withClassName(is
+                                                        ("android.support.constraint.ConstraintLayout")),
                                                 2)),
                                 1),
                         isDisplayed()));
@@ -123,7 +132,8 @@ public class RegisterTest2 {
                         childAtPosition(
                                 allOf(withId(R.id.accountTypeRadioGroup),
                                         childAtPosition(
-                                                withClassName(is("android.support.constraint.ConstraintLayout")),
+                                                withClassName(is
+                                                        ("android.support.constraint.ConstraintLayout")),
                                                 9)),
                                 0),
                         isDisplayed()));

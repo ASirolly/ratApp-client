@@ -8,31 +8,15 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import static org.junit.Assert.assertEquals;
 
-///**
-// * Created by joshuareno on 11/19/17.
-// */
-
+/**
+ * Tests the dashboard to ensure UI is correct
+ */
 @RunWith(RobolectricTestRunner.class)
 public class DashboardTest {
+
     /**
-     * Checks's buttons in MapsActivity
-     *
+     * Test that ensures the dashboard runs correctly
      */
-//    public void testMapsActivityRadioGroups() {
-//        SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd",
-//                Locale.US);
-//        MapsActivity activity = Robolectric.setupActivity(MapsActivity.class);
-//        DatePickerDialog startDatePickerDialog = new DatePickerDialog(activity);
-//        DatePickerDialog endDatePickerDialog = new DatePickerDialog(activity);
-//        Button findRatSightingsButton = (Button) activity.findViewById(R.id.findRatSightings);
-//        String selectStartDateButtonTextTemplate =
-//                "SELECT START DATE (selected date: %s)";
-//        Date startDate = Calendar.getInstance().getTime();
-//
-//        assertEquals(startDatePickerDialog.getDatePicker(), -1);
-//        assertEquals(endDatePickerDialog.getDatePicker(), -1);
-//
-//    }
     @Test
     public void testDashBoard() {
         //MapsActivity activity = Robolectric.setupActivity(MapsActivity.class);

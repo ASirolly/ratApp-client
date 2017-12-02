@@ -1,7 +1,10 @@
 package com.example.paramount.ratappandroid;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -21,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Security;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +61,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Date startDate;
     private Date endDate;
 
+    private LocationManager lookAtMe;
+
     /**
      * Creates the dashboard page.
      *
@@ -74,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //ratSightingMap = new HashMap<>();
         setDatePicker();
-
+        lookAtMe = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     /**
@@ -191,6 +197,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 final Marker marker = googlemap.addMarker(markerOptions);
                 marker.setTag(ratSighting.getUniqueKey());
         });
+        MarkerOptions myOps = new MarkerOptions();
+        MarkerOptions lolWut = new MarkerOptions();
+
+        try {
+            Location lastKnown = lookAtMe.getLastKnownLocation(lookAtMe.GPS_PROVIDER);
+            lolWut = myOps.position(new LatLng(lastKnown.getLatitude(), lastKnown.getLongitude()));
+            Marker marker = googlemap.addMarker(lolWut);
+            marker.setTag("This is your current location: " + lastKnown.getLatitude()
+                + " , " + lastKnown.getLongitude());
+        } catch(SecurityException e) {
+            Log.i(TAG, "Permission to use loc was rejected");
+        }
+
     }
 
     /**
