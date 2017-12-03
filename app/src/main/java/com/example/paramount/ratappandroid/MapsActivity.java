@@ -1,11 +1,14 @@
 package com.example.paramount.ratappandroid;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Button;
@@ -24,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Security;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,6 +45,7 @@ import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final String TAG = "MAPS_ACTIVITY";
+    private static final int INITIAL_REQUEST=1337;
     private static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("yyyy-MM-dd",
             Locale.US);
 
@@ -80,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //ratSightingMap = new HashMap<>();
         setDatePicker();
-        lookAtMe = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        lookAtMe = (LocationManager) MapsActivity.this.getSystemService(Context.LOCATION_SERVICE);
     }
 
     /**
@@ -197,19 +200,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 final Marker marker = googlemap.addMarker(markerOptions);
                 marker.setTag(ratSighting.getUniqueKey());
         });
-        MarkerOptions myOps = new MarkerOptions();
-        MarkerOptions lolWut = new MarkerOptions();
 
-        try {
-            Location lastKnown = lookAtMe.getLastKnownLocation(lookAtMe.GPS_PROVIDER);
-            lolWut = myOps.position(new LatLng(lastKnown.getLatitude(), lastKnown.getLongitude()));
-            Marker marker = googlemap.addMarker(lolWut);
-            marker.setTag("This is your current location: " + lastKnown.getLatitude()
-                + " , " + lastKnown.getLongitude());
-        } catch(SecurityException e) {
-            Log.i(TAG, "Permission to use loc was rejected");
+        if (!canAccessLocation()) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, INITIAL_REQUEST);
+        } else {
+            createPinAtYourLocation();
         }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+
+        createPinAtYourLocation();
+    }
+
+    private void createPinAtYourLocation() {
+        if (canAccessLocation()) {
+            Log.i(TAG, "Have access to location");
+            try {
+                Location lastKnown = lookAtMe.getLastKnownLocation(lookAtMe.GPS_PROVIDER);
+                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lastKnown.getLatitude(), lastKnown.getLongitude()));
+                Marker marker = googlemap.addMarker(markerOptions);
+                Log.i(TAG, String.format(
+                        "Created a marker at your location (%s, %s)",
+                        lastKnown.getLatitude(),
+                        lastKnown.getLongitude()));
+            } catch (SecurityException e) {
+                Log.i(TAG, "Permission to use loc was rejected");
+            }
+        } else {
+            Log.i(TAG, "Do not have permission to access location");
+        }
+    }
+
+    private boolean canAccessLocation() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
+
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED==checkSelfPermission(perm));
     }
 
     /**
