@@ -1,13 +1,19 @@
 package com.example.paramount.ratappandroid;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
@@ -25,6 +31,10 @@ import java.util.Map;
 
 public class AddRatSightingActivity extends LoggedInBaseActivity {
 
+    private static final String TAG = "ADD_RAT_SIGHTING";
+    private static final int WAIT_TIME = 500;
+    private static final int INITIAL_REQUEST = 1337;
+
     /**
      * Declare EditTexts here so that they can be used in createRatSighting() method
      */
@@ -36,8 +46,7 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
     private EditText addressEditText;
     private EditText zipEditText;
 
-    private static final String TAG = "ADD_RAT_SIGHTING";
-    private static final int WAIT_TIME = 500;
+    private LocationManager locationManager;
 
     /**
      * Creates the dashboard page.
@@ -56,6 +65,8 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
         boroughEditText = findViewById(R.id.boroughInput);
         addressEditText = findViewById(R.id.addressInput);
         zipEditText = findViewById(R.id.zipInput);
+
+        locationManager = (LocationManager) AddRatSightingActivity.this.getSystemService(Context.LOCATION_SERVICE);
 
         Button submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(this::submit);
@@ -91,11 +102,61 @@ public class AddRatSightingActivity extends LoggedInBaseActivity {
             try {
                 Thread.sleep(WAIT_TIME);
             } catch (InterruptedException e) {
-                Log.w(TAG, "I can't believe you've done this");
+                Log.w(TAG, "Caught InterruptedException");
             }
             Intent intent = new Intent(AddRatSightingActivity.this, Dashboard.class);
             AddRatSightingActivity.this.startActivity(intent);
         }
+    }
+
+    private void populateLocationFields() {
+        if (canAccessLocation()) {
+            Log.i(TAG, "Have access to location");
+                try {
+                    Location lastKnown = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+                    if (lastKnown == null) {
+                        showMessage("Could not find your last known location");
+                        Log.i(TAG, "Last known location was null");
+                    } else {
+                        Log.i(TAG, String.format(
+                                "Successfully got last location with longitude %s and latitude %s",
+                                lastKnown.getLongitude(),
+                                lastKnown.getLatitude()));
+                        longitudeEditText.setText(String.valueOf(lastKnown.getLongitude()), TextView.BufferType.EDITABLE);
+                        latitudeEditText.setText(String.valueOf(lastKnown.getLatitude()), TextView.BufferType.EDITABLE);
+                    }
+                } catch (SecurityException e) {
+                    Log.i(TAG, "Permission to use loc was rejected");
+                }
+        } else {
+            Log.i(TAG, "Do not have permission to access location");
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+
+        populateLocationFields();
+    }
+
+    public void detectLocation(View view) {
+        if (!canAccessLocation()) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, INITIAL_REQUEST);
+        } else {
+            populateLocationFields();
+        }
+    }
+
+    private boolean canAccessLocation() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
+
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED==checkSelfPermission(perm));
     }
 
     /**

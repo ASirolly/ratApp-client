@@ -43,15 +43,6 @@ public final class Model {
      * @param callback provides onSuccess method to execute upon successful registration
      */
     public void lookUpAccount(String username, String password, Callback<String> callback) {
-//        Account account = allAccounts.get(username);
-//        if (account == null) { // there is no account with the given username
-//            return null;
-//        }
-//         // account exists and correct password was provided
-//        if (password.equals(account.getPassword())) {
-//            return account;
-//        }
-//        return null; // account exists, but wrong password provided
         userDAO.authenticate(username, password, callback);
     }
 
@@ -61,11 +52,6 @@ public final class Model {
      * @param callback provides onSuccess method to execute upon successful registration
      */
     public void registerAccount(Account account, Callback<String> callback) {
-//        if (allAccounts.containsKey(account.getUsername())) { // username already taken
-//            return false;
-//        }
-//        allAccounts.put(account.getUsername(), account);
-//        return true;
         userDAO.createUser(account.getUsername(), account.getPassword(),
                 account.getPassword(), callback);
     }
