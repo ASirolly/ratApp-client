@@ -15,10 +15,12 @@ import android.widget.Button;
 
 import com.example.paramount.ratappandroid.dao.RatSightingDAO;
 import com.example.paramount.ratappandroid.model.RatSighting;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -204,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!canAccessLocation()) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, INITIAL_REQUEST);
         } else {
-            createPinAtYourLocation();
+            centerCameraAtYourLocation();
         }
     }
 
@@ -214,18 +216,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @NonNull String[] permissions,
             @NonNull int[] grantResults) {
 
-        createPinAtYourLocation();
+        centerCameraAtYourLocation();
     }
 
-    private void createPinAtYourLocation() {
+    private void centerCameraAtYourLocation() {
         if (canAccessLocation()) {
             Log.i(TAG, "Have access to location");
             try {
                 Location lastKnown = lookAtMe.getLastKnownLocation(lookAtMe.GPS_PROVIDER);
-                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(lastKnown.getLatitude(), lastKnown.getLongitude()));
-                Marker marker = googlemap.addMarker(markerOptions);
+                LatLng position = new LatLng(lastKnown.getLatitude(), lastKnown.getLongitude());
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(position)
+                        .zoom(10)
+                        .build();
+                googlemap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 Log.i(TAG, String.format(
-                        "Created a marker at your location (%s, %s)",
+                        "Centered camera on your location (%s, %s)",
                         lastKnown.getLatitude(),
                         lastKnown.getLongitude()));
             } catch (SecurityException e) {
