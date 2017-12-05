@@ -6,7 +6,7 @@ package com.example.paramount.ratappandroid.dao;
  * Interface with an onSuccess method.
  */
 
-public interface Callback<T> {
+public interface SuccessCallback<T> {
     /**
      * called upon successful response from server
      * @param result response from server

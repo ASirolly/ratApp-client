@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.example.paramount.ratappandroid.model.Account;
 import com.example.paramount.ratappandroid.model.AccountType;
 import com.example.paramount.ratappandroid.model.Model;
@@ -24,6 +25,7 @@ public class Registration extends AppCompatActivity {
 
     private String username;
     private Model model;
+    private Button submit;
 
     /**
      * Creates the registration page and sets actions for the username, password, account status,
@@ -38,8 +40,9 @@ public class Registration extends AppCompatActivity {
         Button cancel = findViewById(R.id.cancelButton);
         cancel.setOnClickListener(view -> finish());
 
-        Button submit = findViewById(R.id.submitButton);
+        submit = findViewById(R.id.submitButton);
         submit.setOnClickListener(view -> {
+                submit.setEnabled(false);
                 EditText usernameEditText = findViewById(R.id.usernameInput);
                 EditText passwordEditText = findViewById(R.id.passwordInput);
                 EditText passwordConfirmationEditText = findViewById(
@@ -72,18 +75,11 @@ public class Registration extends AppCompatActivity {
 
                     Registration.this.username = username;
 
-                    // successful registration
-//                    if (Model.getInstance().registerAccount(userDAO, account)) {
-//                        Log.i(TAG, String.format("registered account: %s", account));
-//                        finish();
-//                        showMessage(String.format(
-//                          "successfully registered with username: %s", username));
-//                    } else {
-//                        Log.i(TAG, String.format("failed to register account: %s", account));
-//                        showMessage("registration could not be completed");
-//                    }
                     model = Model.getInstance(getApplicationContext());
-                    model.registerAccount(account, Registration.this::onSuccess);
+                    model.registerAccount(
+                            account,
+                            Registration.this::onSuccess,
+                            Registration.this::onFailure);
                 }
         });
     }
@@ -93,8 +89,18 @@ public class Registration extends AppCompatActivity {
      * @param result message returned from POST request
      */
     private void onSuccess(String result) {
+        submit.setEnabled(true);
         finish();
-        showMessage(String.format(result + "successfully registered with username: %s", username));
+        showMessage(String.format("successfully registered with username: %s", username));
+    }
+
+    /**
+     * Method called upon unsuccessful registration
+     * @param volleyError Returned error
+     */
+    private void onFailure(VolleyError volleyError) {
+        submit.setEnabled(true);
+        showMessage("The provided email is already in use.");
     }
 
     /**

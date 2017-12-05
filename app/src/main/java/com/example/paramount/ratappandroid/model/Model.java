@@ -3,7 +3,9 @@ package com.example.paramount.ratappandroid.model;
 
 import android.content.Context;
 
-import com.example.paramount.ratappandroid.dao.Callback;
+import com.android.volley.VolleyError;
+import com.example.paramount.ratappandroid.dao.FailureCallback;
+import com.example.paramount.ratappandroid.dao.SuccessCallback;
 import com.example.paramount.ratappandroid.dao.UserDAO;
 
 
@@ -17,12 +19,15 @@ import com.example.paramount.ratappandroid.dao.UserDAO;
 public final class Model {
     // singleton instance
     private static Model _instance;
+
+    public boolean lockedOut;
     private final UserDAO userDAO;
 
     // maps unique key to rat sighting
 
     private Model(Context context) {
         userDAO = UserDAO.getInstance(context);
+        lockedOut = false;
     }
 
     /**
@@ -40,20 +45,27 @@ public final class Model {
      * Determines whether the provided username/password combination is valid.
      * @param username provided username
      * @param password provided password
-     * @param callback provides onSuccess method to execute upon successful registration
+     * @param successCallback provides onSuccess method to execute upon successful registration
      */
-    public void lookUpAccount(String username, String password, Callback<String> callback) {
-        userDAO.authenticate(username, password, callback);
+    public void lookUpAccount(
+            String username,
+            String password,
+            SuccessCallback<String> successCallback,
+            FailureCallback<VolleyError> failureCallback) {
+        userDAO.authenticate(username, password, successCallback, failureCallback);
     }
 
     /**
      * Attempts to register an account.
      * @param account account to register
-     * @param callback provides onSuccess method to execute upon successful registration
+     * @param successCallback provides onSuccess method to execute upon successful registration
      */
-    public void registerAccount(Account account, Callback<String> callback) {
+    public void registerAccount(
+            Account account,
+            SuccessCallback<String> successCallback,
+            FailureCallback<VolleyError> failureCallback) {
         userDAO.createUser(account.getUsername(), account.getPassword(),
-                account.getPassword(), callback);
+                account.getPassword(), successCallback, failureCallback);
     }
 
 }

@@ -53,21 +53,21 @@ public final class GraphDateDAO {
      * Get graph dates between startDate and endDate
      * @param startDate starting date
      * @param endDate ending date
-     * @param callback function to call upon successful response
+     * @param successCallback function to call upon successful response
      */
-    public void getDates(Date startDate, Date endDate, Callback<JSONObject> callback) {
+    public void getDates(Date startDate, Date endDate, SuccessCallback<JSONObject> successCallback) {
         String startDateParam = String.format("start_date=%s", requestDateFormat.format(startDate));
         String endDateParam = String.format("end_date=%s", requestDateFormat.format(endDate));
         String allParams = StringUtils.join(new String[] {startDateParam, endDateParam}, "&");
 
         String url = baseUrl + allParams;
-        makeRequest(url, callback);
+        makeRequest(url, successCallback);
     }
 
-    private void makeRequest(String url, Callback<JSONObject> callback) {
+    private void makeRequest(String url, SuccessCallback<JSONObject> successCallback) {
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null,
-                        callback::onSuccess,
+                        successCallback::onSuccess,
                         error -> {
                             Log.w(TAG, "We're SINKING");
                             Log.w(TAG, "Having error: " + error.getMessage()

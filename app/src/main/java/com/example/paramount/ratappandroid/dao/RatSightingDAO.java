@@ -57,10 +57,10 @@ public final class RatSightingDAO  {
      * Get rat sightings with a certain creation date
      * @param startDate earliest date for the selected rat sightings
      * @param endDate latest date for the selected rat sightings
-     * @param callback callback providing an onSuccess method that will be called after a response
+     * @param successCallback callback providing an onSuccess method that will be called after a response
      *                 to the request is received.
      */
-    public void getRatSightingsByDate(Date startDate, Date endDate, Callback<JSONArray> callback) {
+    public void getRatSightingsByDate(Date startDate, Date endDate, SuccessCallback<JSONArray> successCallback) {
         String resourceUrl = "/rat_sightings_by_date?";
 
         String startDateParam = String.format("start_date=%s", requestDateFormat.format(startDate));
@@ -70,43 +70,43 @@ public final class RatSightingDAO  {
                 new String[] {startDateParam, endDateParam, limitParam}, "&");
 
         String url = baseUrl + resourceUrl + allParams;
-        makeJsonArrayRequest(url, callback);
+        makeJsonArrayRequest(url, successCallback);
     }
 
     /**
       * Loads a single page of rat sightings
       * @param page which page of rat sightings to get
-      * @param callback callback providing an onSuccess method that will be called after a response
+      * @param successCallback callback providing an onSuccess method that will be called after a response
       *                 to the request is received.
       */
-    public void getRatSightings(int page, Callback<JSONArray> callback) {
+    public void getRatSightings(int page, SuccessCallback<JSONArray> successCallback) {
         String resourceUrl = "/rat_sightings?";
 
         String allParams = "page=" + page;
 
         String url = baseUrl + resourceUrl + allParams;
-        makeJsonArrayRequest(url, callback);
+        makeJsonArrayRequest(url, successCallback);
     }
 
     /**
      * Creates a rat sighting using the provided values
      * @param params map from attribute name to value
-     * @param callback provides function to be called after receiving a response
+     * @param successCallback provides function to be called after receiving a response
      */
-    public void createRatSighting(Map<String, String> params, Callback<String> callback) {
-        makePostRequest(baseUrl + "/rat_sightings?", params, callback);
+    public void createRatSighting(Map<String, String> params, SuccessCallback<String> successCallback) {
+        makePostRequest(baseUrl + "/rat_sightings?", params, successCallback);
     }
     
 
     /**
      * Makes a JSONArrayRequest
      * @param url url for the request
-     * @param callback provides function to be called after receiving a response
+     * @param successCallback provides function to be called after receiving a response
      */
-    private void makeJsonArrayRequest(String url, Callback<JSONArray> callback) {
+    private void makeJsonArrayRequest(String url, SuccessCallback<JSONArray> successCallback) {
         JsonArrayRequest jsObjRequest = new JsonArrayRequest
             (Request.Method.GET, url, null,
-                callback::onSuccess,
+                successCallback::onSuccess,
                 error -> Log.w(TAG, "Having error: " + error.getMessage())
             );
 
@@ -120,14 +120,14 @@ public final class RatSightingDAO  {
      * Makes a POST request using the provided values
      * @param url url for the request
      * @param params parameters for the request
-     * @param callback provides function to be called after receiving a response
+     * @param successCallback provides function to be called after receiving a response
      */
     private void makePostRequest(
-            String url, Map<String, String> params, Callback<String> callback) {
+            String url, Map<String, String> params, SuccessCallback<String> successCallback) {
         StringRequest stringRequest = new StringRequest(
             Request.Method.POST,
             url,
-            callback::onSuccess,
+            successCallback::onSuccess,
             error -> {
                 String body;
                 try {

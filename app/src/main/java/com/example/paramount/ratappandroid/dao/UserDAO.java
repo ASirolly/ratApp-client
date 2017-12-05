@@ -1,14 +1,13 @@
 package com.example.paramount.ratappandroid.dao;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,15 +45,16 @@ public final class UserDAO {
      * attempts to log in
      * @param email user email
      * @param password user password
-     * @param callback provides an onSuccess method to be called upon a successful response from
+     * @param successCallback provides an onSuccess method to be called upon a successful response from
      *                 the server
      */
-    public void authenticate(String email, String password, Callback<String> callback) {
+    public void authenticate(String email, String password, SuccessCallback<String> successCallback,
+                             FailureCallback<VolleyError> failureCallback) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
 
-        makePostRequest(baseUrl + "login", params, callback);
+        makePostRequest(baseUrl + "login", params, successCallback, failureCallback);
     }
 
     /**
@@ -62,41 +62,37 @@ public final class UserDAO {
      * @param email user email
      * @param password user password
      * @param passwordConfirmation confirmation for password
-     * @param callback provides an onSuccess method to be called upon a successful response from
+     * @param successCallback provides an onSuccess method to be called upon a successful response from
      *                 the server
      */
     public void createUser(
-            String email, String password, String passwordConfirmation, Callback<String> callback) {
+            String email,
+            String password,
+            String passwordConfirmation,
+            SuccessCallback<String> successCallback,
+            FailureCallback<VolleyError> failureCallback) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
         params.put("password_confirmation", passwordConfirmation);
 
-        makePostRequest(baseUrl + "users", params, callback);
+        makePostRequest(baseUrl + "users", params, successCallback, failureCallback);
     }
 
     /**
      * Makes a POST request using the provided values
      * @param url url for the request
      * @param params parameters for the request
-     * @param callback provides function to be called after receiving a response
+     * @param successCallback provides function to be called after receiving a response
      */
     private void makePostRequest(
-            String url, Map<String, String> params, Callback<String> callback) {
+            String url, Map<String, String> params, SuccessCallback<String> successCallback,
+            FailureCallback<VolleyError> failureCallback) {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 url,
-                callback::onSuccess,
-                error -> {
-                    String body;
-                    try {
-                        body = new String(error.networkResponse.data, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        body = e.getMessage();
-                    }
-                    Log.w(TAG, String.format("create user error. body is: %s", body));
-                    error.printStackTrace();
-                }) {
+                successCallback::onSuccess,
+                failureCallback::onFailure) {
 
             @Override
             protected Map<String,String> getParams() {
